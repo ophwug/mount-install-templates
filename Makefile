@@ -74,7 +74,7 @@ $(BUILD_DIR)/c3x_mount_8deg.typ: OFFSET=60mm
 $(BUILD_DIR)/c3x_mount_8deg.typ: NAME="Comma 3X 8°"
 
 # Comma Four (80mm)
-$(BUILD_DIR)/four_mount.typ: OFFSET=80mm
+$(BUILD_DIR)/four_mount.typ: OFFSET=44mm
 $(BUILD_DIR)/four_mount.typ: NAME="Comma Four"
 
 # Git Info
