@@ -78,16 +78,16 @@ GIT_DATE := $(shell git log -1 --format=%cd --date=short)
 GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com:/https:\/\/github.com\//' -e 's/\.git$$//')
 
 # Generate Typst source
-$(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg
+$(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating Typst source for $*..."
 	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)")' > $@
 
 # General Rules for compiling Typst to PDF and PNG
-$(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ
+$(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
 	@echo "Compiling PDF for $*..."
 	$(TYPST) compile $< $@ --root . --font-path fonts
 
-$(BUILD_DIR)/%.png: $(BUILD_DIR)/%.typ
+$(BUILD_DIR)/%.png: $(BUILD_DIR)/%.typ template.typ
 	@echo "Compiling PNG for $*..."
 	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 300
 

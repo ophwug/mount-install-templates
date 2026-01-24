@@ -113,7 +113,10 @@
         align: horizon,
         // Left: Credit Card Scale
         box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
-          #align(center + horizon)[Credit Card Scale (86mm x 54mm)]
+          #align(center + horizon)[
+            Credit Card Scale (86mm x 54mm) \
+            #text(size: 8pt, fill: gray)[(putting your card here will not charge it anything)]
+          ]
         ],
         // Right: Title and Git Info
         align(left)[
