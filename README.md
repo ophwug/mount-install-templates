@@ -9,7 +9,7 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 ## Technical
 
 * Has a submodule for the hardware repo.
-* Has a makefile to generate the PDFs.
+* Has a makefile to generate the PDFs and HTML page.
 * Uses openscad to project a 3D model of the mount's bottom layer to a 2D plane to produce a SVG.
 * Uses Typst to create a PDF with the SVG and a outline of a credit card for scale.
 * Puts multiple 300-600mm radius lines above the mount to ensure the user can still slide out their device after mounting.
