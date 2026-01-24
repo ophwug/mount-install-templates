@@ -125,11 +125,7 @@
         // Right: Title and Git Info
         align(left)[
           #grid(
-            columns: (auto, 1fr),
             gutter: 0.5cm,
-            if repo-url != none and repo-url != "" {
-              qr-code(repo-url, width: 2.5cm)
-            },
             align(horizon)[
               #text(size: 18pt, weight: "bold")[#mount-name Install Template]
               #v(0.1cm)
@@ -149,5 +145,9 @@
         ],
       )
     ]
+
+    #if repo-url != none and repo-url != "" {
+      place(bottom + right, qr-code(repo-url, width: 2.5cm))
+    }
   ]
 }
