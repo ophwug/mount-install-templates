@@ -22,10 +22,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openscad poppler-utils xvfb
 
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v1
-        with:
-          version: "v0.12.0"
+      - name: Install Typst
+        run: |
+          wget https://github.com/typst/typst/releases/download/v0.12.0/typst-x86_64-unknown-linux-musl.tar.xz
+          tar -xf typst-x86_64-unknown-linux-musl.tar.xz
+          sudo mv typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
+          typst --version
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
