@@ -7,7 +7,6 @@
   set text(font: "Helvetica", size: 12pt)
 
   align(center)[
-    #text(size: 18pt, weight: "bold")[#mount-name Install Template]
     #v(1cm)
 
     #context {
@@ -51,6 +50,7 @@
     #box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
       #align(center + horizon)[Credit Card Scale (86mm x 54mm)]
     ]
-    #v(1cm) // Space at the bottom
+    #v(1cm)
+    #text(size: 18pt, weight: "bold")[#mount-name Install Template]
   ]
 }
