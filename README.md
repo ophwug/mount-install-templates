@@ -8,14 +8,14 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 
 * Users can check for correct sizing of generated PDFs with an outline of a credit or ID card.
 * Users can visit a HTML page hosted on GitHub Pages to see the list of PDFs.
-* Page generates a PDF for each mount in [comma.ai's hardware repository](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
+* Page generates a PDF for each mount in [commaai/hardware](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
 
 ## Download Templates
 | Mount | PDF Template |
 | :--- | :--- |
-| **Comma Three (Standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3_mount.pdf) |
-| **Comma 3X (Standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3x_mount.pdf) |
-| **Comma Four** | [Download PDF](https://ophwug.github.io/install-templates/four_mount.pdf) |
+| **comma three (standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3_mount.pdf) |
+| **comma 3x (standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3x_mount.pdf) |
+| **comma four** | [Download PDF](https://ophwug.github.io/install-templates/four_mount.pdf) |
 
 ## Technical Details
 
@@ -36,8 +36,8 @@ The PDF generation process is automated using `make`.
 *   **Fonts**: Uses `DejaVu Sans Mono`.
 *   **Clearance Zones**: Dashed red arcs indicate required clearance radii at **300mm**, **400mm**, **500mm**, and **600mm**.
 *   **Clearance Offsets**:
-    *   **Comma Three / 3X**: **35mm** from top of mount to start of clearance zone.
-    *   **Comma Four**: **44mm** from top of mount to start of clearance zone.
+    *   **comma three / 3x**: **35mm** from top of mount to start of clearance zone.
+    *   **comma four**: **44mm** from top of mount to start of clearance zone.
 
 ### Tools Required
 

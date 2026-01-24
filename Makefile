@@ -61,21 +61,15 @@ $(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
 
 # Comma Three (35mm)
 $(BUILD_DIR)/c3_mount.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount.typ: NAME="Comma Three Standard"
-
-$(BUILD_DIR)/c3_mount_8deg.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount_8deg.typ: NAME="Comma Three 8°"
+$(BUILD_DIR)/c3_mount.typ: NAME="comma three standard"
 
 # Comma Three X (35mm)
 $(BUILD_DIR)/c3x_mount.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount.typ: NAME="Comma 3X Standard"
-
-$(BUILD_DIR)/c3x_mount_8deg.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount_8deg.typ: NAME="Comma 3X 8°"
+$(BUILD_DIR)/c3x_mount.typ: NAME="comma 3x standard"
 
 # Comma Four (80mm)
 $(BUILD_DIR)/four_mount.typ: OFFSET=44mm
-$(BUILD_DIR)/four_mount.typ: NAME="Comma Four"
+$(BUILD_DIR)/four_mount.typ: NAME="comma four"
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
