@@ -24,6 +24,8 @@ jobs:
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v1
+        with:
+          typst_version: "0.12.0"
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
