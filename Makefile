@@ -77,10 +77,16 @@ $(BUILD_DIR)/c3x_mount_8deg.typ: NAME="Comma 3X 8°"
 $(BUILD_DIR)/four_mount.typ: OFFSET=80mm
 $(BUILD_DIR)/four_mount.typ: NAME="Comma Four"
 
+# Git Info
+GIT_COMMIT := $(shell git rev-parse --short HEAD)
+GIT_DATE := $(shell git log -1 --format=%cd --date=short)
+# Convert git@github.com:org/repo.git to https://github.com/org/repo
+GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com:/https:\/\/github.com\//' -e 's/\.git$$//')
+
 # Generate Typst source
 $(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg
 	@echo "Generating Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET))' > $@
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)")' > $@
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ

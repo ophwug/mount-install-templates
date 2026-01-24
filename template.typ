@@ -1,9 +1,13 @@
+
 #let template(
   mount-name: "Mount",
   svg-file: "dummy.svg",
   clearance-offset: 60mm,
+  repo-url: none,
+  commit-hash: none,
+  commit-date: none,
 ) = {
-  set page(paper: "us-letter", margin: 1cm)
+  set page(paper: "us-letter", margin: 0.5cm)
   set text(font: "DejaVu Sans Mono", size: 12pt)
 
   // Helper to format length in mm
@@ -13,7 +17,6 @@
   }
 
   align(center)[
-    #v(1cm)
 
     #context {
       // Load image to get dimensions
@@ -24,9 +27,9 @@
       // 100% width might be constrained by margin, which is fine.
       let block-width = 100%
       // Ensure height accommodates everything.
-      let total-height = size.height + clearance-offset + 3cm
+      let total-height = size.height + clearance-offset + 1cm
 
-      block(width: block-width, height: total-height, stroke: none)[
+      block(width: block-width, height: total-height, stroke: none, clip: true)[
 
         // -------------------------------------------------------------
         // 1. Mount (Bottom Center)
@@ -65,6 +68,7 @@
 
         #let radii = (300mm, 400mm, 500mm, 600mm)
 
+        // #for r in radii {
         #for r in radii {
           // Circle Center
           place(bottom + center, dy: clear-y + r)[
@@ -88,14 +92,34 @@
       ]
     }
 
-    #v(1fr)
+    #place(bottom + center)[
+      Print this page at 100%. Do not scale to fit. (To make sure you printed at 100%, place a credit card in the box below. If it’s an exact fit, you’re good to go.)
 
-    Print this page at 100%. Do not scale to fit. (To make sure you printed at 100%, place a credit card in the box below. If it’s an exact fit, you’re good to go.)
-    #v(0.5cm)
-    #box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
-      #align(center + horizon)[Credit Card Scale (86mm x 54mm)]
+      #grid(
+        columns: (auto, 1fr),
+        gutter: 0.5cm,
+        align: horizon,
+        // Left: Credit Card Scale
+        box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
+          #align(center + horizon)[Credit Card Scale (86mm x 54mm)]
+        ],
+        // Right: Title and Git Info
+        align(left)[
+          #text(size: 18pt, weight: "bold")[#mount-name Install Template]
+          #v(0.1cm)
+          #if (
+            (repo-url != none and repo-url != "")
+              or (commit-hash != none and commit-hash != "")
+              or (commit-date != none and commit-date != "")
+          ) [
+            #text(size: 8pt)[
+              #if repo-url != none and repo-url != "" [Source: #link(repo-url) \ ]
+              #if commit-hash != none and commit-hash != "" [Commit: #commit-hash \ ]
+              #if commit-date != none and commit-date != "" [Date: #commit-date]
+            ]
+          ]
+        ],
+      )
     ]
-    #v(1cm)
-    #text(size: 18pt, weight: "bold")[#mount-name Install Template]
   ]
 }
