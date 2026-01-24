@@ -17,6 +17,27 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 | **comma 3x (standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3x_mount.pdf) |
 | **comma four** | [Download PDF](https://ophwug.github.io/install-templates/four_mount.pdf) |
 
+## How to Use
+This project generates PDF templates to help mount comma hardware correctly.
+
+### 1. Printing
+*   **Print at 100% Scale**: Ensure that "Scale to Fit" or "Shrink to Fit" is **disabled** in your printer settings.
+*   **Paper Size**: Templates are designed for **US Letter**.
+
+### 2. Verify Scale
+*   Place a standard **credit card or ID card** in the marked box at the bottom of the page.
+*   If the card fits exactly within the box, the scale is correct. **If it doesn't fit, do not use the template.**
+
+### 3. Preparation & Positioning
+*   **Cutting**: You can cut the template however you see fit. Usually, cutting around the mount footprint and leaving the clearance arcs intact is best.
+*   **Clearance Zone**: The red dashed arcs indicate the required clearance from the **top of the mount** to the **vehicle's original camera housing**.
+*   The camera housing should be **outside** (above) the curved arcs for an unobstructed view. Arcs range from **300mm** to **1000mm**.
+
+### 4. Installation
+*   Align the mount footprint on your windshield.
+*   Mark the corners on the glass.
+*   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
+
 ## Technical Details
 
 ### Build Pipeline

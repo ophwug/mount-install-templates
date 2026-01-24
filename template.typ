@@ -78,7 +78,7 @@
         // Tangent Y is `line-y`.
         // Top of circle (size 2r) is at Tangent Y - 2*Radius.
 
-        #let radii = (300mm, 400mm, 500mm, 600mm)
+        #let radii = (300mm, 400mm, 500mm, 600mm, 700mm, 800mm, 900mm, 1000mm)
 
         #for r in radii [
           // Circle Placement
