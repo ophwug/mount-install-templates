@@ -81,9 +81,9 @@
           ]
         ]
 
-        // Add "Keep Clear Zone" Text (At the clearance line)
-        #place(top + center, dy: line-y - 2mm)[
-          #text(fill: red, size: 10pt, weight: "bold")[Keep Clear Zone]
+        // Add "Vehicle's Original Camera Housing" Text (At the clearance line)
+        #place(top + center, dy: line-y - 20mm)[
+          #text(fill: red, size: 10pt, weight: "bold")[Vehicle's Original Camera Housing]
         ]
 
         // Add Horizontal Reference Line (Solid)

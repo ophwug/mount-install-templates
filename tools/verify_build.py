@@ -34,7 +34,7 @@ def verify_image(image_path):
     
     prompt = """
     Look at this image of a mounting template. 
-    1. Above the central oval shape, there is a "Keep Clear Zone" marked by a horizontal red line. 
+    1. Above the central oval shape, there is a "Vehicle's Original Camera Housing" marked by a horizontal red line. 
        Are there dashed red arc lines visible ABOVE this line?
     2. At the bottom, there is a "Credit Card Scale" box. 
        Is the main mounting template (oval, line, or arcs) colliding with or overlapping this credit card box?
