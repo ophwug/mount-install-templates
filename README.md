@@ -17,12 +17,33 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 | **Comma 3X (Standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3x_mount.pdf) |
 | **Comma Four** | [Download PDF](https://ophwug.github.io/install-templates/four_mount.pdf) |
 
-## Technical
+## Technical Details
 
-* Has a submodule for the hardware repo.
-* Has a makefile to generate the PDFs and HTML page.
-* Uses openscad to project a 3D model of the mount's bottom layer to a 2D plane to produce a SVG.
-* Uses Typst to create a PDF with the SVG and a outline of a credit card for scale.
-* Puts multiple 300-600mm radius lines above the mount to ensure the user can still slide out their device after mounting.
-* Distance for comma three and comma 3x is 60mm to the lines above.
-* Distance for comma four is 80mm to the lines above.
+### Build Pipeline
+
+The PDF generation process is automated using `make`.
+
+1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule.
+2.  **Orientation**: The `tools/orient_stl.py` Python script loads each STL and rotates it to align the mounting surface with the XY plane (flat).
+3.  **Projection**: `openscad` is invoked with `tools/project_mount.scad` to project the 3D geometry onto a 2D plane, exporting the footprint as an SVG.
+4.  **Composition**: `typst` compiles `template.typ`, which combines the generated SVG footprint with:
+    -   A credit card outline for scale validation.
+    -   Clearance zone markings.
+    -   Title and instructional text.
+
+### Specifications
+
+*   **Fonts**: Uses `DejaVu Sans Mono`.
+*   **Clearance Zones**: Dashed red arcs indicate required clearance radii at **300mm**, **400mm**, **500mm**, and **600mm**.
+*   **Clearance Offsets**:
+    *   **Comma Three / 3X**: **60mm** from top of mount to start of clearance zone.
+    *   **Comma Four**: **80mm** from top of mount to start of clearance zone.
+
+### Tools Required
+
+To build the templates locally, you will need:
+
+*   [OpenSCAD](https://openscad.org/) (headless support required)
+*   [Typst](https://typst.app/)
+*   Python 3 with `numpy-stl`
+*   Make
