@@ -6,6 +6,13 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 * Users can visit a HTML page hosted on GitHub Pages to see the list of PDFs.
 * Page generates a PDF for each mount in [comma.ai's hardware repository](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
 
+## Download Templates
+| Mount | PDF Template | Preview |
+| :--- | :--- | :--- |
+| **Comma Three (Standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3_mount.pdf) | ![Preview](https://ophwug.github.io/install-templates/c3_mount.png) |
+| **Comma 3X (Standard)** | [Download PDF](https://ophwug.github.io/install-templates/c3x_mount.pdf) | ![Preview](https://ophwug.github.io/install-templates/c3x_mount.png) |
+| **Comma Four** | [Download PDF](https://ophwug.github.io/install-templates/four_mount.pdf) | ![Preview](https://ophwug.github.io/install-templates/four_mount.png) |
+
 ## Technical
 
 * Has a submodule for the hardware repo.
