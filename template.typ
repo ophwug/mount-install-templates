@@ -43,6 +43,13 @@
         // 1. Mount (Centered below line)
         // -------------------------------------------------------------
         #place(top + center, dy: mount-top-y, img)
+        #place(top + center, dy: mount-top-y)[
+          #box(width: size.width, height: size.height)[
+            #align(center + horizon)[
+              #text(weight: "bold", size: 14pt)[comma \ mount]
+            ]
+          ]
+        ]
 
         // -------------------------------------------------------------
         // 2. Dimension Line (Mount Top to Clearance Start)
