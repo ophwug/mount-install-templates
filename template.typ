@@ -7,7 +7,7 @@
   commit-hash: none,
   commit-date: none,
 ) = {
-  set page(paper: "us-letter", margin: 0.5cm)
+  set page(paper: "us-letter", margin: 1cm)
   set text(font: "DejaVu Sans Mono", size: 12pt)
 
   // Helper to format length in mm
@@ -101,6 +101,10 @@
     }
 
     #place(bottom + center)[
+      This is a template to help people mount comma devices to their vehicles in the most standardized way for maximum driving performance.
+
+      #v(0.2cm)
+
       Print this page at 100%. Do not scale to fit. (To make sure you printed at 100%, place a credit card in the box below. If it’s an exact fit, you’re good to go.)
 
       #grid(
