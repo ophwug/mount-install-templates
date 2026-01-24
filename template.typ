@@ -8,10 +8,11 @@
   commit-hash: none,
   commit-date: none,
   orientation: "portrait",
+  paper-size: "us-letter",
   min-radius: 300mm,
   top-padding: 4cm,
 ) = {
-  set page(paper: "us-letter", margin: 1cm, flipped: orientation == "landscape")
+  set page(paper: paper-size, margin: 1cm, flipped: orientation == "landscape")
   set text(font: "DejaVu Sans Mono", size: 12pt)
 
   // Helper to format length in mm

@@ -22,15 +22,23 @@ PDFS := $(patsubst %.stl,$(BUILD_DIR)/%.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS := $(patsubst %.stl,$(BUILD_DIR)/%.png,$(notdir $(ALL_MOUNTS)))
 PDFS_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_landscape.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_landscape.png,$(notdir $(ALL_MOUNTS)))
+PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
+PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
+PDFS_A4_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_a4_landscape.pdf,$(notdir $(ALL_MOUNTS)))
+PNGS_A4_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_a4_landscape.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_LANDSCAPE:.pdf=.typ)
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_LANDSCAPE:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(PDFS_A4_LANDSCAPE:.pdf=.typ)
 
-.PHONY: all clean update-hardware debug landscape
+.PHONY: all clean update-hardware debug landscape a4 a4_landscape
 
-all: $(PDFS) $(PNGS) $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE)
+all: $(PDFS) $(PNGS) $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE) $(PDFS_A4) $(PNGS_A4) $(PDFS_A4_LANDSCAPE) $(PNGS_A4_LANDSCAPE)
 
 landscape: $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE)
+
+a4: $(PDFS_A4) $(PNGS_A4)
+
+a4_landscape: $(PDFS_A4_LANDSCAPE) $(PNGS_A4_LANDSCAPE)
 
 debug:
 	@echo "PDFS: $(PDFS)"
@@ -65,16 +73,16 @@ MIN_RADIUS=500mm
 TOP_PADDING=2cm
 
 # Comma Three (35mm)
-$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ: NAME="comma three standard"
+$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: OFFSET=35mm
+$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: NAME="comma three standard"
 
 # Comma Three X (35mm)
-$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ: NAME="comma 3x standard"
+$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: OFFSET=35mm
+$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x standard"
 
 # Comma Four (80mm)
-$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ: OFFSET=44mm
-$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ: NAME="comma four"
+$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: OFFSET=44mm
+$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: NAME="comma four"
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -90,6 +98,14 @@ $(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg template.typ
 $(BUILD_DIR)/%_landscape.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating Landscape Typst source for $*..."
 	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", orientation: "landscape", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+
+$(BUILD_DIR)/%_a4.typ: $(BUILD_DIR)/%.svg template.typ
+	@echo "Generating A4 Typst source for $*..."
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+
+$(BUILD_DIR)/%_a4_landscape.typ: $(BUILD_DIR)/%.svg template.typ
+	@echo "Generating A4 Landscape Typst source for $*..."
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", orientation: "landscape", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
