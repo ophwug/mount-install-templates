@@ -35,7 +35,7 @@ This project generates PDF templates to help mount comma hardware correctly.
 
 ### 4. Installation
 *   Align the mount footprint on your windshield.
-*   Mark the corners on the glass.
+*   Mark the corners on the glass (e.g., with a dry-erase marker) or use painters tape to temporarily hold the template in place.
 *   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
 
 ## Technical Details
