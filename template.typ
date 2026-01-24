@@ -28,7 +28,7 @@
       let block-width = 100%
       // Ensure height accommodates everything.
       // We add some space at the top (8cm) to show the arcs "radiating upwards"
-      let top-padding = 8cm
+      let top-padding = 4cm
       let total-height = size.height + clearance-offset + top-padding
 
       block(width: block-width, height: total-height, stroke: none, clip: true)[
