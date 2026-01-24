@@ -4,7 +4,7 @@
   clearance-offset: 60mm,
 ) = {
   set page(paper: "us-letter", margin: 1cm)
-  set text(font: "New Computer Modern Sans", size: 12pt)
+  set text(font: "PT Sans", size: 12pt)
 
   // Helper to format length in mm
   let to-mm-str(len) = {

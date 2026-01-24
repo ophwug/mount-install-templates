@@ -80,7 +80,7 @@ $(BUILD_DIR)/four_mount.pdf: NAME="Comma Four"
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.svg
 	@echo "Generating PDF for $*..."
 	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET))' > $(BUILD_DIR)/$*.typ
-	$(TYPST) compile $(BUILD_DIR)/$*.typ $@ --root .
+	$(TYPST) compile $(BUILD_DIR)/$*.typ $@ --root . --font-path fonts
 	rm $(BUILD_DIR)/$*.typ
 
 $(BUILD_DIR):
