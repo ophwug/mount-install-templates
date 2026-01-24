@@ -6,6 +6,12 @@
   set page(paper: "us-letter", margin: 1cm)
   set text(font: "Helvetica", size: 12pt)
 
+  // Helper to format length in mm
+  let to-mm-str(len) = {
+    let mm-val = calc.round(len.mm())
+    str(mm-val) + "mm"
+  }
+
   align(center)[
     #v(1cm)
 
@@ -14,39 +20,78 @@
       let img = image(svg-file)
       let size = measure(img)
 
-      // Container box
-      // We want to visualize the clearance offset ABOVE the mount.
-      // We create a container that holds the clearance space + the mount.
-
-      // Calculate total width/height for the visual block
-      // We make it wide enough for the lines (e.g., 20cm or mount width + margin)
-      let block-width = calc.max(size.width, 15cm) // Minimum width for lines
-      let total-height = size.height + clearance-offset + 2cm // Extra space for text/arcs
+      // Layout Constants
+      // 100% width might be constrained by margin, which is fine.
+      let block-width = 100%
+      // Ensure height accommodates everything.
+      let total-height = size.height + clearance-offset + 3cm
 
       block(width: block-width, height: total-height, stroke: none)[
 
-        // 1. Draw the Mount at the bottom center
+        // -------------------------------------------------------------
+        // 1. Mount (Bottom Center)
+        // -------------------------------------------------------------
         #place(bottom + center, img)
 
-        // 2. Draw Clearance Line
-        // It should be `clearance-offset` above the top of the mount.
-        // Top of mount is at `total-height - size.height`.
-        // So line is at `total-height - size.height - clearance-offset`.
-        // Let's use relative positioning from bottom.
+        // -------------------------------------------------------------
+        // 2. Dimension Line (Mount Top to Clearance Start)
+        // -------------------------------------------------------------
+        #let dim-x = 0pt
+        #let mount-top-y = -size.height
+        #let clear-y = -size.height - clearance-offset
 
-        #place(bottom + center, dy: -size.height - clearance-offset)[
-          #line(length: block-width, stroke: (thickness: 2pt, paint: red, dash: "dashed"))
-          #v(-5mm)
-          #text(fill: red, size: 10pt)[Keep Clear Zone (#clearance-offset)]
+        #place(bottom + center)[
+          // Line
+          #place(line(start: (0pt, mount-top-y), end: (0pt, clear-y), stroke: 1pt + black))
+
+          // Arrowheads
+          #place(dx: 0pt, dy: mount-top-y, polygon(fill: black, (0pt, 0pt), (-2pt, -4pt), (2pt, -4pt)))
+          #place(dx: 0pt, dy: clear-y, polygon(fill: black, (0pt, 0pt), (-2pt, 4pt), (2pt, 4pt)))
+
+          // Label
+          #place(dx: 5mm, dy: (mount-top-y + clear-y) / 2)[
+            #text(size: 10pt)[#to-mm-str(clearance-offset)]
+          ]
+        ]
+
+        // -------------------------------------------------------------
+        // 3. Keep Clear Zone Arcs (Contour Lines)
+        // -------------------------------------------------------------
+        // "Frown" Orientation (Concave Down).
+        // Center is BELOW the tangent point.
+        // Visually, circle top touches the line. Sides curve down.
+        // Center Y position: Tangent Y + Radius (since (+) is DOWN).
+        // Tangent Y is `clear-y`.
+
+        #let radii = (300mm, 400mm, 500mm, 600mm)
+
+        #for r in radii {
+          // Circle Center
+          place(bottom + center, dy: clear-y + r)[
+            #circle(radius: r, stroke: (thickness: 1pt, dash: "dashed", paint: red))
+          ]
+
+          // Labels for radii?
+          // Maybe add small text near the top apex
+          // place(bottom + center, dy: clear-y + 2mm)[#text(size:6pt, fill:gray)[R#to-mm-str(r)]]
+        }
+
+        // Add "Keep Clear Zone" Text (At the clearance line)
+        #place(bottom + center, dy: clear-y - 2mm)[
+          #text(fill: red, size: 10pt, weight: "bold")[Keep Clear Zone]
+        ]
+
+        // Add Horizontal Reference Line (Solid)
+        #place(bottom + center, dy: clear-y)[
+          #line(length: 15cm, stroke: (thickness: 2pt, paint: red, dash: "solid"))
         ]
       ]
     }
 
-    #v(1fr) // Push credit card to bottom
+    #v(1fr)
 
     Please verify scale using a standard credit card.
     #v(0.5cm)
-    // Credit Card
     #box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
       #align(center + horizon)[Credit Card Scale (86mm x 54mm)]
     ]
