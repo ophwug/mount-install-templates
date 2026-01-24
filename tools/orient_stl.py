@@ -1,12 +1,4 @@
-#!/usr/bin/env -S uv run --script
-# /// script
-# dependencies = [
-#   "trimesh",
-#   "numpy",
-#   "scipy",
-#   "networkx",
-# ]
-# ///
+#!/usr/bin/env -S uv run
 
 import sys
 import trimesh

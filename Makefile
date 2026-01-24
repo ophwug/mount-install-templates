@@ -51,7 +51,7 @@ $(BUILD_DIR)/four_mount.svg: ORIENT_FLAGS += --flip
 
 $(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
 	@echo "Orienting $<..."
-	./tools/orient_stl.py $(ORIENT_FLAGS) "$<" "$(BUILD_DIR)/$(notdir $<)"
+	uv run ./tools/orient_stl.py $(ORIENT_FLAGS) "$<" "$(BUILD_DIR)/$(notdir $<)"
 	@echo "Generating SVG for $<..."
 	$(OPENSCAD) -D "filename=\"$(shell pwd)/$(BUILD_DIR)/$(notdir $<)\"" -o $@ tools/project_mount.scad
 
