@@ -17,18 +17,20 @@ C4_MOUNTS := hardware/comma_four/mount/four_mount.stl
 ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
 
 # Output Lists
-# We convert path/to/file.stl -> build/file.pdf
+# We convert path/to/file.stl -> build/file.pdf and build/file.png
 PDFS := $(patsubst %.stl,$(BUILD_DIR)/%.pdf,$(notdir $(ALL_MOUNTS)))
+PNGS := $(patsubst %.stl,$(BUILD_DIR)/%.png,$(notdir $(ALL_MOUNTS)))
 
-# Keep intermediate SVGs
-.SECONDARY: $(PDFS:.pdf=.svg)
+# Keep intermediate SVGs and TYP files
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ)
 
 .PHONY: all clean update-hardware debug
 
-all: $(PDFS)
+all: $(PDFS) $(PNGS)
 
 debug:
 	@echo "PDFS: $(PDFS)"
+	@echo "PNGS: $(PNGS)"
 
 update-hardware:
 	git submodule update --init --recursive
@@ -53,35 +55,41 @@ $(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
 	@echo "Generating SVG for $<..."
 	$(OPENSCAD) -D "filename=\"$(shell pwd)/$(BUILD_DIR)/$(notdir $<)\"" -o $@ tools/project_mount.scad
 
-# Rules for PDFs
+# Rules for Typst Files
 # We need to pass the correct offset and name based on the file.
 # We can use target-specific variables.
 
 # Comma Three (60mm)
-$(BUILD_DIR)/c3_mount.pdf: OFFSET=60mm
-$(BUILD_DIR)/c3_mount.pdf: NAME="Comma Three Standard"
+$(BUILD_DIR)/c3_mount.typ: OFFSET=60mm
+$(BUILD_DIR)/c3_mount.typ: NAME="Comma Three Standard"
 
-$(BUILD_DIR)/c3_mount_8deg.pdf: OFFSET=60mm
-$(BUILD_DIR)/c3_mount_8deg.pdf: NAME="Comma Three 8°"
+$(BUILD_DIR)/c3_mount_8deg.typ: OFFSET=60mm
+$(BUILD_DIR)/c3_mount_8deg.typ: NAME="Comma Three 8°"
 
 # Comma Three X (60mm)
-$(BUILD_DIR)/c3x_mount.pdf: OFFSET=60mm
-$(BUILD_DIR)/c3x_mount.pdf: NAME="Comma 3X Standard"
+$(BUILD_DIR)/c3x_mount.typ: OFFSET=60mm
+$(BUILD_DIR)/c3x_mount.typ: NAME="Comma 3X Standard"
 
-$(BUILD_DIR)/c3x_mount_8deg.pdf: OFFSET=60mm
-$(BUILD_DIR)/c3x_mount_8deg.pdf: NAME="Comma 3X 8°"
+$(BUILD_DIR)/c3x_mount_8deg.typ: OFFSET=60mm
+$(BUILD_DIR)/c3x_mount_8deg.typ: NAME="Comma 3X 8°"
 
 # Comma Four (80mm)
-$(BUILD_DIR)/four_mount.pdf: OFFSET=80mm
-$(BUILD_DIR)/four_mount.pdf: NAME="Comma Four"
+$(BUILD_DIR)/four_mount.typ: OFFSET=80mm
+$(BUILD_DIR)/four_mount.typ: NAME="Comma Four"
 
-# General Rule for TYPST
-# We construct a temporary typst file to call the template
-$(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.svg
-	@echo "Generating PDF for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET))' > $(BUILD_DIR)/$*.typ
-	$(TYPST) compile $(BUILD_DIR)/$*.typ $@ --root . --font-path fonts
-	rm $(BUILD_DIR)/$*.typ
+# Generate Typst source
+$(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg
+	@echo "Generating Typst source for $*..."
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET))' > $@
+
+# General Rules for compiling Typst to PDF and PNG
+$(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ
+	@echo "Compiling PDF for $*..."
+	$(TYPST) compile $< $@ --root . --font-path fonts
+
+$(BUILD_DIR)/%.png: $(BUILD_DIR)/%.typ
+	@echo "Compiling PNG for $*..."
+	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 300
 
 $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)

@@ -90,7 +90,7 @@
 
     #v(1fr)
 
-    Please verify scale using a standard credit card.
+    Print this page at 100%. Do not scale to fit. (To make sure you printed at 100%, place a credit card in the box below. If it’s an exact fit, you’re good to go.)
     #v(0.5cm)
     #box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
       #align(center + horizon)[Credit Card Scale (86mm x 54mm)]
