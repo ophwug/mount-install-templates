@@ -20,13 +20,17 @@ ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
 # We convert path/to/file.stl -> build/file.pdf and build/file.png
 PDFS := $(patsubst %.stl,$(BUILD_DIR)/%.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS := $(patsubst %.stl,$(BUILD_DIR)/%.png,$(notdir $(ALL_MOUNTS)))
+PDFS_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_landscape.pdf,$(notdir $(ALL_MOUNTS)))
+PNGS_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_landscape.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ)
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_LANDSCAPE:.pdf=.typ)
 
-.PHONY: all clean update-hardware debug
+.PHONY: all clean update-hardware debug landscape
 
-all: $(PDFS) $(PNGS)
+all: $(PDFS) $(PNGS) $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE)
+
+landscape: $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE)
 
 debug:
 	@echo "PDFS: $(PDFS)"
@@ -55,21 +59,22 @@ $(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
 	@echo "Generating SVG for $<..."
 	$(OPENSCAD) -D "filename=\"$(shell pwd)/$(BUILD_DIR)/$(notdir $<)\"" -o $@ tools/project_mount.scad
 
-# Rules for Typst Files
-# We need to pass the correct offset and name based on the file.
-# We can use target-specific variables.
+# Default layout parameters
+OFFSET=60mm
+MIN_RADIUS=500mm
+TOP_PADDING=2cm
 
 # Comma Three (35mm)
-$(BUILD_DIR)/c3_mount.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount.typ: NAME="comma three standard"
+$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ: OFFSET=35mm
+$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ: NAME="comma three standard"
 
 # Comma Three X (35mm)
-$(BUILD_DIR)/c3x_mount.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount.typ: NAME="comma 3x standard"
+$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ: OFFSET=35mm
+$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ: NAME="comma 3x standard"
 
 # Comma Four (80mm)
-$(BUILD_DIR)/four_mount.typ: OFFSET=44mm
-$(BUILD_DIR)/four_mount.typ: NAME="comma four"
+$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ: OFFSET=44mm
+$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ: NAME="comma four"
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -80,7 +85,11 @@ GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com
 # Generate Typst source
 $(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)")' > $@
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+
+$(BUILD_DIR)/%_landscape.typ: $(BUILD_DIR)/%.svg template.typ
+	@echo "Generating Landscape Typst source for $*..."
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", orientation: "landscape", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ

@@ -7,8 +7,11 @@
   repo-url: none,
   commit-hash: none,
   commit-date: none,
+  orientation: "portrait",
+  min-radius: 300mm,
+  top-padding: 4cm,
 ) = {
-  set page(paper: "us-letter", margin: 1cm)
+  set page(paper: "us-letter", margin: 1cm, flipped: orientation == "landscape")
   set text(font: "DejaVu Sans Mono", size: 12pt)
 
   // Helper to format length in mm
@@ -29,7 +32,6 @@
       let block-width = 100%
       // Ensure height accommodates everything.
       // We add some space at the top (8cm) to show the arcs "radiating upwards"
-      let top-padding = 4cm
       let total-height = size.height + clearance-offset + top-padding
 
       block(width: block-width, height: total-height, stroke: none, clip: true)[
@@ -79,7 +81,8 @@
         // Tangent Y is `line-y`.
         // Top of circle (size 2r) is at Tangent Y - 2*Radius.
 
-        #let radii = (300mm, 400mm, 500mm, 600mm, 700mm, 800mm, 900mm, 1000mm)
+        #let all-radii = (300mm, 400mm, 500mm, 600mm, 700mm, 800mm, 900mm, 1000mm)
+        #let radii = all-radii.filter(r => r >= min-radius)
 
         #for r in radii [
           // Circle Placement
