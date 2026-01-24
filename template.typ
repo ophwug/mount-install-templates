@@ -27,32 +27,36 @@
       // 100% width might be constrained by margin, which is fine.
       let block-width = 100%
       // Ensure height accommodates everything.
-      let total-height = size.height + clearance-offset + 1cm
+      // We add some space at the top (8cm) to show the arcs "radiating upwards"
+      let top-padding = 8cm
+      let total-height = size.height + clearance-offset + top-padding
 
       block(width: block-width, height: total-height, stroke: none, clip: true)[
 
         // -------------------------------------------------------------
-        // 1. Mount (Bottom Center)
+        // Coordinates (All relative to TOP center)
         // -------------------------------------------------------------
-        #place(bottom + center, img)
+        #let line-y = top-padding
+        #let mount-top-y = line-y + clearance-offset
+
+        // -------------------------------------------------------------
+        // 1. Mount (Centered below line)
+        // -------------------------------------------------------------
+        #place(top + center, dy: mount-top-y, img)
 
         // -------------------------------------------------------------
         // 2. Dimension Line (Mount Top to Clearance Start)
         // -------------------------------------------------------------
-        #let dim-x = 0pt
-        #let mount-top-y = -size.height
-        #let clear-y = -size.height - clearance-offset
-
-        #place(bottom + center)[
+        #place(top + center)[
           // Line
-          #place(line(start: (0pt, mount-top-y), end: (0pt, clear-y), stroke: 1pt + black))
+          #place(line(start: (0pt, mount-top-y), end: (0pt, line-y), stroke: 1pt + black))
 
           // Arrowheads
           #place(dx: 0pt, dy: mount-top-y, polygon(fill: black, (0pt, 0pt), (-2pt, -4pt), (2pt, -4pt)))
-          #place(dx: 0pt, dy: clear-y, polygon(fill: black, (0pt, 0pt), (-2pt, 4pt), (2pt, 4pt)))
+          #place(dx: 0pt, dy: line-y, polygon(fill: black, (0pt, 0pt), (-2pt, 4pt), (2pt, 4pt)))
 
           // Label
-          #place(dx: 5mm, dy: (mount-top-y + clear-y) / 2)[
+          #place(dx: 5mm, dy: (mount-top-y + line-y) / 2)[
             #text(size: 10pt)[#to-mm-str(clearance-offset)]
           ]
         ]
@@ -60,33 +64,30 @@
         // -------------------------------------------------------------
         // 3. Keep Clear Zone Arcs (Contour Lines)
         // -------------------------------------------------------------
-        // "Frown" Orientation (Concave Down).
-        // Center is BELOW the tangent point.
-        // Visually, circle top touches the line. Sides curve down.
-        // Center Y position: Tangent Y + Radius (since (+) is DOWN).
-        // Tangent Y is `clear-y`.
+        // "Smile" Orientation (Concave UP).
+        // Center is ABOVE the tangent point.
+        // Visually, circle bottom touches the line. Sides curve UP.
+        // Center Y position: Tangent Y - Radius.
+        // Tangent Y is `line-y`.
+        // Top of circle (size 2r) is at Tangent Y - 2*Radius.
 
         #let radii = (300mm, 400mm, 500mm, 600mm)
 
-        // #for r in radii {
-        #for r in radii {
-          // Circle Center
-          place(bottom + center, dy: clear-y + r)[
+        #for r in radii [
+          // Circle Placement
+          // top of circle = Center - r = (line-y - r) - r = line-y - 2r
+          #place(top + center, dy: line-y - 2 * r)[
             #circle(radius: r, stroke: (thickness: 1pt, dash: "dashed", paint: red))
           ]
-
-          // Labels for radii?
-          // Maybe add small text near the top apex
-          // place(bottom + center, dy: clear-y + 2mm)[#text(size:6pt, fill:gray)[R#to-mm-str(r)]]
-        }
+        ]
 
         // Add "Keep Clear Zone" Text (At the clearance line)
-        #place(bottom + center, dy: clear-y - 2mm)[
+        #place(top + center, dy: line-y - 2mm)[
           #text(fill: red, size: 10pt, weight: "bold")[Keep Clear Zone]
         ]
 
         // Add Horizontal Reference Line (Solid)
-        #place(bottom + center, dy: clear-y)[
+        #place(top + center, dy: line-y)[
           #line(length: 15cm, stroke: (thickness: 2pt, paint: red, dash: "solid"))
         ]
       ]
