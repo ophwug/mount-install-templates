@@ -1,0 +1,7 @@
+# Build artifacts
+build/
+*.svg
+*.pdf
+
+# System
+.DS_Store
