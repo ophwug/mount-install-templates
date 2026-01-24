@@ -37,7 +37,7 @@ The PDF generation process is automated using `make`.
 *   **Clearance Zones**: Dashed red arcs indicate required clearance radii at **300mm**, **400mm**, **500mm**, and **600mm**.
 *   **Clearance Offsets**:
     *   **Comma Three / 3X**: **60mm** from top of mount to start of clearance zone.
-    *   **Comma Four**: **80mm** from top of mount to start of clearance zone.
+    *   **Comma Four**: **44mm** from top of mount to start of clearance zone.
 
 ### Tools Required
 
