@@ -25,7 +25,8 @@ This project generates PDF templates to help mount comma hardware correctly.
 
 ### 1. Printing
 *   **Print at 100% Scale**: Ensure that "Scale to Fit" or "Shrink to Fit" is **disabled** in your printer settings.
-*   **Paper Size**: Templates are designed for **US Letter**.
+*   **Paper Size**: Templates are available for both **US Letter** and **A4** paper sizes. Choose the appropriate version for your region from the [Download Templates](#download-templates) table above.
+*   **Orientation**: Templates are available in both **Portrait** (standard) and **Landscape** orientations. Landscape may be useful for wider windshields or different mounting preferences.
 
 ### 2. Verify Scale
 *   Place a standard **credit card or ID card** in the marked box at the bottom of the page.
