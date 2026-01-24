@@ -39,7 +39,9 @@ def verify_image(image_path):
     2. In the center of the main mounting template (the oval/irregular shape), is there a bold label reading "comma mount" split over two lines?
     3. In the footer area, is there a descriptive text that starts with "This is a template to help people mount comma devices..."?
     4. At the bottom, is there a "Credit Card Scale" box? 
-    5. Overall Layout: Are any text elements, lines, or the mounting template shape colliding with each other or the credit card box? 
+    5. In the footer, to the right of the Credit Card Scale box, is there a QR code? 
+       Does it appear clearly and not collide with the title or other text?
+    6. Overall Layout: Are any text elements, lines, or the mounting template shape colliding with each other or the credit card box? 
        Is there a clear margin (approx 1cm) around the edges of the page?
     
     Please answer with "Yes/No" for each point, followed by a brief reason for any "No" answers.

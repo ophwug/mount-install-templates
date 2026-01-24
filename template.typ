@@ -1,3 +1,4 @@
+#import "@preview/cades:0.3.1": qr-code
 
 #let template(
   mount-name: "Mount",
@@ -120,19 +121,28 @@
         ],
         // Right: Title and Git Info
         align(left)[
-          #text(size: 18pt, weight: "bold")[#mount-name Install Template]
-          #v(0.1cm)
-          #if (
-            (repo-url != none and repo-url != "")
-              or (commit-hash != none and commit-hash != "")
-              or (commit-date != none and commit-date != "")
-          ) [
-            #text(size: 8pt)[
-              #if repo-url != none and repo-url != "" [Source: #link(repo-url) \ ]
-              #if commit-hash != none and commit-hash != "" [Commit: #commit-hash \ ]
-              #if commit-date != none and commit-date != "" [Date: #commit-date]
-            ]
-          ]
+          #grid(
+            columns: (auto, 1fr),
+            gutter: 0.5cm,
+            if repo-url != none and repo-url != "" {
+              qr-code(repo-url, width: 2.5cm)
+            },
+            align(horizon)[
+              #text(size: 18pt, weight: "bold")[#mount-name Install Template]
+              #v(0.1cm)
+              #if (
+                (repo-url != none and repo-url != "")
+                  or (commit-hash != none and commit-hash != "")
+                  or (commit-date != none and commit-date != "")
+              ) [
+                #text(size: 8pt)[
+                  #if repo-url != none and repo-url != "" [Source: #link(repo-url) \ ]
+                  #if commit-hash != none and commit-hash != "" [Commit: #commit-hash \ ]
+                  #if commit-date != none and commit-date != "" [Date: #commit-date]
+                ]
+              ]
+            ],
+          )
         ],
       )
     ]
