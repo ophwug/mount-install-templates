@@ -33,13 +33,16 @@ def verify_image(image_path):
     img = VertexImage.from_bytes(img_bytes)
     
     prompt = """
-    Look at this image of a mounting template. 
-    1. Above the central oval shape, there is a "Vehicle's Original Camera Housing" marked by a horizontal red line. 
-       Are there dashed red arc lines visible ABOVE this line?
-    2. At the bottom, there is a "Credit Card Scale" box. 
-       Is the main mounting template (oval, line, or arcs) colliding with or overlapping this credit card box?
+    Look at this image of a mounting template and verify the following:
+    1. At the top, is there a label reading "Vehicle's Original Camera Housing" 20mm above a horizontal red line? 
+       Are there dashed red arc lines visible ABOVE this label?
+    2. In the center of the main mounting template (the oval/irregular shape), is there a bold label reading "comma mount" split over two lines?
+    3. In the footer area, is there a descriptive text that starts with "This is a template to help people mount comma devices..."?
+    4. At the bottom, is there a "Credit Card Scale" box? 
+    5. Overall Layout: Are any text elements, lines, or the mounting template shape colliding with each other or the credit card box? 
+       Is there a clear margin (approx 1cm) around the edges of the page?
     
-    Please answer with "Yes/No" for both points, followed by a brief reason.
+    Please answer with "Yes/No" for each point, followed by a brief reason for any "No" answers.
     """
 
     response = model.generate_content([prompt, img])
