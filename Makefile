@@ -59,18 +59,18 @@ $(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
 # We need to pass the correct offset and name based on the file.
 # We can use target-specific variables.
 
-# Comma Three (60mm)
-$(BUILD_DIR)/c3_mount.typ: OFFSET=60mm
+# Comma Three (35mm)
+$(BUILD_DIR)/c3_mount.typ: OFFSET=35mm
 $(BUILD_DIR)/c3_mount.typ: NAME="Comma Three Standard"
 
-$(BUILD_DIR)/c3_mount_8deg.typ: OFFSET=60mm
+$(BUILD_DIR)/c3_mount_8deg.typ: OFFSET=35mm
 $(BUILD_DIR)/c3_mount_8deg.typ: NAME="Comma Three 8°"
 
-# Comma Three X (60mm)
-$(BUILD_DIR)/c3x_mount.typ: OFFSET=60mm
+# Comma Three X (35mm)
+$(BUILD_DIR)/c3x_mount.typ: OFFSET=35mm
 $(BUILD_DIR)/c3x_mount.typ: NAME="Comma 3X Standard"
 
-$(BUILD_DIR)/c3x_mount_8deg.typ: OFFSET=60mm
+$(BUILD_DIR)/c3x_mount_8deg.typ: OFFSET=35mm
 $(BUILD_DIR)/c3x_mount_8deg.typ: NAME="Comma 3X 8°"
 
 # Comma Four (80mm)
