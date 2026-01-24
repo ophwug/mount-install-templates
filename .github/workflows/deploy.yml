@@ -20,7 +20,7 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y openscad poppler-utils
+          sudo apt-get install -y openscad poppler-utils xvfb
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v1
@@ -29,7 +29,7 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Build Templates
-        run: make all
+        run: xvfb-run --auto-servernum make all
 
       - name: Generate Visualizations
         run: ./visualize.sh
