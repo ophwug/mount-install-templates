@@ -65,11 +65,11 @@ TOP_PADDING=2cm
 
 # Comma Three (35mm)
 $(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: NAME="comma three standard"
+$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: NAME="comma three"
 
 # Comma Three X (35mm)
 $(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x standard"
+$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x"
 
 # Comma Four (80mm)
 $(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: OFFSET=44mm
