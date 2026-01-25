@@ -33,16 +33,49 @@ def orient_largest_face_down(input_file, output_file, flip=False):
     # Get XY coordinates of all vertices
     xy_points = mesh.vertices[:, :2]
     
-    # PCA for primary axis alignment
-    centered_points = xy_points - np.mean(xy_points, axis=0)
-    cov_matrix = np.cov(centered_points, rowvar=False)
-    eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
-    primary_axis = eigenvectors[:, -1]
+    # PCA is sensitive to vertex density and can result in slight rotation for asymmetric meshes.
+    # Instead, we use the Minimum Area Rectangle of the 2D Convex Hull.
+    from scipy.spatial import ConvexHull
     
-    # Align to X
-    angle_to_x = np.arctan2(primary_axis[1], primary_axis[0])
-    print(f"Rotating by {-np.degrees(angle_to_x):.2f} degrees to align primary axis with X...")
-    rotation_matrix = trimesh.transformations.rotation_matrix(-angle_to_x, [0, 0, 1])
+    # 2D Convex Hull
+    hull = ConvexHull(xy_points)
+    hull_points = xy_points[hull.vertices]
+    
+    # Find geometric minimum area rectangle orientation
+    min_area = float('inf')
+    best_angle = 0.0
+    
+    # Iterate over all edges of the hull
+    num_hull_points = len(hull_points)
+    for i in range(num_hull_points):
+        p1 = hull_points[i]
+        p2 = hull_points[(i + 1) % num_hull_points]
+        
+        edge = p2 - p1
+        # Angle of this edge relative to X-axis
+        angle = np.arctan2(edge[1], edge[0])
+        
+        # Rotate hull points to alignment with X-axis to test AABB area
+        c, s = np.cos(-angle), np.sin(-angle)
+        # 2D Rotation matrix
+        R = np.array([[c, -s], [s, c]])
+        
+        rotated_hull = hull_points @ R.T
+        
+        min_x = np.min(rotated_hull[:, 0])
+        max_x = np.max(rotated_hull[:, 0])
+        min_y = np.min(rotated_hull[:, 1])
+        max_y = np.max(rotated_hull[:, 1])
+        
+        area = (max_x - min_x) * (max_y - min_y)
+        
+        if area < min_area:
+            min_area = area
+            best_angle = angle
+
+    print(f"Aligning to Minimum Area Rectangle (Angle: {np.degrees(best_angle):.2f})...")
+    # Rotate the actual mesh
+    rotation_matrix = trimesh.transformations.rotation_matrix(-best_angle, [0, 0, 1])
     mesh.apply_transform(rotation_matrix)
     
     # Ensure Landscape (Width > Height)
