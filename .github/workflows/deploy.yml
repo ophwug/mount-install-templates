@@ -39,7 +39,7 @@ jobs:
           echo "deb ${OBS_REPO}/ ./" | sudo tee /etc/apt/sources.list.d/openscad-nightly.list
           
           sudo apt-get update
-          sudo apt-get install -y openscad-nightly poppler-utils xvfb
+          sudo apt-get install -y openscad-nightly xvfb
           
           # Alias openscad-nightly to openscad so the Makefile works
           sudo ln -sf /usr/bin/openscad-nightly /usr/bin/openscad
@@ -53,10 +53,7 @@ jobs:
           enable-cache: true
 
       - name: Build Templates
-        run: xvfb-run --auto-servernum make all
-
-      - name: Generate Visualizations
-        run: ./visualize.sh
+        run: xvfb-run --auto-servernum make -j 4 all
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
