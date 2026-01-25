@@ -6,6 +6,7 @@
   clearance-offset: 60mm,
   repo-url: none,
   commit-hash: none,
+  revision: none,
   commit-date: none,
   paper-size: "us-letter",
   min-radius: 300mm,
@@ -194,6 +195,7 @@
           ) [
             #v(0.1cm)
             #text(size: 6pt)[
+              #if revision != none and revision != "" [Rev: #revision | ]
               #if commit-hash != none and commit-hash != "" [Commit: #commit-hash | ]
               #if commit-date != none and commit-date != "" [Date: #commit-date]
             ]

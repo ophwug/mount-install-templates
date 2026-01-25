@@ -77,6 +77,7 @@ $(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ $(BUILD_DIR)/f
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
+GIT_REV := $(shell git rev-list --count HEAD)
 GIT_DATE := $(shell git log -1 --format=%cd --date=short)
 # Convert git@github.com:org/repo.git to https://github.com/org/repo
 GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com:/https:\/\/github.com\//' -e 's/\.git$$//')
@@ -84,11 +85,11 @@ GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com
 # Generate Typst source
 $(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
 $(BUILD_DIR)/%_a4.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating A4 Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
