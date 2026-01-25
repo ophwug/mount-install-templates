@@ -73,7 +73,7 @@ To build the templates locally, you will need:
 
 *   [OpenSCAD](https://openscad.org/) (headless support required)
 *   [Typst](https://typst.app/)
-*   Python 3 with `numpy-stl`, though `uv` is used to manage dependencies.
+*   Python 3 with `numpy-stl`, though [`uv`](https://docs.astral.sh/uv/) is used to manage dependencies.
 *   Make
 
 Those tools can be found in package managers such as `brew` on macOS, `apt` on Debian/Ubuntu, `dnf` on Fedora, etc.
