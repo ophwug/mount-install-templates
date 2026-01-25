@@ -6,7 +6,7 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 
 * Users can check for correct sizing of generated PDFs with an outline of a credit or ID card.
 * Users can see the list of PDFs in the [Download Templates](#download-templates) section below.
-* Page generates a PDF for each mount's footprint in [commaai/hardware](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
+* We programmatically generate a PDF for each mount's footprint in [commaai/hardware](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
 
 ## Download Templates
 
