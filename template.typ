@@ -110,7 +110,7 @@
 
       #text(
         weight: "bold",
-      )[Tip: Tape this template to the outside of your windshield for easier alignment from the inside!]
+      )[Tape this template to the outside of your windshield for easier alignment from the inside!]
 
       #v(0.2cm)
 
