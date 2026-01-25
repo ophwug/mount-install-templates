@@ -79,7 +79,12 @@
           ]
 
           // Centerline Label
-          #let cl-text = align(right, text(size: 10pt)[Match line to the right \ with vehicle's centerline])
+          #let arrow-icon = box(width: 8pt, height: 14pt, baseline: 3pt)[
+            #place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: 1pt + black))
+            #place(polygon(fill: black, (4pt, 0pt), (1.5pt, 3pt), (6.5pt, 3pt)))
+            #place(polygon(fill: black, (4pt, 14pt), (1.5pt, 11pt), (6.5pt, 11pt)))
+          ]
+          #let cl-text = align(right, text(size: 10pt)[Match #arrow-icon line to the right \ with vehicle's centerline])
 
           #let cl-img = image("img/car_with_centerline.svg", height: 4cm)
           #let cl-caption = text(size: 8pt)[Vehicle's Centerline]
