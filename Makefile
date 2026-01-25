@@ -98,7 +98,7 @@ $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
 
 $(BUILD_DIR)/%.png: $(BUILD_DIR)/%.typ template.typ
 	@echo "Compiling PNG for $*..."
-	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 300
+	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 144
 
 $(BUILD_DIR)/%_bw.png: $(BUILD_DIR)/%.png
 	@echo "Converting $< to greyscale..."
