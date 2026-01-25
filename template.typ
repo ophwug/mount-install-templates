@@ -78,15 +78,38 @@
             #text(size: 10pt)[#to-mm-str(clearance-offset)]
           ]
 
-          // Centerline Label
-          #let arrow-icon = box(width: 8pt, height: 14pt, baseline: 3pt)[
-            #place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: 1pt + black))
-            #place(polygon(fill: black, (4pt, 0pt), (1.5pt, 3pt), (6.5pt, 3pt)))
-            #place(polygon(fill: black, (4pt, 14pt), (1.5pt, 11pt), (6.5pt, 11pt)))
-          ]
+          #let arrow-drawing(outline: false) = {
+            if outline {
+              place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: (thickness: 3pt, paint: white, cap: "round")))
+              place(polygon(
+                fill: white,
+                stroke: (thickness: 2pt, paint: white, join: "round"),
+                (4pt, 0pt),
+                (1.5pt, 3pt),
+                (6.5pt, 3pt),
+              ))
+              place(polygon(
+                fill: white,
+                stroke: (thickness: 2pt, paint: white, join: "round"),
+                (4pt, 14pt),
+                (1.5pt, 11pt),
+                (6.5pt, 11pt),
+              ))
+            }
+            place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: 1pt + black))
+            place(polygon(fill: black, (4pt, 0pt), (1.5pt, 3pt), (6.5pt, 3pt)))
+            place(polygon(fill: black, (4pt, 14pt), (1.5pt, 11pt), (6.5pt, 11pt)))
+          }
+
+          #let arrow-icon = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: false))
+          #let arrow-icon-outlined = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: true))
+
           #let cl-text = align(right, text(size: 10pt)[Match #arrow-icon line to the right \ with vehicle's centerline])
 
-          #let cl-img = image("img/car_with_centerline.svg", height: 4cm)
+          #let cl-img = box(height: 4cm)[
+            #image("img/car_with_centerline.svg", height: 100%)
+            #place(top + center, dy: 12mm, arrow-icon-outlined)
+          ]
           #let cl-caption = text(size: 8pt)[Vehicle's Centerline]
           #let cl-icon-block = stack(dir: ttb, spacing: 2mm, align(center, cl-img), align(center, cl-caption))
 
