@@ -1,5 +1,7 @@
 # Mount Installation Templates for comma.ai devices
 
+![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/four_mount.png)
+
 *Mounting your comma device correctly the first time for best results.*
 
 This tool is inspired by [Apple's Apple Watch band size tool for people who are too cool for straps with holes](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf) and [Toyota's OEM Dashcam installation instructions](https://www.4runner6g.com/forum/threads/oem-toyota-dashcam-diy-how-to-install-instructions-and-how-to-remove-map-dome-light-console.2603/).
