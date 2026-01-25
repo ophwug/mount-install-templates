@@ -150,7 +150,7 @@
         // Column 3: "Why" and "Tape" Instructions
         stack(dir: ttb, spacing: 0.3cm)[
           #set align(center)
-          #text(weight: "bold")[Tape template to the OUTSIDE of your windshield!]
+          #text(weight: "bold")[Tape template to the OUTSIDE of your windshield with the printed side facing inside! Use a helper or bright light to help align.]
 
           #text(size: 9pt)[
             This is a template to help people mount comma devices in the most standardized way for maximum performance.
