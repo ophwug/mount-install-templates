@@ -2,7 +2,7 @@
 
 *Mounting your comma device correctly the first time for best results.*
 
-This tool is inspired by [Apple's Apple Watch band size tool for people who are too cool for straps with holes](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf). 
+This tool is inspired by [Apple's Apple Watch band size tool for people who are too cool for straps with holes](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf) and [Toyota's OEM Dashcam installation instructions](https://www.4runner6g.com/forum/threads/oem-toyota-dashcam-diy-how-to-install-instructions-and-how-to-remove-map-dome-light-console.2603/).
 
 * Users can check for correct sizing of generated PDFs with an outline of a credit or ID card.
 * Users can see the list of PDFs in the [Download Templates](#download-templates) section below.
