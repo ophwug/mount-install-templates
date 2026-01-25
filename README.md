@@ -11,14 +11,19 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 * Page generates a PDF for each mount in [commaai/hardware](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
 
 ## Download Templates
-| Mount | Orientation | US Letter (PDF) | A4 (PDF) |
-| :--- | :--- | :--- | :--- |
-| **comma three** | Portrait | [Download](https://ophwug.github.io/install-templates/c3_mount.pdf) | [Download](https://ophwug.github.io/install-templates/c3_mount_a4.pdf) |
-| | Landscape | [Download](https://ophwug.github.io/install-templates/c3_mount_landscape.pdf) | [Download](https://ophwug.github.io/install-templates/c3_mount_a4_landscape.pdf) |
-| **comma 3x** | Portrait | [Download](https://ophwug.github.io/install-templates/c3x_mount.pdf) | [Download](https://ophwug.github.io/install-templates/c3x_mount_a4.pdf) |
-| | Landscape | [Download](https://ophwug.github.io/install-templates/c3x_mount_landscape.pdf) | [Download](https://ophwug.github.io/install-templates/c3x_mount_a4_landscape.pdf) |
-| **comma four** | Portrait | [Download](https://ophwug.github.io/install-templates/four_mount.pdf) | [Download](https://ophwug.github.io/install-templates/four_mount_a4.pdf) |
-| | Landscape | [Download](https://ophwug.github.io/install-templates/four_mount_landscape.pdf) | [Download](https://ophwug.github.io/install-templates/four_mount_a4_landscape.pdf) |
+
+### comma three
+*   **Portrait**: [US Letter](https://ophwug.github.io/install-templates/c3_mount.pdf) | [A4](https://ophwug.github.io/install-templates/c3_mount_a4.pdf)
+*   **Landscape**: [US Letter](https://ophwug.github.io/install-templates/c3_mount_landscape.pdf) | [A4](https://ophwug.github.io/install-templates/c3_mount_a4_landscape.pdf)
+
+### comma 3x
+*   **Portrait**: [US Letter](https://ophwug.github.io/install-templates/c3x_mount.pdf) | [A4](https://ophwug.github.io/install-templates/c3x_mount_a4.pdf)
+*   **Landscape**: [US Letter](https://ophwug.github.io/install-templates/c3x_mount_landscape.pdf) | [A4](https://ophwug.github.io/install-templates/c3x_mount_a4_landscape.pdf)
+
+### comma four
+*   **Portrait**: [US Letter](https://ophwug.github.io/install-templates/four_mount.pdf) | [A4](https://ophwug.github.io/install-templates/four_mount_a4.pdf)
+*   **Landscape**: [US Letter](https://ophwug.github.io/install-templates/four_mount_landscape.pdf) | [A4](https://ophwug.github.io/install-templates/four_mount_a4_landscape.pdf)
+
 
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
