@@ -1,8 +1,4 @@
-> [!WARNING]
-> **RFC / WORK IN PROGRESS**
-> This project is currently a Request For Comments (RFC). The dimensions and clearance zones are **guesswork** and have not been validated with final hardware. **Do not rely on these templates for critical cutting/installation without verifying measurements yourself.**
-
-# comma.ai Mount Installation Templates
+# Mount Installation Templates for comma.ai devices
 
 Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf). 
 
