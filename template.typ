@@ -132,27 +132,30 @@
             ]
           ]
         ],
-        // Column 2: Title and Git Info
+        // Column 2: Title and Instructions
         stack(dir: ttb, spacing: 0.2cm)[
           #set align(center)
           #text(size: 18pt, weight: "bold")[#mount-name\ Install Template]
           #v(0.1cm)
+
+          #text(size: 10pt)[Instructions are at the QR code]
+
+          #let instructions-url = "https://github.com/ophwug/mount-install-templates?tab=readme-ov-file#how-to-use"
+
+          #v(0.1cm)
+          #qr-code(instructions-url, width: 2cm)
+
+          #v(0.1cm)
+          #link(instructions-url)[#text(size: 7pt)[github.com/ophwug/mount-install-templates]]
+
           #if (
-            (repo-url != none and repo-url != "")
-              or (commit-hash != none and commit-hash != "")
-              or (commit-date != none and commit-date != "")
+            (commit-hash != none and commit-hash != "") or (commit-date != none and commit-date != "")
           ) [
-            #text(size: 8pt)[
-              #if repo-url != none and repo-url != "" [
-                #link(repo-url)[#repo-url.replace("https://", "")] \
-              ]
+            #v(0.1cm)
+            #text(size: 6pt)[
               #if commit-hash != none and commit-hash != "" [Commit: #commit-hash | ]
               #if commit-date != none and commit-date != "" [Date: #commit-date]
             ]
-            #if repo-url != none and repo-url != "" {
-              v(0.2cm)
-              qr-code(repo-url, width: 2cm)
-            }
           ]
         ],
         // Column 3: "Why" and "Tape" Instructions
