@@ -70,8 +70,8 @@
           #place(line(start: (0pt, mount-top-y), end: (0pt, line-y), stroke: 1pt + black))
 
           // Arrowheads
-          #place(dx: 0pt, dy: mount-top-y, polygon(fill: black, (0pt, 0pt), (-2pt, -4pt), (2pt, -4pt)))
-          #place(dx: 0pt, dy: line-y, polygon(fill: black, (0pt, 0pt), (-2pt, 4pt), (2pt, 4pt)))
+          #place(dx: 0pt, dy: mount-top-y, polygon(fill: black, (0pt, 0pt), (-4pt, -8pt), (4pt, -8pt)))
+          #place(dx: 0pt, dy: line-y, polygon(fill: black, (0pt, 0pt), (-4pt, 8pt), (4pt, 8pt)))
 
           // Label
           #place(dx: 5mm, dy: (mount-top-y + line-y) / 2)[
