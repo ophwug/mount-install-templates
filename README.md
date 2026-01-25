@@ -8,26 +8,26 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 
 ## Download Templates
 
+All templates are standardized in **Landscape** orientation for maximum clarity and compatibility.
+
 ### comma three
-*   **Portrait**: [US Letter](https://ophwug.github.io/install-templates/c3_mount.pdf) | [A4](https://ophwug.github.io/install-templates/c3_mount_a4.pdf)
-*   **Landscape**: [US Letter](https://ophwug.github.io/install-templates/c3_mount_landscape.pdf) | [A4](https://ophwug.github.io/install-templates/c3_mount_a4_landscape.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/install-templates/c3_mount.pdf)
+*   [A4 Landscape](https://ophwug.github.io/install-templates/c3_mount_a4.pdf)
 
 ### comma 3x
-*   **Portrait**: [US Letter](https://ophwug.github.io/install-templates/c3x_mount.pdf) | [A4](https://ophwug.github.io/install-templates/c3x_mount_a4.pdf)
-*   **Landscape**: [US Letter](https://ophwug.github.io/install-templates/c3x_mount_landscape.pdf) | [A4](https://ophwug.github.io/install-templates/c3x_mount_a4_landscape.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/install-templates/c3x_mount.pdf)
+*   [A4 Landscape](https://ophwug.github.io/install-templates/c3x_mount_a4.pdf)
 
 ### comma four
-*   **Portrait**: [US Letter](https://ophwug.github.io/install-templates/four_mount.pdf) | [A4](https://ophwug.github.io/install-templates/four_mount_a4.pdf)
-*   **Landscape**: [US Letter](https://ophwug.github.io/install-templates/four_mount_landscape.pdf) | [A4](https://ophwug.github.io/install-templates/four_mount_a4_landscape.pdf)
-
+*   [US Letter Landscape](https://ophwug.github.io/install-templates/four_mount.pdf)
+*   [A4 Landscape](https://ophwug.github.io/install-templates/four_mount_a4.pdf)
 
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
 
 ### 1. Printing
 *   **Print at 100% Scale**: Ensure that "Scale to Fit" or "Shrink to Fit" is **disabled** in your printer settings.
-*   **Paper Size**: Templates are available for both **US Letter** and **A4** paper sizes. Choose the appropriate version for your region from the [Download Templates](#download-templates) table above.
-*   **Orientation**: Templates are available in both **Portrait** (standard) and **Landscape** orientations. Landscape may be useful for wider windshields or different mounting preferences.
+*   **Paper Size**: Templates are available for both **US Letter** and **A4** paper sizes. Choose the appropriate version for your region from the [Download Templates](#download-templates) list above.
 
 ### 2. Verify Scale
 *   Place a standard **credit card or ID card** in the marked box at the bottom of the page.

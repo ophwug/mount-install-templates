@@ -7,12 +7,11 @@
   repo-url: none,
   commit-hash: none,
   commit-date: none,
-  orientation: "portrait",
   paper-size: "us-letter",
   min-radius: 300mm,
   top-padding: 4cm,
 ) = {
-  set page(paper: paper-size, margin: 1cm, flipped: orientation == "landscape")
+  set page(paper: paper-size, margin: 1cm, flipped: true)
   set text(font: "DejaVu Sans Mono", size: 12pt)
 
   // Helper to format length in mm
@@ -106,53 +105,58 @@
     }
 
     #place(bottom + center)[
-      This is a template to help people mount comma devices to their vehicles in the most standardized way for maximum driving performance.
-
-      #text(
-        weight: "bold",
-      )[Tape this template to the outside of your windshield for easier alignment from the inside!]
-
-      #v(0.2cm)
-
-      Print this page at 100%. Do not scale to fit. (To make sure you printed at 100%, place a credit card in the box below. If it’s an exact fit, you’re good to go.)
-
       #grid(
-        columns: (auto, 1fr),
-        gutter: 0.5cm,
+        columns: (1fr, 1fr, 1fr),
+        gutter: 1cm,
         align: horizon,
-        // Left: Credit Card Scale
-        box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
-          #align(center + horizon)[
-            Credit Card Scale (86mm x 54mm) \
-            #text(size: 8pt, fill: gray)[You won't be charged]
+        // Column 1: Print Instructions & Credit Card Scale
+        stack(dir: ttb, spacing: 0.3cm)[
+          #set align(center)
+          #text(size: 9pt)[
+            *Print at 100%.* Do not scale to fit. \
+            Place credit card here to verify scale.
+          ]
+          #box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
+            #align(center + horizon)[
+              Credit Card Scale (86mm x 54mm) \
+              #v(0.1cm)
+              #text(size: 8pt, fill: gray)[You won't be charged]
+            ]
           ]
         ],
-        // Right: Title and Git Info
-        align(left)[
-          #grid(
-            gutter: 0.5cm,
-            align(horizon)[
-              #text(size: 18pt, weight: "bold")[#mount-name Install Template]
-              #v(0.1cm)
-              #if (
-                (repo-url != none and repo-url != "")
-                  or (commit-hash != none and commit-hash != "")
-                  or (commit-date != none and commit-date != "")
-              ) [
-                #text(size: 8pt)[
-                  #if repo-url != none and repo-url != "" [Source: #link(repo-url) \ ]
-                  #if commit-hash != none and commit-hash != "" [Commit: #commit-hash \ ]
-                  #if commit-date != none and commit-date != "" [Date: #commit-date]
-                ]
+        // Column 2: Title and Git Info
+        stack(dir: ttb, spacing: 0.2cm)[
+          #set align(center)
+          #text(size: 18pt, weight: "bold")[#mount-name\ Install Template]
+          #v(0.1cm)
+          #if (
+            (repo-url != none and repo-url != "")
+              or (commit-hash != none and commit-hash != "")
+              or (commit-date != none and commit-date != "")
+          ) [
+            #text(size: 8pt)[
+              #if repo-url != none and repo-url != "" [
+                #link(repo-url)[#repo-url.replace("https://", "")] \
               ]
-            ],
-          )
+              #if commit-hash != none and commit-hash != "" [Commit: #commit-hash | ]
+              #if commit-date != none and commit-date != "" [Date: #commit-date]
+            ]
+            #if repo-url != none and repo-url != "" {
+              v(0.2cm)
+              qr-code(repo-url, width: 2cm)
+            }
+          ]
+        ],
+        // Column 3: "Why" and "Tape" Instructions
+        stack(dir: ttb, spacing: 0.3cm)[
+          #set align(center)
+          #text(weight: "bold")[Tape template to the OUTSIDE of your windshield!]
+
+          #text(size: 9pt)[
+            This is a template to help people mount comma devices in the most standardized way for maximum performance.
+          ]
         ],
       )
     ]
-
-    #if repo-url != none and repo-url != "" {
-      place(bottom + right, qr-code(repo-url, width: 2.5cm))
-    }
   ]
 }

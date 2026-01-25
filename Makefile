@@ -17,32 +17,21 @@ C4_MOUNTS := hardware/comma_four/mount/four_mount.stl
 ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
 
 # Output Lists
-# We convert path/to/file.stl -> build/file.pdf and build/file.png
 PDFS := $(patsubst %.stl,$(BUILD_DIR)/%.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS := $(patsubst %.stl,$(BUILD_DIR)/%.png,$(notdir $(ALL_MOUNTS)))
-PDFS_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_landscape.pdf,$(notdir $(ALL_MOUNTS)))
-PNGS_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_landscape.png,$(notdir $(ALL_MOUNTS)))
 PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
-PDFS_A4_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_a4_landscape.pdf,$(notdir $(ALL_MOUNTS)))
-PNGS_A4_LANDSCAPE := $(patsubst %.stl,$(BUILD_DIR)/%_a4_landscape.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_LANDSCAPE:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(PDFS_A4_LANDSCAPE:.pdf=.typ)
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
 
-.PHONY: all clean update-hardware debug landscape a4 a4_landscape
+.PHONY: all clean update-hardware debug
 
-all: $(PDFS) $(PNGS) $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE) $(PDFS_A4) $(PNGS_A4) $(PDFS_A4_LANDSCAPE) $(PNGS_A4_LANDSCAPE)
-
-landscape: $(PDFS_LANDSCAPE) $(PNGS_LANDSCAPE)
-
-a4: $(PDFS_A4) $(PNGS_A4)
-
-a4_landscape: $(PDFS_A4_LANDSCAPE) $(PNGS_A4_LANDSCAPE)
+all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4)
 
 debug:
-	@echo "PDFS: $(PDFS)"
-	@echo "PNGS: $(PNGS)"
+	@echo "PDFS (Letter Landscape): $(PDFS)"
+	@echo "PDFS (A4 Landscape): $(PDFS_A4)"
 
 update-hardware:
 	git submodule update --init --recursive
@@ -95,17 +84,9 @@ $(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating Typst source for $*..."
 	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
-$(BUILD_DIR)/%_landscape.typ: $(BUILD_DIR)/%.svg template.typ
-	@echo "Generating Landscape Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", orientation: "landscape", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
-
 $(BUILD_DIR)/%_a4.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating A4 Typst source for $*..."
 	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
-
-$(BUILD_DIR)/%_a4_landscape.typ: $(BUILD_DIR)/%.svg template.typ
-	@echo "Generating A4 Landscape Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", orientation: "landscape", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
