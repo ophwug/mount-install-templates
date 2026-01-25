@@ -108,6 +108,10 @@
     #place(bottom + center)[
       This is a template to help people mount comma devices to their vehicles in the most standardized way for maximum driving performance.
 
+      #text(
+        weight: "bold",
+      )[Tip: Tape this template to the outside of your windshield for easier alignment from the inside!]
+
       #v(0.2cm)
 
       Print this page at 100%. Do not scale to fit. (To make sure you printed at 100%, place a credit card in the box below. If it’s an exact fit, you’re good to go.)

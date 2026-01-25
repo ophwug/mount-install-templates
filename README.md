@@ -2,7 +2,7 @@
 > **RFC / WORK IN PROGRESS**
 > This project is currently a Request For Comments (RFC). The dimensions and clearance zones are **guesswork** and have not been validated with final hardware. **Do not rely on these templates for critical cutting/installation without verifying measurements yourself.**
 
-# Install Templates for comma.ai hardware
+# comma.ai Mount Installation Templates
 
 Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf). 
 
@@ -21,7 +21,7 @@ Inspired by [Apple's Apple Watch band size](https://www.apple.com/shop/Catalog/U
 | | Landscape | [Download](https://ophwug.github.io/install-templates/four_mount_landscape.pdf) | [Download](https://ophwug.github.io/install-templates/four_mount_a4_landscape.pdf) |
 
 ## How to Use
-This project generates PDF templates to help mount comma hardware correctly.
+This project generates PDF mount installation templates to help mount comma hardware correctly.
 
 ### 1. Printing
 *   **Print at 100% Scale**: Ensure that "Scale to Fit" or "Shrink to Fit" is **disabled** in your printer settings.
@@ -39,6 +39,7 @@ This project generates PDF templates to help mount comma hardware correctly.
 
 ### 4. Installation
 *   Align the mount footprint on your windshield.
+*   **Pro Tip**: Tape the template to the **outside** of the windshield! This makes it much easier to align with the camera/mirror from the inside without the paper getting in the way of your level or tape measure.
 *   Mark the corners on the glass (e.g., with a dry-erase marker) or use painters tape to temporarily hold the template in place.
 *   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
 
