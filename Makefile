@@ -21,13 +21,15 @@ PDFS := $(patsubst %.stl,$(BUILD_DIR)/%.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS := $(patsubst %.stl,$(BUILD_DIR)/%.png,$(notdir $(ALL_MOUNTS)))
 PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
+PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_bw.png,$(notdir $(ALL_MOUNTS)))
+PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
 .SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
 
 .PHONY: all clean update-hardware debug
 
-all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4)
+all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW)
 
 debug:
 	@echo "PDFS (Letter Landscape): $(PDFS)"
@@ -96,6 +98,10 @@ $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
 $(BUILD_DIR)/%.png: $(BUILD_DIR)/%.typ template.typ
 	@echo "Compiling PNG for $*..."
 	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 300
+
+$(BUILD_DIR)/%_bw.png: $(BUILD_DIR)/%.png
+	@echo "Converting $< to greyscale..."
+	uv run tools/grayscale.py $< $@
 
 $(BUILD_DIR):
 	$(MKDIR) $(BUILD_DIR)

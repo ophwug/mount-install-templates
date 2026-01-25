@@ -1,6 +1,6 @@
 # Build artifacts
 build/
-*.svg
+build/*.svg
 *.pdf
 
 # System

@@ -77,6 +77,15 @@
           #place(dx: 5mm, dy: (mount-top-y + line-y) / 2)[
             #text(size: 10pt)[#to-mm-str(clearance-offset)]
           ]
+
+          // Centerline Label
+          #let cl-text = text(size: 10pt)[Match line to the right with vehicle's centerline]
+          #let cl-icon = box(height: 4cm, image("img/car_with_centerline.svg"))
+
+          #place(dx: -5mm, dy: (mount-top-y + line-y) / 2)[
+            #place(right + horizon, dx: -2mm)[#cl-text]
+            #place(right + horizon, dx: -2mm - measure(cl-text).width - 5mm)[#cl-icon]
+          ]
         ]
 
         // -------------------------------------------------------------
