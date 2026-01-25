@@ -79,12 +79,16 @@
           ]
 
           // Centerline Label
-          #let cl-text = text(size: 10pt)[Match line to the right with vehicle's centerline]
-          #let cl-icon = box(height: 4cm, image("img/car_with_centerline.svg"))
+          #let cl-text = align(right, text(size: 10pt)[Match line to the right \ with vehicle's centerline])
 
-          #place(dx: -5mm, dy: (mount-top-y + line-y) / 2)[
-            #place(right + horizon, dx: -2mm)[#cl-text]
-            #place(right + horizon, dx: -2mm - measure(cl-text).width - 5mm)[#cl-icon]
+          #let cl-img = image("img/car_with_centerline.svg", height: 4cm)
+          #let cl-caption = text(size: 8pt)[Vehicle's Centerline]
+          #let cl-icon-block = stack(dir: ttb, spacing: 2mm, align(center, cl-img), align(center, cl-caption))
+
+          #place(dx: -5mm, dy: (mount-top-y + line-y) / 2 + 10mm)[
+            #place(right + horizon)[
+              #stack(dir: ltr, spacing: 5mm, align(horizon, cl-icon-block), align(horizon, cl-text))
+            ]
           ]
         ]
 
