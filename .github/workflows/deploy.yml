@@ -29,11 +29,20 @@ jobs:
 
       - name: Install System Dependencies
         run: |
-          sudo add-apt-repository -y ppa:openscad/snapshots
+          # Add OBS repository for OpenSCAD Nightly
+          # Detect Ubuntu version (e.g. 24.04) and construct URL
+          . /etc/os-release
+          OBS_REPO="https://download.opensuse.org/repositories/home:/t-paul/xUbuntu_${VERSION_ID}"
+          
+          # Install key and repository
+          sudo wget -qO - "${OBS_REPO}/Release.key" | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/openscad-nightly.gpg
+          echo "deb ${OBS_REPO}/ ./" | sudo tee /etc/apt/sources.list.d/openscad-nightly.list
+          
           sudo apt-get update
           sudo apt-get install -y openscad-nightly poppler-utils xvfb
+          
           # Alias openscad-nightly to openscad so the Makefile works
-          sudo ln -s /usr/bin/openscad-nightly /usr/bin/openscad
+          sudo ln -sf /usr/bin/openscad-nightly /usr/bin/openscad
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
