@@ -13,16 +13,16 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 All templates are standardized in **Landscape** orientation for maximum clarity and compatibility.
 
 ### comma three
-*   [US Letter Landscape](https://ophwug.github.io/install-templates/c3_mount.pdf)
-*   [A4 Landscape](https://ophwug.github.io/install-templates/c3_mount_a4.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3_mount.pdf)
+*   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3_mount_a4.pdf)
 
 ### comma 3x
-*   [US Letter Landscape](https://ophwug.github.io/install-templates/c3x_mount.pdf)
-*   [A4 Landscape](https://ophwug.github.io/install-templates/c3x_mount_a4.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount.pdf)
+*   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount_a4.pdf)
 
 ### comma four
-*   [US Letter Landscape](https://ophwug.github.io/install-templates/four_mount.pdf)
-*   [A4 Landscape](https://ophwug.github.io/install-templates/four_mount_a4.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/four_mount.pdf)
+*   [A4 Landscape](https://ophwug.github.io/mount-install-templates/four_mount_a4.pdf)
 
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
