@@ -29,8 +29,11 @@ jobs:
 
       - name: Install System Dependencies
         run: |
+          sudo add-apt-repository -y ppa:openscad/nightly
           sudo apt-get update
-          sudo apt-get install -y openscad poppler-utils xvfb
+          sudo apt-get install -y openscad-nightly poppler-utils xvfb
+          # Alias openscad-nightly to openscad so the Makefile works
+          sudo ln -s /usr/bin/openscad-nightly /usr/bin/openscad
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
