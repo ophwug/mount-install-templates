@@ -178,6 +178,12 @@
         stack(dir: ttb, spacing: 0.2cm)[
           #set align(center)
           #text(size: 18pt, weight: "bold")[#mount-name\ Install Template]
+
+          #let paper-display = if paper-size == "us-letter" { "US Letter" } else if paper-size == "a4" { "A4" } else {
+            paper-size
+          }
+          #text(size: 8pt)[Paper Size: #paper-display]
+
           #v(0.1cm)
 
           #text(size: 10pt)[Instructions are at the QR code]
