@@ -17,11 +17,11 @@ C4_MOUNTS := hardware/comma_four/mount/four_mount.stl
 ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
 
 # Output Lists
-PDFS := $(patsubst %.stl,$(BUILD_DIR)/%.pdf,$(notdir $(ALL_MOUNTS)))
-PNGS := $(patsubst %.stl,$(BUILD_DIR)/%.png,$(notdir $(ALL_MOUNTS)))
+PDFS := $(patsubst %.stl,$(BUILD_DIR)/%_letter.pdf,$(notdir $(ALL_MOUNTS)))
+PNGS := $(patsubst %.stl,$(BUILD_DIR)/%_letter.png,$(notdir $(ALL_MOUNTS)))
 PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
-PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_bw.png,$(notdir $(ALL_MOUNTS)))
+PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS)))
 PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
@@ -74,16 +74,16 @@ MIN_RADIUS=500mm
 TOP_PADDING=2cm
 
 # Comma Three (35mm)
-$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount.typ $(BUILD_DIR)/c3_mount_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: NAME="comma three"
+$(BUILD_DIR)/c3_mount_letter.typ $(BUILD_DIR)/c3_mount_letter_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: OFFSET=35mm
+$(BUILD_DIR)/c3_mount_letter.typ $(BUILD_DIR)/c3_mount_letter_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: NAME="comma three"
 
 # Comma Three X (35mm)
-$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount.typ $(BUILD_DIR)/c3x_mount_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x"
+$(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: OFFSET=35mm
+$(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x"
 
 # Comma Four (80mm)
-$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: OFFSET=44mm
-$(BUILD_DIR)/four_mount.typ $(BUILD_DIR)/four_mount_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: NAME="comma four"
+$(BUILD_DIR)/four_mount_letter.typ $(BUILD_DIR)/four_mount_letter_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: OFFSET=44mm
+$(BUILD_DIR)/four_mount_letter.typ $(BUILD_DIR)/four_mount_letter_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: NAME="comma four"
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -93,7 +93,7 @@ GIT_DATE := $(shell git log -1 --format=%cd --date=short)
 GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com:/https:\/\/github.com\//' -e 's/\.git$$//')
 
 # Generate Typst source
-$(BUILD_DIR)/%.typ: $(BUILD_DIR)/%.svg template.typ
+$(BUILD_DIR)/%_letter.typ: $(BUILD_DIR)/%.svg template.typ
 	@echo "Generating Typst source for $*..."
 	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
 
@@ -126,17 +126,17 @@ VEHICLE_PNGS :=
 # Helper to generate targets for a vehicle
 # Args: 1=vehicle_name
 define generate_vehicle_targets
-VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3_mount.pdf $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.pdf
-VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount.pdf $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.pdf
-VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/four_mount.pdf $(BUILD_DIR)/vehicles/$(1)/four_mount_a4.pdf
+VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.pdf
+VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.pdf
+VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/four_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/four_mount_a4.pdf
 
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/four_mount.png $(BUILD_DIR)/vehicles/$(1)/four_mount_a4.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/four_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/four_mount_a4.png
 
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_bw.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4_bw.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_bw.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4_bw.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/four_mount_bw.png $(BUILD_DIR)/vehicles/$(1)/four_mount_a4_bw.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4_bw.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4_bw.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/four_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/four_mount_a4_bw.png
 endef
 
 $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
@@ -144,17 +144,17 @@ $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
 vehicles: $(VEHICLE_PDFS) $(VEHICLE_PNGS)
 
 # Target-specific variables for mount types
-$(BUILD_DIR)/vehicles/%/c3_mount.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: MOUNT_NAME_PREFIX="comma three"
-$(BUILD_DIR)/vehicles/%/c3_mount.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: OFFSET=35mm
-$(BUILD_DIR)/vehicles/%/c3_mount.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c3_mount.svg
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: MOUNT_NAME_PREFIX="comma three"
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: OFFSET=35mm
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c3_mount.svg
 
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: MOUNT_NAME_PREFIX="comma 3x"
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: OFFSET=35mm
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c3x_mount.svg
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: MOUNT_NAME_PREFIX="comma 3x"
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: OFFSET=35mm
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c3x_mount.svg
 
-$(BUILD_DIR)/vehicles/%/four_mount.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: MOUNT_NAME_PREFIX="comma four"
-$(BUILD_DIR)/vehicles/%/four_mount.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: OFFSET=44mm
-$(BUILD_DIR)/vehicles/%/four_mount.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: MOUNT_NAME_PREFIX="comma four"
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: OFFSET=44mm
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
 
 
 # AI/Gen Pipeline Rules
@@ -194,23 +194,23 @@ define generate_typst
 endef
 
 # Letter Landscape
-$(BUILD_DIR)/vehicles/%/c3_mount.typ: SVG_SOURCE=$(BUILD_DIR)/c3_mount.svg
-$(BUILD_DIR)/vehicles/%/c3_mount.typ: MOUNT_NAME_PREFIX=comma three
-$(BUILD_DIR)/vehicles/%/c3_mount.typ: OFFSET=35mm
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c3_mount.svg
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: MOUNT_NAME_PREFIX=comma three
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: OFFSET=35mm
 
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ: SVG_SOURCE=$(BUILD_DIR)/c3x_mount.svg
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ: MOUNT_NAME_PREFIX=comma 3x
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ: OFFSET=35mm
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c3x_mount.svg
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: MOUNT_NAME_PREFIX=comma 3x
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: OFFSET=35mm
 
-$(BUILD_DIR)/vehicles/%/four_mount.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
-$(BUILD_DIR)/vehicles/%/four_mount.typ: MOUNT_NAME_PREFIX=comma four
-$(BUILD_DIR)/vehicles/%/four_mount.typ: OFFSET=44mm
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: MOUNT_NAME_PREFIX=comma four
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: OFFSET=44mm
 
-$(BUILD_DIR)/vehicles/%/c3_mount.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/c3x_mount.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/four_mount.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
 	$(generate_typst)
 
 # A4 Landscape
@@ -250,6 +250,6 @@ $(BUILD_DIR)/vehicles/%.png: $(BUILD_DIR)/vehicles/%.typ
 .PHONY: $(VEHICLES)
 $(VEHICLES): %:
 	@echo "Building templates for $*..."
-	$(MAKE) $(filter %/$*/c3_mount.pdf,$(PDFS)) $(filter %/$*/c3_mount_a4.pdf,$(PDFS_A4)) \
-            $(filter %/$*/c3x_mount.pdf,$(PDFS)) $(filter %/$*/c3x_mount_a4.pdf,$(PDFS_A4)) \
-            $(filter %/$*/four_mount.pdf,$(PDFS)) $(filter %/$*/four_mount_a4.pdf,$(PDFS_A4))
+	$(MAKE) $(filter %/$*/c3_mount_letter.pdf,$(PDFS)) $(filter %/$*/c3_mount_a4.pdf,$(PDFS_A4)) \
+            $(filter %/$*/c3x_mount_letter.pdf,$(PDFS)) $(filter %/$*/c3x_mount_a4.pdf,$(PDFS_A4)) \
+            $(filter %/$*/four_mount_letter.pdf,$(PDFS)) $(filter %/$*/four_mount_a4.pdf,$(PDFS_A4))
