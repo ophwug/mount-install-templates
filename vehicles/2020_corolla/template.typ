@@ -3,7 +3,7 @@
 
 #template(
   mount-name: "comma four (2020 Corolla)",
-  svg-file: "/build/four_mount.svg",
+  svg-file: "/build/c4_mount.svg",
   clearance-offset: 44mm,
 
   // Custom Traced Clearance

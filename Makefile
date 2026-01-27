@@ -12,6 +12,7 @@ BUILD_DIR := build
 C3_MOUNTS := hardware/comma_three/mount/c3_mount.stl
 C3X_MOUNTS := hardware/comma_3X/mount/c3x_mount.stl
 C4_MOUNTS := hardware/comma_four/mount/four_mount.stl
+C4_MOUNT_STEM := c4_mount
 
 # All Mounts
 ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
@@ -23,6 +24,15 @@ PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
 PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS)))
 PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
+
+# Manual overrides for comma four naming
+PDFS := $(subst four_mount,c4_mount,$(PDFS))
+PNGS := $(subst four_mount,c4_mount,$(PNGS))
+PDFS_A4 := $(subst four_mount,c4_mount,$(PDFS_A4))
+PNGS_A4 := $(subst four_mount,c4_mount,$(PNGS_A4))
+PNGS_BW := $(subst four_mount,c4_mount,$(PNGS_BW))
+PNGS_A4_BW := $(subst four_mount,c4_mount,$(PNGS_A4_BW))
+
 
 # Keep intermediate SVGs and TYP files
 .SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
@@ -60,7 +70,12 @@ VPATH = hardware/comma_three/mount:hardware/comma_3X/mount:hardware/comma_four/m
 # Extra Flags for orient_stl.py
 ORIENT_FLAGS = 
 # Flip C4 mount
-$(BUILD_DIR)/four_mount.svg: ORIENT_FLAGS += --flip
+$(BUILD_DIR)/c4_mount.svg: ORIENT_FLAGS += --flip
+$(BUILD_DIR)/c4_mount.svg: hardware/comma_four/mount/four_mount.stl | $(BUILD_DIR)
+	@echo "Orienting comma four mount..."
+	uv run ./tools/orient_stl.py $(ORIENT_FLAGS) "$<" "$(BUILD_DIR)/$(notdir $<)"
+	@echo "Generating SVG for comma four mount..."
+	$(OPENSCAD) -D "filename=\"$(shell pwd)/$(BUILD_DIR)/$(notdir $<)\"" -o $@ tools/project_mount.scad
 
 $(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
 	@echo "Orienting $<..."
@@ -82,8 +97,8 @@ $(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(
 $(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x"
 
 # Comma Four (80mm)
-$(BUILD_DIR)/four_mount_letter.typ $(BUILD_DIR)/four_mount_letter_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: OFFSET=44mm
-$(BUILD_DIR)/four_mount_letter.typ $(BUILD_DIR)/four_mount_letter_landscape.typ $(BUILD_DIR)/four_mount_a4.typ $(BUILD_DIR)/four_mount_a4_landscape.typ: NAME="comma four"
+$(BUILD_DIR)/c4_mount_letter.typ $(BUILD_DIR)/c4_mount_letter_landscape.typ $(BUILD_DIR)/c4_mount_a4.typ $(BUILD_DIR)/c4_mount_a4_landscape.typ: OFFSET=44mm
+$(BUILD_DIR)/c4_mount_letter.typ $(BUILD_DIR)/c4_mount_letter_landscape.typ $(BUILD_DIR)/c4_mount_a4.typ $(BUILD_DIR)/c4_mount_a4_landscape.typ: NAME="comma four"
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -128,15 +143,15 @@ VEHICLE_PNGS :=
 define generate_vehicle_targets
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.pdf
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.pdf
-VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/four_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/four_mount_a4.pdf
+VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.pdf
 
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.png
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/four_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/four_mount_a4.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.png
 
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4_bw.png
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4_bw.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/four_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/four_mount_a4_bw.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4_bw.png
 endef
 
 $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
@@ -152,9 +167,9 @@ $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a
 $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: OFFSET=35mm
 $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c3x_mount.svg
 
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: MOUNT_NAME_PREFIX="comma four"
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: OFFSET=44mm
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: MOUNT_NAME_PREFIX="comma four"
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: OFFSET=44mm
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c4_mount.svg
 
 
 # AI/Gen Pipeline Rules
@@ -197,15 +212,15 @@ $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c3x_mount.
 $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: MOUNT_NAME_PREFIX=comma 3x
 $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: OFFSET=35mm
 
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: MOUNT_NAME_PREFIX=comma four
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: OFFSET=44mm
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c4_mount.svg
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: MOUNT_NAME_PREFIX=comma four
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: OFFSET=44mm
 
 $(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 
 # A4 Landscape
@@ -219,16 +234,16 @@ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: MOUNT_NAME_PREFIX=comma 3x
 $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: OFFSET=35mm
 $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: PAPER_SIZE_ARG=, paper-size: "a4"
 
-$(BUILD_DIR)/vehicles/%/four_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/four_mount.svg
-$(BUILD_DIR)/vehicles/%/four_mount_a4.typ: MOUNT_NAME_PREFIX=comma four
-$(BUILD_DIR)/vehicles/%/four_mount_a4.typ: OFFSET=44mm
+$(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c4_mount.svg
+$(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: MOUNT_NAME_PREFIX=comma four
+$(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: OFFSET=44mm
 $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: PAPER_SIZE_ARG=, paper-size: "a4"
 
 $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/four_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 
 # Compile Vehicle PDFs
@@ -249,4 +264,4 @@ $(VEHICLES): %:
 	@echo "Building templates for $*..."
 	$(MAKE) $(filter %/$*/c3_mount_letter.pdf,$(PDFS)) $(filter %/$*/c3_mount_a4.pdf,$(PDFS_A4)) \
             $(filter %/$*/c3x_mount_letter.pdf,$(PDFS)) $(filter %/$*/c3x_mount_a4.pdf,$(PDFS_A4)) \
-            $(filter %/$*/four_mount_letter.pdf,$(PDFS)) $(filter %/$*/four_mount_a4.pdf,$(PDFS_A4))
+            $(filter %/$*/c4_mount_letter.pdf,$(PDFS)) $(filter %/$*/c4_mount_a4.pdf,$(PDFS_A4))
