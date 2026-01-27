@@ -212,7 +212,7 @@
           #set align(left)
           #text(
             weight: "bold",
-          )[Tape template to the OUTSIDE of your windshield with the printed side facing inside! Use a helper or bright light to help align.]
+          )[Tape template to the OUTSIDE of your windshield with the printed side facing inside! Use a helper or bright light to help align. Or cut it up to tape inside!]
 
           #text(size: 9pt)[
             This is a template to help people mount comma devices in the most standardized way for maximum performance.
