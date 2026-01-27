@@ -9,5 +9,6 @@ dependencies = [
     "numpy>=2.4.1",
     "pillow>=12.1.0",
     "scipy>=1.17.0",
+    "shapely>=2.1.2",
     "trimesh>=4.11.1",
 ]

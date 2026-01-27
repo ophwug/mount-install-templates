@@ -11,6 +11,7 @@
   paper-size: "us-letter",
   min-radius: 300mm,
   top-padding: 4cm,
+  custom-clearance-svg: none,
 ) = {
   set page(paper: paper-size, margin: 1cm, flipped: true)
   set text(font: "DejaVu Sans Mono", size: 12pt)
@@ -134,13 +135,24 @@
         #let all-radii = (300mm, 400mm, 500mm, 600mm, 700mm, 800mm, 900mm, 1000mm)
         #let radii = all-radii.filter(r => r >= min-radius)
 
-        #for r in radii [
-          // Circle Placement
-          // top of circle = Center - r = (line-y - r) - r = line-y - 2r
-          #place(top + center, dy: line-y - 2 * r)[
-            #circle(radius: r, stroke: (thickness: 1pt, dash: "dashed", paint: red))
+        #if custom-clearance-svg != none {
+          let svg-data = image(custom-clearance-svg)
+          let svg-size = measure(svg-data)
+
+          // Align bottom of SVG to line-y
+          // SVG includes 5mm bottom padding for offsets.
+          // We want trace bottom (at SVG bottom - 5mm) to align with line-y.
+          // So SVG bottom should be at line-y + 5mm.
+          place(top + center, dy: line-y - svg-size.height + 5mm, svg-data)
+        } else {
+          for r in radii [
+            // Circle Placement
+            // top of circle = Center - r = (line-y - r) - r = line-y - 2r
+            #place(top + center, dy: line-y - 2 * r)[
+              #circle(radius: r, stroke: (thickness: 1pt, dash: "dashed", paint: red))
+            ]
           ]
-        ]
+        }
 
         // Add "Vehicle's Original Camera Housing" Text (At the clearance line)
         #place(top + center, dy: line-y - 20mm)[
@@ -177,7 +189,19 @@
         // Column 2: Title and Instructions
         stack(dir: ttb, spacing: 0.2cm)[
           #set align(center)
-          #text(size: 18pt, weight: "bold")[#mount-name\ Install Template]
+
+          // Fit-to-width helper
+          #let fit-text(content, max-width) = context {
+            let size = measure(content)
+            let scale-factor = if size.width > max-width { max-width / size.width * 100% } else { 100% }
+            scale(x: scale-factor, y: scale-factor, origin: center, content)
+          }
+
+          #layout(bounds => {
+            fit-text(box(text(size: 18pt, weight: "bold")[#mount-name]), bounds.width)
+            v(-0.2em) // Adjust spacing if scale reduced height significantly? Or just standard spacing
+            text(size: 18pt, weight: "bold")[Install Template]
+          })
 
           #let paper-display = if paper-size == "us-letter" { "US Letter" } else if paper-size == "a4" { "A4" } else {
             paper-size

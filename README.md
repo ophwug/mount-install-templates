@@ -31,6 +31,21 @@ All templates are standardized in **Landscape** orientation for maximum clarity 
 *   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3_mount.pdf)
 *   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3_mount_a4.pdf)
 
+## Vehicle Specific Templates
+
+These templates feature custom clearance zones (red dashed lines) derived from actual vehicle scans, offering precise alignment guides for specific car models.
+
+> [!WARNING]
+> **Beta Feature:** These templates are experimental and derived from user scans. Always double-check measurements before permanent installation.
+
+### Toyota Corolla (2020)
+#### comma four
+*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/four_mount.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/four_mount_a4.pdf)
+#### comma 3x
+*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3x_mount.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3x_mount_a4.pdf)
+#### comma three
+*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3_mount.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3_mount_a4.pdf)
+
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
 
@@ -63,6 +78,17 @@ The PDF generation process is automated using `make`.
     -   A credit card outline for scale validation.
     -   Clearance zone markings.
     -   Title and instructional text.
+
+### AI / Computer Vision Workflow
+
+An experimental workflow exists to trace vehicle features (like camera covers) from scans using Gemini and OpenCV. The entire pipeline is automated via `make`.
+
+1.  **Preparation**: Place a scan of the windshield with a reference card (ID/Credit Card) in `vehicles/<vehicle_name>/raw/scan.png`.
+2.  **Annotate**: Run `make annotate-<vehicle_name>` (e.g. `make annotate-2020_corolla`) to trigger the AI annotation. `tools/vehicle_specific/annotate_scan.py` uses Gemini 3 Pro (image-preview) to highlight features (Magenta) and scale cards (Cyan), saving to `vehicles/<vehicle_name>/ai/annotated_scan.png`.
+3.  **Process**: `tools/vehicle_specific/process_annotation.py` extracts the scale (pixels/mm) and the raw trace from the annotated image to `vehicles/<vehicle_name>/gen/raw_trace.svg`.
+4.  **Refine**: `tools/vehicle_specific/refine_trace.py` rotates, centers, and symmetrizes the trace for engineering use, saving to `vehicles/<vehicle_name>/gen/trace.svg`.
+5.  **Offsets**: `tools/vehicle_specific/generate_offsets.py` adds clearance lines and the centerline, creating the final `vehicles/<vehicle_name>/gen/offsets.svg` used in the template.
+6.  **Verify**: `make verify` runs `tools/verify_build.py`, which uses **Gemini 3 Flash** to visually inspect all generated PDFs/PNGs. It checks for the presence of red clearance lines, correct labels, and legible text, failing the build if any template is suspect.
 
 ### Specifications
 

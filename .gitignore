@@ -5,3 +5,6 @@ build/*.svg
 
 # System
 .DS_Store
+
+# Generated Assets
+vehicles/*/gen/
