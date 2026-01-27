@@ -11,4 +11,5 @@ dependencies = [
     "scipy>=1.17.0",
     "shapely>=2.1.2",
     "trimesh>=4.11.1",
+    "opencv-python-headless>=4.11.0.86",
 ]
