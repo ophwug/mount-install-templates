@@ -1,6 +1,5 @@
 #!/usr/bin/env -S uv run
 
-import sys
 import trimesh
 import numpy as np
 
