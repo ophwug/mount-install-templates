@@ -25,7 +25,7 @@ PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS))
 PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(patsubst %,$(VEHICLES_DIR)/%/gen,$(VEHICLES))
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
 
 .PHONY: all clean update-hardware debug
 
@@ -173,16 +173,10 @@ annotate-%:
 	$(MKDIR) $(VEHICLES_DIR)/$*/ai
 	uv run tools/vehicle_specific/annotate_scan.py $(VEHICLES_DIR)/$*/raw/scan.png $(VEHICLES_DIR)/$*/ai/annotated_scan.png
 
-$(VEHICLES_DIR)/%/gen/raw_trace.svg: $(VEHICLES_DIR)/%/ai/annotated_scan.png | $(VEHICLES_DIR)/%/gen
+$(VEHICLES_DIR)/%/gen/raw_trace.svg: $(VEHICLES_DIR)/%/ai/annotated_scan.png
 	@echo "Processing annotation for $*..."
+	$(MKDIR) $(dir $@)
 	uv run tools/vehicle_specific/process_annotation.py $< $@
-
-$(VEHICLES_DIR)/%/gen:
-	$(MKDIR) $@
-
-VEHICLE_BUILD_DIRS := $(patsubst %,$(BUILD_DIR)/vehicles/%,$(VEHICLES))
-$(VEHICLE_BUILD_DIRS):
-	$(MKDIR) $@
 
 # Typst Generation Rules
 # Stem % matches vehicle name
@@ -190,6 +184,7 @@ $(VEHICLE_BUILD_DIRS):
 # Recipe for generating Typst source
 define generate_typst
 	@echo "Generating Typst for $*..."
+	$(MKDIR) $(dir $@)
 	@echo '#import "/vehicles/$*/template.typ": template; #template(mount-name: "$(MOUNT_NAME_PREFIX) ($(shell cat vehicles/$*/name.txt))", svg-file: "$(SVG_SOURCE)", clearance-offset: $(OFFSET), custom-clearance-svg: "/vehicles/$*/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING)$(PAPER_SIZE_ARG))' > $@
 endef
 
@@ -206,11 +201,11 @@ $(BUILD_DIR)/vehicles/%/four_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/four_moun
 $(BUILD_DIR)/vehicles/%/four_mount_letter.typ: MOUNT_NAME_PREFIX=comma four
 $(BUILD_DIR)/vehicles/%/four_mount_letter.typ: OFFSET=44mm
 
-$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/four_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 
 # A4 Landscape
@@ -229,21 +224,23 @@ $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: MOUNT_NAME_PREFIX=comma four
 $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: OFFSET=44mm
 $(BUILD_DIR)/vehicles/%/four_mount_a4.typ: PAPER_SIZE_ARG=, paper-size: "a4"
 
-$(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
-$(BUILD_DIR)/vehicles/%/four_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ | $(BUILD_DIR)/vehicles/% $(SVG_SOURCE)
+$(BUILD_DIR)/vehicles/%/four_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 
 # Compile Vehicle PDFs
 $(BUILD_DIR)/vehicles/%.pdf: $(BUILD_DIR)/vehicles/%.typ
 	@echo "Compiling Vehicle PDF for $*..."
+	$(MKDIR) $(dir $@)
 	$(TYPST) compile $< $@ --root . --font-path fonts
 
 # Compile Vehicle PNGs
 $(BUILD_DIR)/vehicles/%.png: $(BUILD_DIR)/vehicles/%.typ
 	@echo "Compiling Vehicle PNG for $*..."
+	$(MKDIR) $(dir $@)
 	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 144
 
 # Vehicle Phony Targets matching README
