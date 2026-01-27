@@ -7,6 +7,11 @@ on:
       - 'README.md'
       - 'LICENSE'
       - '.gitignore'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+      - '.gitignore'
   workflow_dispatch:
 
 permissions:
@@ -62,6 +67,7 @@ jobs:
           path: './build'
 
   deploy:
+    if: github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

@@ -25,7 +25,7 @@ PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS))
 PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
 
 # Keep intermediate SVGs and TYP files
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(patsubst %,$(VEHICLES_DIR)/%/gen,$(VEHICLES))
 
 .PHONY: all clean update-hardware debug
 
