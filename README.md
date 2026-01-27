@@ -1,6 +1,6 @@
 # Mount Installation Templates for comma.ai devices
 
-![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/four_mount.png)
+![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/four_mount_letter.png)
 
 *Mounting your comma device correctly the first time for best results.*
 
@@ -20,15 +20,15 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 All templates are standardized in **Landscape** orientation for maximum clarity and compatibility.
 
 ### comma four
-*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/four_mount.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/four_mount_letter.pdf)
 *   [A4 Landscape](https://ophwug.github.io/mount-install-templates/four_mount_a4.pdf)
 
 ### comma 3x
-*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount_letter.pdf)
 *   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount_a4.pdf)
 
 ### comma three
-*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3_mount.pdf)
+*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3_mount_letter.pdf)
 *   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3_mount_a4.pdf)
 
 ## Vehicle Specific Templates
@@ -40,11 +40,11 @@ These templates feature custom clearance zones (red dashed lines) derived from a
 
 ### Toyota Corolla (2020)
 #### comma four
-*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/four_mount.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/four_mount_a4.pdf)
+*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/four_mount_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/four_mount_a4.pdf)
 #### comma 3x
-*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3x_mount.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3x_mount_a4.pdf)
+*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3x_mount_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3x_mount_a4.pdf)
 #### comma three
-*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3_mount.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3_mount_a4.pdf)
+*   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3_mount_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c3_mount_a4.pdf)
 
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
