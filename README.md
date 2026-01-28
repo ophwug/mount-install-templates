@@ -86,7 +86,7 @@ The PDF generation process is automated using `make`.
 
 An experimental workflow exists to trace vehicle features (like camera covers) from scans using Gemini and OpenCV. The entire pipeline is automated via `make`.
 
-1.  **Preparation**: Place a scan of the windshield with a reference card (ID/Credit Card) in `vehicles/<vehicle_name>/raw/scan.png`.
+1.  **Preparation**: Place a scan of the windshield with a standard-sized card (85.60 × 53.98 mm, ISO/IEC 7810 ID-1) in `vehicles/<vehicle_name>/raw/scan.png`.
 2.  **Annotate**: Run `make annotate-<vehicle_name>` (e.g. `make annotate-2020_corolla`) to trigger the AI annotation. `tools/vehicle_specific/annotate_scan.py` uses Gemini 3 Pro (image-preview) to highlight features (Magenta) and scale cards (Cyan), saving to `vehicles/<vehicle_name>/ai/annotated_scan.png`.
 3.  **Process**: `tools/vehicle_specific/process_annotation.py` extracts the scale (pixels/mm) and the raw trace from the annotated image to `vehicles/<vehicle_name>/gen/raw_trace.svg`.
 4.  **Refine**: `tools/vehicle_specific/refine_trace.py` rotates, centers, and symmetrizes the trace for engineering use, saving to `vehicles/<vehicle_name>/gen/trace.svg`.
