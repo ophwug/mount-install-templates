@@ -39,7 +39,7 @@ These templates feature custom clearance zones (red dashed lines) derived from a
 > **Beta Feature:** These templates are experimental and derived from user scans. Always double-check measurements before permanent installation.
 
 > [!NOTE]
-> **Want to help?** We're looking for contributions to expand our vehicle-specific template library! Please submit a flatbed scanner scan of your vehicle's windshield (capturing the camera cover area) along with a card-sized object for scale (e.g., gift card, library card, or any standard credit card-sized item). Share your scans or suggestions at [Issue #6](https://github.com/ophwug/mount-install-templates/issues/6).
+> **Want to help?** We're looking for contributions to expand our vehicle-specific template library! Please submit a flatbed scanner scan of your car's ADAS camera cover (after removing it from the vehicle) along with a card-sized object for scale (e.g., gift card, library card, or any standard credit card-sized item). Share your scans or suggestions at [Issue #6](https://github.com/ophwug/mount-install-templates/issues/6).
 
 ### Toyota Corolla (2020)
 #### comma four
@@ -86,7 +86,7 @@ The PDF generation process is automated using `make`.
 
 An experimental workflow exists to trace vehicle features (like camera covers) from scans using Gemini and OpenCV. The entire pipeline is automated via `make`.
 
-1.  **Preparation**: Place a scan of the windshield with a card-sized object for scale (e.g., gift card, library card, or any standard credit card-sized item) in `vehicles/<vehicle_name>/raw/scan.png`.
+1.  **Preparation**: Place a scan of the car's ADAS camera cover (after removing it from the vehicle) with a card-sized object for scale (e.g., gift card, library card, or any standard credit card-sized item) in `vehicles/<vehicle_name>/raw/scan.png`.
 2.  **Annotate**: Run `make annotate-<vehicle_name>` (e.g. `make annotate-2020_corolla`) to trigger the AI annotation. `tools/vehicle_specific/annotate_scan.py` uses Gemini 3 Pro (image-preview) to highlight features (Magenta) and scale cards (Cyan), saving to `vehicles/<vehicle_name>/ai/annotated_scan.png`.
 3.  **Process**: `tools/vehicle_specific/process_annotation.py` extracts the scale (pixels/mm) and the raw trace from the annotated image to `vehicles/<vehicle_name>/gen/raw_trace.svg`.
 4.  **Refine**: `tools/vehicle_specific/refine_trace.py` rotates, centers, and symmetrizes the trace for engineering use, saving to `vehicles/<vehicle_name>/gen/trace.svg`.
