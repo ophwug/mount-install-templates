@@ -39,7 +39,7 @@ These templates feature custom clearance zones (red dashed lines) derived from a
 > **Beta Feature:** These templates are experimental and derived from user scans. Always double-check measurements before permanent installation.
 
 > [!NOTE]
-> **Want to help?** We're looking for vehicle scans and suggestions to expand our vehicle-specific template library! If you have a scan of your windshield or suggestions for a vehicle model, please share them at [Issue #6](https://github.com/ophwug/mount-install-templates/issues/6).
+> **Want to help?** We're looking for contributions to expand our vehicle-specific template library! Please submit a flatbed scanner scan of your vehicle's camera cover along with a suitably sized card (credit card or ID card) for scale. Share your scans or suggestions at [Issue #6](https://github.com/ophwug/mount-install-templates/issues/6).
 
 ### Toyota Corolla (2020)
 #### comma four
