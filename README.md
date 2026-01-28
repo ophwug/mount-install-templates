@@ -38,6 +38,9 @@ These templates feature custom clearance zones (red dashed lines) derived from a
 > [!WARNING]
 > **Beta Feature:** These templates are experimental and derived from user scans. Always double-check measurements before permanent installation.
 
+> [!NOTE]
+> **Want to help?** We're looking for vehicle scans and suggestions to expand our vehicle-specific template library! If you have a scan of your windshield or suggestions for a vehicle model, please share them at [Issue #6](https://github.com/ophwug/mount-install-templates/issues/6).
+
 ### Toyota Corolla (2020)
 #### comma four
 *   [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c4_mount_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_corolla/c4_mount_a4.pdf)
