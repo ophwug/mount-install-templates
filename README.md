@@ -116,11 +116,14 @@ Those tools can be found in package managers such as `brew` on macOS, `apt` on D
 
 Here are 3D printable STL files that can serve as cutting guides for mount adhesives. These are particularly useful if you are replacing the 3M VHB adhesive and want a perfect fit for the mount's footprint.
 
-![Adhesive Cutting Template Preview](https://github.com/ophwug/mount-install-templates/raw/main/build/c4_cutting_template_preview.png)
+> [!WARNING]
+> **Beta Feature:** These templates are experimental. Always verify the fit with your mount before using them to cut adhesive.
 
-*   **comma four**: [Standard (with islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c4_cutting_template.stl) | [Solid (no islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c4_cutting_template_solid.stl)
-*   **comma 3x**: [Standard (with islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c3x_cutting_template.stl) | [Solid (no islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c3x_cutting_template_solid.stl)
-*   **comma three**: [Standard](https://github.com/ophwug/mount-install-templates/raw/main/build/c3_cutting_template.stl)
+![Adhesive Cutting Template Preview](https://ophwug.github.io/mount-install-templates/c4_cutting_template_preview.png)
+
+*   **comma four**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template_solid.stl)
+*   **comma 3x**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template_solid.stl)
+*   **comma three**: [Standard](https://ophwug.github.io/mount-install-templates/c3_cutting_template.stl)
 
 The standard templates for comma four and 3x include split horizontal bridges to support internal island guides (for the mount's own internal relief holes) while keeping the central area clear. The solid versions provide just the outer silhouette.
 

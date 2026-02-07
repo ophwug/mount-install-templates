@@ -14,9 +14,16 @@ bridge_width = 1.2; // Width of support bridges
 
 // Projection of the footprint (raw, with holes)
 module footprint_raw() {
-  projection(cut=true)
-    translate([0, 0, -0.1])
-      import(filename);
+  projection(cut=false)
+    intersection() {
+      translate([0, 0, -0.1])
+        import(filename);
+      // Capture the bottom 3mm of the geometry to get a robust footprint
+      // even if the bottom surface is slightly curved.
+      // 3mm is chosen to ensure we capture the base but avoid the main stalk.
+      translate([0, 0, 1.5])
+        cube([300, 300, 3], center=true);
+    }
 }
 
 // Module for support bridges
@@ -57,12 +64,14 @@ union() {
     }
 
     // Cutout for the adhesive footprint
-    translate([0, 0, -1]) if (is_solid) {
-      linear_extrude(height=thickness + 2)
-        hull() footprint_raw();
-    } else {
-      linear_extrude(height=thickness + 2)
-        footprint_raw();
+    translate([0, 0, -1]) {
+      if (is_solid) {
+        linear_extrude(height=thickness + 2)
+          hull() footprint_raw();
+      } else {
+        linear_extrude(height=thickness + 2)
+          footprint_raw();
+      }
     }
 
     // Text label (debossed)

@@ -26,6 +26,7 @@ PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS))
 PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
 CUTTING_TEMPLATES := $(BUILD_DIR)/c3_cutting_template.stl $(BUILD_DIR)/c3x_cutting_template.stl $(BUILD_DIR)/c4_cutting_template.stl \
                      $(BUILD_DIR)/c3x_cutting_template_solid.stl $(BUILD_DIR)/c4_cutting_template_solid.stl
+CUTTING_PREVIEWS := $(BUILD_DIR)/c3_cutting_template_preview.png $(BUILD_DIR)/c3x_cutting_template_preview.png $(BUILD_DIR)/c4_cutting_template_preview.png
 
 # Manual overrides for comma four naming
 PDFS := $(subst four_mount,c4_mount,$(PDFS))
@@ -36,16 +37,19 @@ PNGS_BW := $(subst four_mount,c4_mount,$(PNGS_BW))
 PNGS_A4_BW := $(subst four_mount,c4_mount,$(PNGS_A4_BW))
 
 
-# Keep intermediate SVGs and TYP files
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
+# Keep intermediate SVGs, TYP files, and oriented STLs
+.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(BUILD_DIR)/c3_mount.stl $(BUILD_DIR)/c3x_mount.stl $(BUILD_DIR)/c4_mount.stl $(BUILD_DIR)/c3_mount.svg $(BUILD_DIR)/c3x_mount.svg $(BUILD_DIR)/c4_mount.svg
 
 .PHONY: all clean update-hardware debug
 
-all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW) vehicles cutting-templates
+all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW) vehicles cutting-templates cutting-previews
 	@echo "All templates built successfully."
 
 cutting-templates: $(CUTTING_TEMPLATES)
 	@echo "All cutting templates built successfully."
+
+cutting-previews: $(CUTTING_PREVIEWS)
+	@echo "All cutting template previews built successfully."
 
 verify: all
 	@echo "Verifying templates with Gemini..."
@@ -74,19 +78,25 @@ VPATH = hardware/comma_three/mount:hardware/comma_3X/mount:hardware/comma_four/m
 
 # Extra Flags for orient_stl.py
 ORIENT_FLAGS = 
-# Flip C4 mount
-$(BUILD_DIR)/c4_mount.svg: ORIENT_FLAGS += --flip
-$(BUILD_DIR)/c4_mount.svg: hardware/comma_four/mount/four_mount.stl | $(BUILD_DIR)
+$(BUILD_DIR)/c4_mount.stl: hardware/comma_four/mount/four_mount.stl | $(BUILD_DIR)
 	@echo "Orienting comma four mount..."
-	uv run ./tools/orient_stl.py $(ORIENT_FLAGS) "$<" "$(BUILD_DIR)/$(notdir $<)"
-	@echo "Generating SVG for comma four mount..."
-	$(OPENSCAD) -D "filename=\"$(shell pwd)/$(BUILD_DIR)/$(notdir $<)\"" -o $@ tools/project_mount.scad
+	uv run ./tools/orient_stl.py --flip "$<" "$@"
 
-$(BUILD_DIR)/%.svg: %.stl | $(BUILD_DIR)
-	@echo "Orienting $<..."
-	uv run ./tools/orient_stl.py $(ORIENT_FLAGS) "$<" "$(BUILD_DIR)/$(notdir $<)"
-	@echo "Generating SVG for $<..."
-	$(OPENSCAD) -D "filename=\"$(shell pwd)/$(BUILD_DIR)/$(notdir $<)\"" -o $@ tools/project_mount.scad
+$(BUILD_DIR)/c4_mount.svg: $(BUILD_DIR)/c4_mount.stl
+	@echo "Generating SVG for comma four mount..."
+	$(OPENSCAD) -D "filename=\"$(shell pwd)/$<\"" -o $@ tools/project_mount.scad
+
+$(BUILD_DIR)/c3_mount.stl: hardware/comma_three/mount/c3_mount.stl | $(BUILD_DIR)
+	@echo "Orienting comma three mount..."
+	uv run ./tools/orient_stl.py "$<" "$@"
+
+$(BUILD_DIR)/c3x_mount.stl: hardware/comma_3X/mount/c3x_mount.stl | $(BUILD_DIR)
+	@echo "Orienting comma 3x mount..."
+	uv run ./tools/orient_stl.py "$<" "$@"
+
+$(BUILD_DIR)/%.svg: $(BUILD_DIR)/%.stl
+	@echo "Generating SVG for $*..."
+	$(OPENSCAD) -D "filename=\"$(shell pwd)/$<\"" -o $@ tools/project_mount.scad
 
 # Default layout parameters
 OFFSET=60mm
@@ -117,7 +127,7 @@ $(BUILD_DIR)/c3x_cutting_template.stl: ORIENTED_STL=$(BUILD_DIR)/c3x_mount.stl
 $(BUILD_DIR)/c4_cutting_template.stl: NAME=comma four
 $(BUILD_DIR)/c4_cutting_template.stl: BRIDGE_TYPE=horizontal
 $(BUILD_DIR)/c4_cutting_template.stl: BRIDGE_GAP=35.0
-$(BUILD_DIR)/c4_cutting_template.stl: ORIENTED_STL=$(BUILD_DIR)/four_mount.stl
+$(BUILD_DIR)/c4_cutting_template.stl: ORIENTED_STL=$(BUILD_DIR)/c4_mount.stl
 
 $(BUILD_DIR)/%_cutting_template.stl: IS_SOLID=false
 $(BUILD_DIR)/%_cutting_template.stl: tools/cutting_template.scad | $(BUILD_DIR)
@@ -132,11 +142,34 @@ $(BUILD_DIR)/%_cutting_template_solid.stl: BRIDGE_GAP=0
 $(BUILD_DIR)/c3x_cutting_template_solid.stl: NAME=comma 3x (solid)
 $(BUILD_DIR)/c3x_cutting_template_solid.stl: ORIENTED_STL=$(BUILD_DIR)/c3x_mount.stl
 $(BUILD_DIR)/c4_cutting_template_solid.stl: NAME=comma four (solid)
-$(BUILD_DIR)/c4_cutting_template_solid.stl: ORIENTED_STL=$(BUILD_DIR)/four_mount.stl
+$(BUILD_DIR)/c4_cutting_template_solid.stl: ORIENTED_STL=$(BUILD_DIR)/c4_mount.stl
 
 $(BUILD_DIR)/%_cutting_template_solid.stl: tools/cutting_template.scad | $(BUILD_DIR)
 	@echo "Generating solid cutting template for $(NAME)..."
 	$(OPENSCAD) -D 'filename="$(shell pwd)/$(ORIENTED_STL)"' -D 'mount_name="$(NAME)"' -D 'bridge_type="$(BRIDGE_TYPE)"' -D 'bridge_gap=$(BRIDGE_GAP)' -D 'is_solid=$(IS_SOLID)' -o $@ tools/cutting_template.scad
+
+$(BUILD_DIR)/c3_cutting_template_preview.png: NAME=comma three
+$(BUILD_DIR)/c3_cutting_template_preview.png: BRIDGE_TYPE=none
+$(BUILD_DIR)/c3_cutting_template_preview.png: BRIDGE_GAP=0
+$(BUILD_DIR)/c3_cutting_template_preview.png: ORIENTED_STL=$(BUILD_DIR)/c3_mount.stl
+$(BUILD_DIR)/c3x_cutting_template_preview.png: NAME=comma 3x
+$(BUILD_DIR)/c3x_cutting_template_preview.png: BRIDGE_TYPE=horizontal
+$(BUILD_DIR)/c3x_cutting_template_preview.png: BRIDGE_GAP=41.2
+$(BUILD_DIR)/c3x_cutting_template_preview.png: ORIENTED_STL=$(BUILD_DIR)/c3x_mount.stl
+$(BUILD_DIR)/c4_cutting_template_preview.png: NAME=comma four
+$(BUILD_DIR)/c4_cutting_template_preview.png: BRIDGE_TYPE=horizontal
+$(BUILD_DIR)/c4_cutting_template_preview.png: BRIDGE_GAP=35.0
+$(BUILD_DIR)/c4_cutting_template_preview.png: ORIENTED_STL=$(BUILD_DIR)/c4_mount.stl
+
+# Cutting template previews dependencies
+$(BUILD_DIR)/c3_cutting_template_preview.png: $(BUILD_DIR)/c3_mount.stl
+$(BUILD_DIR)/c3x_cutting_template_preview.png: $(BUILD_DIR)/c3x_mount.stl
+$(BUILD_DIR)/c4_cutting_template_preview.png: $(BUILD_DIR)/c4_mount.stl
+
+# Cutting template previews
+$(BUILD_DIR)/%_cutting_template_preview.png: tools/cutting_template.scad | $(BUILD_DIR)
+	@echo "Generating preview for $(NAME)..."
+	$(OPENSCAD) --imgsize=1024,1024 --render --autocenter --viewall -D 'filename="$(shell pwd)/$(ORIENTED_STL)"' -D 'mount_name="$(NAME)"' -D 'bridge_type="$(BRIDGE_TYPE)"' -D 'bridge_gap=$(BRIDGE_GAP)' -D 'is_solid=false' -o $@ tools/cutting_template.scad
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
@@ -190,6 +223,25 @@ VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.png $(BUILD_DIR)/vehi
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4_bw.png
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4_bw.png
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4_bw.png
+
+# Explicit Compilation Rules for this vehicle
+$(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.pdf: $(BUILD_DIR)/c3_mount.svg
+$(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.pdf: $(BUILD_DIR)/c3x_mount.svg
+$(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.pdf: $(BUILD_DIR)/c4_mount.svg
+
+$(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.png: $(BUILD_DIR)/c3_mount.svg
+$(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.png: $(BUILD_DIR)/c3x_mount.svg
+$(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.png: $(BUILD_DIR)/c4_mount.svg
+
+$(BUILD_DIR)/vehicles/$(1)/%.pdf: $(BUILD_DIR)/vehicles/$(1)/%.typ
+	@echo "Compiling Vehicle PDF for $$*..."
+	$(MKDIR) $(dir $$@)
+	$(TYPST) compile $$< $$@ --root . --font-path fonts
+
+$(BUILD_DIR)/vehicles/$(1)/%.png: $(BUILD_DIR)/vehicles/$(1)/%.typ
+	@echo "Compiling Vehicle PNG for $$*..."
+	$(MKDIR) $(dir $$@)
+	$(TYPST) compile $$< $$@ --root . --font-path fonts --ppi 144
 endef
 
 $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
@@ -253,6 +305,8 @@ $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ: OFFSET=35mm
 $(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c4_mount.svg
 $(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: MOUNT_NAME_PREFIX=comma four
 $(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: OFFSET=44mm
+$(BUILD_DIR)/vehicles/%/c4_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c4_mount.svg
+
 
 $(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
@@ -284,17 +338,6 @@ $(BUILD_DIR)/vehicles/%/c3x_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VE
 $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: $(VEHICLES_DIR)/%/gen/offsets.svg $(VEHICLES_DIR)/%/template.typ $(SVG_SOURCE)
 	$(generate_typst)
 
-# Compile Vehicle PDFs
-$(BUILD_DIR)/vehicles/%.pdf: $(BUILD_DIR)/vehicles/%.typ
-	@echo "Compiling Vehicle PDF for $*..."
-	$(MKDIR) $(dir $@)
-	$(TYPST) compile $< $@ --root . --font-path fonts
-
-# Compile Vehicle PNGs
-$(BUILD_DIR)/vehicles/%.png: $(BUILD_DIR)/vehicles/%.typ
-	@echo "Compiling Vehicle PNG for $*..."
-	$(MKDIR) $(dir $@)
-	$(TYPST) compile $< $@ --root . --font-path fonts --ppi 144
 
 # Vehicle Phony Targets matching README
 .PHONY: $(VEHICLES)
