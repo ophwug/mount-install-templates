@@ -112,6 +112,18 @@ To build the templates locally, you will need:
 
 Those tools can be found in package managers such as `brew` on macOS, `apt` on Debian/Ubuntu, `dnf` on Fedora, etc.
 
+## Adhesive Cutting Templates
+
+Here are 3D printable STL files that can serve as cutting guides for mount adhesives. These are particularly useful if you are replacing the 3M VHB adhesive and want a perfect fit for the mount's footprint.
+
+![Adhesive Cutting Template Preview](https://github.com/ophwug/mount-install-templates/raw/main/build/c4_cutting_template_preview.png)
+
+*   **comma four**: [Standard (with islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c4_cutting_template.stl) | [Solid (no islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c4_cutting_template_solid.stl)
+*   **comma 3x**: [Standard (with islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c3x_cutting_template.stl) | [Solid (no islands)](https://github.com/ophwug/mount-install-templates/raw/main/build/c3x_cutting_template_solid.stl)
+*   **comma three**: [Standard](https://github.com/ophwug/mount-install-templates/raw/main/build/c3_cutting_template.stl)
+
+The standard templates for comma four and 3x include split horizontal bridges to support internal island guides (for the mount's own internal relief holes) while keeping the central area clear. The solid versions provide just the outer silhouette.
+
 ## Similar Tools
 
 * [DML Tool](https://publish.obsidian.md/typedbyhumans/Folders/comma/DML+Tool) - A 3D printed tool with additional added components such as a mini-level bubble tool to help make sure the mount is leveled on the windshield.

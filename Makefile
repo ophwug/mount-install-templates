@@ -24,6 +24,8 @@ PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
 PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
 PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS)))
 PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
+CUTTING_TEMPLATES := $(BUILD_DIR)/c3_cutting_template.stl $(BUILD_DIR)/c3x_cutting_template.stl $(BUILD_DIR)/c4_cutting_template.stl \
+                     $(BUILD_DIR)/c3x_cutting_template_solid.stl $(BUILD_DIR)/c4_cutting_template_solid.stl
 
 # Manual overrides for comma four naming
 PDFS := $(subst four_mount,c4_mount,$(PDFS))
@@ -39,8 +41,11 @@ PNGS_A4_BW := $(subst four_mount,c4_mount,$(PNGS_A4_BW))
 
 .PHONY: all clean update-hardware debug
 
-all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW) vehicles
+all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW) vehicles cutting-templates
 	@echo "All templates built successfully."
+
+cutting-templates: $(CUTTING_TEMPLATES)
+	@echo "All cutting templates built successfully."
 
 verify: all
 	@echo "Verifying templates with Gemini..."
@@ -99,6 +104,39 @@ $(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(
 # Comma Four (80mm)
 $(BUILD_DIR)/c4_mount_letter.typ $(BUILD_DIR)/c4_mount_letter_landscape.typ $(BUILD_DIR)/c4_mount_a4.typ $(BUILD_DIR)/c4_mount_a4_landscape.typ: OFFSET=44mm
 $(BUILD_DIR)/c4_mount_letter.typ $(BUILD_DIR)/c4_mount_letter_landscape.typ $(BUILD_DIR)/c4_mount_a4.typ $(BUILD_DIR)/c4_mount_a4_landscape.typ: NAME="comma four"
+
+# Cutting templates
+$(BUILD_DIR)/c3_cutting_template.stl: NAME=comma three
+$(BUILD_DIR)/c3_cutting_template.stl: BRIDGE_TYPE=none
+$(BUILD_DIR)/c3_cutting_template.stl: BRIDGE_GAP=0
+$(BUILD_DIR)/c3_cutting_template.stl: ORIENTED_STL=$(BUILD_DIR)/c3_mount.stl
+$(BUILD_DIR)/c3x_cutting_template.stl: NAME=comma 3x
+$(BUILD_DIR)/c3x_cutting_template.stl: BRIDGE_TYPE=horizontal
+$(BUILD_DIR)/c3x_cutting_template.stl: BRIDGE_GAP=41.2
+$(BUILD_DIR)/c3x_cutting_template.stl: ORIENTED_STL=$(BUILD_DIR)/c3x_mount.stl
+$(BUILD_DIR)/c4_cutting_template.stl: NAME=comma four
+$(BUILD_DIR)/c4_cutting_template.stl: BRIDGE_TYPE=horizontal
+$(BUILD_DIR)/c4_cutting_template.stl: BRIDGE_GAP=35.0
+$(BUILD_DIR)/c4_cutting_template.stl: ORIENTED_STL=$(BUILD_DIR)/four_mount.stl
+
+$(BUILD_DIR)/%_cutting_template.stl: IS_SOLID=false
+$(BUILD_DIR)/%_cutting_template.stl: tools/cutting_template.scad | $(BUILD_DIR)
+	@echo "Generating cutting template for $(NAME) with bridge_type=$(BRIDGE_TYPE), gap=$(BRIDGE_GAP), is_solid=$(IS_SOLID)..."
+	$(OPENSCAD) -D 'filename="$(shell pwd)/$(ORIENTED_STL)"' -D 'mount_name="$(NAME)"' -D 'bridge_type="$(BRIDGE_TYPE)"' -D 'bridge_gap=$(BRIDGE_GAP)' -D 'is_solid=$(IS_SOLID)' -o $@ tools/cutting_template.scad
+
+# Solid Variants
+$(BUILD_DIR)/%_cutting_template_solid.stl: IS_SOLID=true
+$(BUILD_DIR)/%_cutting_template_solid.stl: BRIDGE_TYPE=none
+$(BUILD_DIR)/%_cutting_template_solid.stl: BRIDGE_GAP=0
+
+$(BUILD_DIR)/c3x_cutting_template_solid.stl: NAME=comma 3x (solid)
+$(BUILD_DIR)/c3x_cutting_template_solid.stl: ORIENTED_STL=$(BUILD_DIR)/c3x_mount.stl
+$(BUILD_DIR)/c4_cutting_template_solid.stl: NAME=comma four (solid)
+$(BUILD_DIR)/c4_cutting_template_solid.stl: ORIENTED_STL=$(BUILD_DIR)/four_mount.stl
+
+$(BUILD_DIR)/%_cutting_template_solid.stl: tools/cutting_template.scad | $(BUILD_DIR)
+	@echo "Generating solid cutting template for $(NAME)..."
+	$(OPENSCAD) -D 'filename="$(shell pwd)/$(ORIENTED_STL)"' -D 'mount_name="$(NAME)"' -D 'bridge_type="$(BRIDGE_TYPE)"' -D 'bridge_gap=$(BRIDGE_GAP)' -D 'is_solid=$(IS_SOLID)' -o $@ tools/cutting_template.scad
 
 # Git Info
 GIT_COMMIT := $(shell git rev-parse --short HEAD)
