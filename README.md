@@ -1,6 +1,6 @@
 # Mount Installation Templates for comma.ai devices
 
-![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/c4_mount_letter.png)
+![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/c4_mount_45mm_letter.png)
 
 *Mounting your comma device correctly the first time for best results.*
 
@@ -19,17 +19,30 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 
 All templates are standardized in **Landscape** orientation for maximum clarity and compatibility.
 
+Universal templates are now available in five clearance-offset variants for each mount:
+**45mm, 50mm, 55mm, 60mm, 65mm**.
+For most installs, start with **45mm** first, then try **50mm** if you need more clearance.
+
 ### comma four
-*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c4_mount_letter.pdf)
-*   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c4_mount_a4.pdf)
+*   **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_45mm_a4.pdf)
+*   **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_50mm_a4.pdf)
+*   **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_55mm_a4.pdf)
+*   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_60mm_a4.pdf)
+*   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_65mm_a4.pdf)
 
 ### comma 3x
-*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount_letter.pdf)
-*   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3x_mount_a4.pdf)
+*   **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_45mm_a4.pdf)
+*   **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_50mm_a4.pdf)
+*   **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_55mm_a4.pdf)
+*   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_60mm_a4.pdf)
+*   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_65mm_a4.pdf)
 
 ### comma three
-*   [US Letter Landscape](https://ophwug.github.io/mount-install-templates/c3_mount_letter.pdf)
-*   [A4 Landscape](https://ophwug.github.io/mount-install-templates/c3_mount_a4.pdf)
+*   **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_45mm_a4.pdf)
+*   **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_50mm_a4.pdf)
+*   **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_55mm_a4.pdf)
+*   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_60mm_a4.pdf)
+*   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_65mm_a4.pdf)
 
 ## Vehicle Specific Templates
 
@@ -54,7 +67,8 @@ This project generates PDF mount installation templates to help mount comma hard
 
 ### 1. Printing
 *   **Print at 100% Scale**: Ensure that "Scale to Fit" or "Shrink to Fit" is **disabled** in your printer settings.
-*   **Paper Size**: Templates are available for both **US Letter** and **A4** paper sizes. Choose the appropriate version for your region from the [Download Templates](#download-templates) list above.
+*   **Paper Size**: Templates are available for both **US Letter** and **A4** paper sizes.
+*   **Choose Offset**: For universal templates, start with **45mm** (recommended), then **50mm** if needed. Use 55/60/65mm only when additional clearance is required.
 
 ### 2. Verify Scale
 *   Place a standard **credit card or ID card** in the marked box at the bottom of the page.
@@ -87,19 +101,19 @@ The PDF generation process is automated using `make`.
 An experimental workflow exists to trace vehicle features (like camera covers) from scans using Gemini and OpenCV. The entire pipeline is automated via `make`.
 
 1.  **Preparation**: Place a scan of the car's ADAS camera cover (after removing it from the vehicle) with a card-sized object for scale (e.g., gift card, library card, or any standard credit card-sized item) in `vehicles/<vehicle_name>/raw/scan.png`.
-2.  **Annotate**: Run `make annotate-<vehicle_name>` (e.g. `make annotate-2020_corolla`) to trigger the AI annotation. `tools/vehicle_specific/annotate_scan.py` uses Gemini 3 Pro (image-preview) to highlight features (Magenta) and scale cards (Cyan), saving to `vehicles/<vehicle_name>/ai/annotated_scan.png`.
+2.  **Annotate**: Run `make annotate-<vehicle_name>` (e.g. `make annotate-2020_corolla`) to trigger the AI annotation. `tools/vehicle_specific/annotate_scan.py` uses `gemini-3-pro-image-preview` to highlight features (Magenta) and scale cards (Cyan), saving to `vehicles/<vehicle_name>/ai/annotated_scan.png`.
 3.  **Process**: `tools/vehicle_specific/process_annotation.py` extracts the scale (pixels/mm) and the raw trace from the annotated image to `vehicles/<vehicle_name>/gen/raw_trace.svg`.
 4.  **Refine**: `tools/vehicle_specific/refine_trace.py` rotates, centers, and symmetrizes the trace for engineering use, saving to `vehicles/<vehicle_name>/gen/trace.svg`.
 5.  **Offsets**: `tools/vehicle_specific/generate_offsets.py` adds clearance lines and the centerline, creating the final `vehicles/<vehicle_name>/gen/offsets.svg` used in the template.
-6.  **Verify**: `make verify` runs `tools/verify_build.py`, which uses **Gemini 3 Flash** to visually inspect all generated PDFs/PNGs. It checks for the presence of red clearance lines, correct labels, and legible text, failing the build if any template is suspect.
+6.  **Verify**: `make verify` runs `tools/verify_build.py`, which uses `gemini-3-flash-preview` to visually inspect all generated PDFs/PNGs. It checks for the presence of red clearance lines, correct labels, and legible text, failing the build if any template is suspect.
 
 ### Specifications
 
 *   **Fonts**: Uses `DejaVu Sans Mono`.
-*   **Clearance Zones**: Dashed red arcs indicate required clearance radii at **300mm**, **400mm**, **500mm**, and **600mm**.
+*   **Clearance Zones**: Dashed red arcs indicate required clearance radii (default universal templates use **500mm** to **1000mm**).
 *   **Clearance Offsets**:
-    *   **comma three / 3x**: **35mm** from top of mount to start of clearance zone.
-    *   **comma four**: **44mm** from top of mount to start of clearance zone.
+    *   **Universal templates**: **45mm**, **50mm**, **55mm**, **60mm**, **65mm** variants for each mount (comma three, comma 3x, comma four).
+    *   **Vehicle-specific templates** may use different offsets derived from the scan/trace workflow.
 
 ### Tools Required
 

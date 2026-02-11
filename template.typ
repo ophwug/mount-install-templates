@@ -13,7 +13,15 @@
   top-padding: 4cm,
   custom-clearance-svg: none,
 ) = {
-  set page(paper: paper-size, margin: 1cm, flipped: true)
+  let page-grid = tiling(size: (5mm, 5mm), {
+    rect(width: 5mm, height: 5mm, stroke: (thickness: 0.1pt, paint: black))
+  })
+  set page(
+    paper: paper-size,
+    margin: 1cm,
+    flipped: true,
+    background: place(top + left, rect(width: 100%, height: 100%, fill: page-grid)),
+  )
   set text(font: "DejaVu Sans Mono", size: 12pt)
 
   // Helper to format length in mm
@@ -37,14 +45,6 @@
       let total-height = size.height + clearance-offset + top-padding
 
       block(width: block-width, height: total-height, stroke: none, clip: true)[
-
-        // -------------------------------------------------------------
-        // Background Grid (5mm x 5mm)
-        // -------------------------------------------------------------
-        #let grid-pattern = tiling(size: (5mm, 5mm))[
-          #rect(width: 5mm, height: 5mm, stroke: (thickness: 0.1pt, paint: black))
-        ]
-        #place(top + left, rect(width: 100%, height: 100%, fill: grid-pattern))
 
         // -------------------------------------------------------------
         // Coordinates (All relative to TOP center)
@@ -172,64 +172,70 @@
         gutter: 1cm,
         align: horizon,
         // Column 1: Print Instructions & Vertical Credit Card Scale
-        stack(dir: ttb, spacing: 0.3cm)[
-          #set align(center)
-          #text(size: 9pt)[
-            *Print at 100%.* Do not scale to fit. \
-            Place credit card here to verify scale.
-          ]
-          #box(width: 53.98mm, height: 85.60mm, radius: 3.18mm, stroke: 1pt + black)[
-            #align(center + horizon)[
-              Credit Card Scale \
-              (54mm x 86mm) \
-              #v(0.1cm)
-              #text(size: 8pt, fill: gray)[You won't be charged]
+        box(fill: white, radius: 4mm, inset: 4mm)[
+          #stack(dir: ttb, spacing: 0.3cm)[
+            #set align(center)
+            #text(size: 9pt)[
+              *Print at 100%.* \
+              Do not scale to fit. \
+              Place credit card in box \
+              to verify scale.
+            ]
+            #box(width: 53.98mm, height: 85.60mm, radius: 3.18mm, stroke: 1pt + black)[
+              #align(center + horizon)[
+                Credit Card Scale \
+                (54mm x 86mm) \
+                #v(0.1cm)
+                #text(size: 8pt, fill: gray)[You won't be charged]
+              ]
             ]
           ]
         ],
         // Column 2: Intentionally clear for templates needing additional height
         [],
         // Column 3: Title and Instructions
-        stack(dir: ttb, spacing: 0.2cm)[
-          #set align(center)
+        box(fill: white, radius: 4mm, inset: 4mm)[
+          #stack(dir: ttb, spacing: 0.2cm)[
+            #set align(center)
 
-          // Fit-to-width helper
-          #let fit-text(content, max-width) = context {
-            let size = measure(content)
-            let scale-factor = if size.width > max-width { max-width / size.width * 100% } else { 100% }
-            scale(x: scale-factor, y: scale-factor, origin: center, content)
-          }
+            // Fit-to-width helper
+            #let fit-text(content, max-width) = context {
+              let size = measure(content)
+              let scale-factor = if size.width > max-width { max-width / size.width * 100% } else { 100% }
+              scale(x: scale-factor, y: scale-factor, origin: center, content)
+            }
 
-          #layout(bounds => {
-            fit-text(box(text(size: 18pt, weight: "bold")[#mount-name]), bounds.width)
-            v(-0.2em)
-            text(size: 18pt, weight: "bold")[Install Template]
-          })
+            #layout(bounds => {
+              fit-text(box(text(size: 18pt, weight: "bold")[#mount-name]), bounds.width)
+              v(-0.2em)
+              text(size: 18pt, weight: "bold")[Install Template]
+            })
 
-          #let paper-display = if paper-size == "us-letter" { "US Letter" } else if paper-size == "a4" { "A4" } else {
-            paper-size
-          }
-          #text(size: 8pt)[Paper Size: #paper-display]
+            #let paper-display = if paper-size == "us-letter" { "US Letter" } else if paper-size == "a4" { "A4" } else {
+              paper-size
+            }
+            #text(size: 8pt)[Paper Size: #paper-display]
 
-          #v(0.1cm)
-          #text(size: 10pt)[Instructions are at the QR code]
-
-          #let instructions-url = "https://github.com/ophwug/mount-install-templates?tab=readme-ov-file#how-to-use"
-
-          #v(0.1cm)
-          #qr-code(instructions-url, width: 2cm)
-
-          #v(0.1cm)
-          #link(instructions-url)[#text(size: 7pt)[github.com/ophwug/mount-install-templates]]
-
-          #if (
-            (commit-hash != none and commit-hash != "") or (commit-date != none and commit-date != "")
-          ) [
             #v(0.1cm)
-            #text(size: 6pt)[
-              #if revision != none and revision != "" [Rev: #revision | ]
-              #if commit-hash != none and commit-hash != "" [Commit: #commit-hash | ]
-              #if commit-date != none and commit-date != "" [Date: #commit-date]
+            #text(size: 10pt)[Instructions are at the QR code]
+
+            #let instructions-url = "https://github.com/ophwug/mount-install-templates?tab=readme-ov-file#how-to-use"
+
+            #v(0.1cm)
+            #qr-code(instructions-url, width: 2cm)
+
+            #v(0.1cm)
+            #link(instructions-url)[#text(size: 7pt)[github.com/ophwug/mount-install-templates]]
+
+            #if (
+              (commit-hash != none and commit-hash != "") or (commit-date != none and commit-date != "")
+            ) [
+              #v(0.1cm)
+              #text(size: 6pt)[
+                #if revision != none and revision != "" [Rev: #revision | ]
+                #if commit-hash != none and commit-hash != "" [Commit: #commit-hash | ]
+                #if commit-date != none and commit-date != "" [Date: #commit-date]
+              ]
             ]
           ]
         ],
