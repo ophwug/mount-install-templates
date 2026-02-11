@@ -171,22 +171,25 @@
         columns: (1fr, 1fr, 1fr),
         gutter: 1cm,
         align: horizon,
-        // Column 1: Print Instructions & Credit Card Scale
+        // Column 1: Print Instructions & Vertical Credit Card Scale
         stack(dir: ttb, spacing: 0.3cm)[
           #set align(center)
           #text(size: 9pt)[
             *Print at 100%.* Do not scale to fit. \
             Place credit card here to verify scale.
           ]
-          #box(width: 85.60mm, height: 53.98mm, radius: 3.18mm, stroke: 1pt + black)[
+          #box(width: 53.98mm, height: 85.60mm, radius: 3.18mm, stroke: 1pt + black)[
             #align(center + horizon)[
-              Credit Card Scale (86mm x 54mm) \
+              Credit Card Scale \
+              (54mm x 86mm) \
               #v(0.1cm)
               #text(size: 8pt, fill: gray)[You won't be charged]
             ]
           ]
         ],
-        // Column 2: Title and Instructions
+        // Column 2: Intentionally clear for templates needing additional height
+        [],
+        // Column 3: Title and Instructions
         stack(dir: ttb, spacing: 0.2cm)[
           #set align(center)
 
@@ -199,7 +202,7 @@
 
           #layout(bounds => {
             fit-text(box(text(size: 18pt, weight: "bold")[#mount-name]), bounds.width)
-            v(-0.2em) // Adjust spacing if scale reduced height significantly? Or just standard spacing
+            v(-0.2em)
             text(size: 18pt, weight: "bold")[Install Template]
           })
 
@@ -209,7 +212,6 @@
           #text(size: 8pt)[Paper Size: #paper-display]
 
           #v(0.1cm)
-
           #text(size: 10pt)[Instructions are at the QR code]
 
           #let instructions-url = "https://github.com/ophwug/mount-install-templates?tab=readme-ov-file#how-to-use"
@@ -229,20 +231,6 @@
               #if commit-hash != none and commit-hash != "" [Commit: #commit-hash | ]
               #if commit-date != none and commit-date != "" [Date: #commit-date]
             ]
-          ]
-        ],
-        // Column 3: "Why" and "Tape" Instructions
-        stack(dir: ttb, spacing: 0.3cm)[
-          #set align(left)
-          #text(
-            weight: "bold",
-          )[Tape template to the OUTSIDE of your windshield with the printed side facing inside! Use a helper or bright light to help align. Or cut it up to tape inside!]
-
-          #text(size: 9pt)[
-            This is a template to help people mount comma devices in the most standardized way for maximum performance.
-
-            *Unofficial, community-made templates.* Not affiliated with comma.ai.
-            Please report issues and suggestions at the GitHub repository.
           ]
         ],
       )
