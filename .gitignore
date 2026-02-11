@@ -2,6 +2,9 @@
 build/
 build/*.svg
 *.pdf
+gh_build/
+gh_build_extracted/
+debug_gh_verify.scad
 
 # System
 .DS_Store

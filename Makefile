@@ -17,33 +17,31 @@ C4_MOUNT_STEM := c4_mount
 # All Mounts
 ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
 
-# Output Lists
-PDFS := $(patsubst %.stl,$(BUILD_DIR)/%_letter.pdf,$(notdir $(ALL_MOUNTS)))
-PNGS := $(patsubst %.stl,$(BUILD_DIR)/%_letter.png,$(notdir $(ALL_MOUNTS)))
-PDFS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.pdf,$(notdir $(ALL_MOUNTS)))
-PNGS_A4 := $(patsubst %.stl,$(BUILD_DIR)/%_a4.png,$(notdir $(ALL_MOUNTS)))
-PNGS_BW := $(patsubst %.stl,$(BUILD_DIR)/%_letter_bw.png,$(notdir $(ALL_MOUNTS)))
-PNGS_A4_BW := $(patsubst %.stl,$(BUILD_DIR)/%_a4_bw.png,$(notdir $(ALL_MOUNTS)))
+# Universal variant lists (3 mounts x 5 offsets x 2 paper sizes)
+UNIVERSAL_MOUNTS := c3 c3x c4
+UNIVERSAL_OFFSETS_MM := 45 50 55 60 65
+UNIVERSAL_VARIANT_STEMS := $(foreach mount,$(UNIVERSAL_MOUNTS),$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(mount)_mount_$(offset)mm))
+
+PDFS := $(addprefix $(BUILD_DIR)/,$(addsuffix _letter.pdf,$(UNIVERSAL_VARIANT_STEMS)))
+PNGS := $(addprefix $(BUILD_DIR)/,$(addsuffix _letter.png,$(UNIVERSAL_VARIANT_STEMS)))
+PDFS_A4 := $(addprefix $(BUILD_DIR)/,$(addsuffix _a4.pdf,$(UNIVERSAL_VARIANT_STEMS)))
+PNGS_A4 := $(addprefix $(BUILD_DIR)/,$(addsuffix _a4.png,$(UNIVERSAL_VARIANT_STEMS)))
+PNGS_BW := $(addprefix $(BUILD_DIR)/,$(addsuffix _letter_bw.png,$(UNIVERSAL_VARIANT_STEMS)))
+PNGS_A4_BW := $(addprefix $(BUILD_DIR)/,$(addsuffix _a4_bw.png,$(UNIVERSAL_VARIANT_STEMS)))
 CUTTING_TEMPLATES := $(BUILD_DIR)/c3_cutting_template.stl $(BUILD_DIR)/c3x_cutting_template.stl $(BUILD_DIR)/c4_cutting_template.stl \
                      $(BUILD_DIR)/c3x_cutting_template_solid.stl $(BUILD_DIR)/c4_cutting_template_solid.stl
 CUTTING_PREVIEWS := $(BUILD_DIR)/c3_cutting_template_preview.png $(BUILD_DIR)/c3x_cutting_template_preview.png $(BUILD_DIR)/c4_cutting_template_preview.png
 
-# Manual overrides for comma four naming
-PDFS := $(subst four_mount,c4_mount,$(PDFS))
-PNGS := $(subst four_mount,c4_mount,$(PNGS))
-PDFS_A4 := $(subst four_mount,c4_mount,$(PDFS_A4))
-PNGS_A4 := $(subst four_mount,c4_mount,$(PNGS_A4))
-PNGS_BW := $(subst four_mount,c4_mount,$(PNGS_BW))
-PNGS_A4_BW := $(subst four_mount,c4_mount,$(PNGS_A4_BW))
-
-
 # Keep intermediate SVGs, TYP files, and oriented STLs
-.SECONDARY: $(PDFS:.pdf=.svg) $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(BUILD_DIR)/c3_mount.stl $(BUILD_DIR)/c3x_mount.stl $(BUILD_DIR)/c4_mount.stl $(BUILD_DIR)/c3_mount.svg $(BUILD_DIR)/c3x_mount.svg $(BUILD_DIR)/c4_mount.svg
+.SECONDARY: $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(BUILD_DIR)/c3_mount.stl $(BUILD_DIR)/c3x_mount.stl $(BUILD_DIR)/c4_mount.stl $(BUILD_DIR)/c3_mount.svg $(BUILD_DIR)/c3x_mount.svg $(BUILD_DIR)/c4_mount.svg
 
-.PHONY: all clean update-hardware debug
+.PHONY: all clean update-hardware debug universal-variants
 
 all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW) vehicles cutting-templates cutting-previews
 	@echo "All templates built successfully."
+
+universal-variants: $(PDFS) $(PDFS_A4)
+	@echo "Universal variant PDFs built successfully."
 
 cutting-templates: $(CUTTING_TEMPLATES)
 	@echo "All cutting templates built successfully."
@@ -102,18 +100,6 @@ $(BUILD_DIR)/%.svg: $(BUILD_DIR)/%.stl
 OFFSET=60mm
 MIN_RADIUS=500mm
 TOP_PADDING=2cm
-
-# Comma Three (35mm)
-$(BUILD_DIR)/c3_mount_letter.typ $(BUILD_DIR)/c3_mount_letter_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3_mount_letter.typ $(BUILD_DIR)/c3_mount_letter_landscape.typ $(BUILD_DIR)/c3_mount_a4.typ $(BUILD_DIR)/c3_mount_a4_landscape.typ: NAME="comma three"
-
-# Comma Three X (35mm)
-$(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: OFFSET=35mm
-$(BUILD_DIR)/c3x_mount_letter.typ $(BUILD_DIR)/c3x_mount_letter_landscape.typ $(BUILD_DIR)/c3x_mount_a4.typ $(BUILD_DIR)/c3x_mount_a4_landscape.typ: NAME="comma 3x"
-
-# Comma Four (80mm)
-$(BUILD_DIR)/c4_mount_letter.typ $(BUILD_DIR)/c4_mount_letter_landscape.typ $(BUILD_DIR)/c4_mount_a4.typ $(BUILD_DIR)/c4_mount_a4_landscape.typ: OFFSET=44mm
-$(BUILD_DIR)/c4_mount_letter.typ $(BUILD_DIR)/c4_mount_letter_landscape.typ $(BUILD_DIR)/c4_mount_a4.typ $(BUILD_DIR)/c4_mount_a4_landscape.typ: NAME="comma four"
 
 # Cutting templates
 $(BUILD_DIR)/c3_cutting_template.stl: NAME=comma three
@@ -178,14 +164,20 @@ GIT_DATE := $(shell git log -1 --format=%cd --date=short)
 # Convert git@github.com:org/repo.git to https://github.com/org/repo
 GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com:/https:\/\/github.com\//' -e 's/\.git$$//')
 
-# Generate Typst source
-$(BUILD_DIR)/%_letter.typ: $(BUILD_DIR)/%.svg template.typ
-	@echo "Generating Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+# Universal variant Typst generation
+define generate_universal_variant
+$(BUILD_DIR)/$(1)_mount_$(3)mm_letter.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
+	@echo "Generating Typst source for $(1)_mount_$(3)mm..."
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2)", svg-file: "$$<", clearance-offset: $(3)mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
-$(BUILD_DIR)/%_a4.typ: $(BUILD_DIR)/%.svg template.typ
-	@echo "Generating A4 Typst source for $*..."
-	@echo '#import "/template.typ": template; #template(mount-name: $(NAME), svg-file: "$<", clearance-offset: $(OFFSET), repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $@
+$(BUILD_DIR)/$(1)_mount_$(3)mm_a4.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
+	@echo "Generating A4 Typst source for $(1)_mount_$(3)mm..."
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2)", svg-file: "$$<", clearance-offset: $(3)mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+endef
+
+$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(eval $(call generate_universal_variant,c3,comma three,$(offset))))
+$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(eval $(call generate_universal_variant,c3x,comma 3x,$(offset))))
+$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(eval $(call generate_universal_variant,c4,comma four,$(offset))))
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
