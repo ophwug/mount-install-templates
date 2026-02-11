@@ -115,8 +115,10 @@
           #let cl-caption = text(size: 8pt)[Vehicle's Centerline]
           #let cl-icon-block = stack(dir: ttb, spacing: 2mm, align(center, cl-img), align(center, cl-caption))
 
-          #place(dx: -5mm, dy: (mount-top-y + line-y) / 2 + 10mm)[
-            #place(right + horizon)[
+          // Keep this helper top-anchored just below the top reference line so it never intrudes into the red housing section.
+          #let centerline-helper-y = line-y + 3mm
+          #place(dx: -5mm, dy: centerline-helper-y)[
+            #place(right + top)[
               #stack(dir: ltr, spacing: 5mm, align(horizon, cl-icon-block), align(horizon, cl-text))
             ]
           ]
