@@ -177,14 +177,19 @@
         box(fill: white, radius: 4mm, inset: 4mm)[
           #stack(dir: ttb, spacing: 0.3cm)[
             #set align(center)
-            #text(size: 9pt)[
-              *Print at 100%.* \
-              Do not scale to fit. \
-              Place credit card in box \
-              to verify scale.
-            ]
             #box(width: 53.98mm, height: 85.60mm, radius: 3.18mm, stroke: 1pt + black)[
-              #align(center + horizon)[
+              #align(center + top)[
+                #v(0.45cm)
+                #text(size: 8.5pt)[
+                  *Print at 100%.* \
+                  Do not scale to fit.
+                ]
+                #v(0.2cm)
+                #text(size: 8pt)[
+                  Place credit card in box \
+                  to verify scale.
+                ]
+                #v(2.0cm)
                 Credit Card Scale \
                 (54mm x 86mm) \
                 #v(0.1cm)
