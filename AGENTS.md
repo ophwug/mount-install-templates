@@ -1,4 +1,5 @@
 * Please keep the `.gitignore` file up to date. Do not leave cruft in the repository that `git status` will show.
+* After any functional/output changes (filenames, variants, build targets, workflow, layout, behavior), update `README.md` immediately and carefully so docs stay fully accurate. This applies to all agents, including Codex.
 * **NEVER** use deprecated models (e.g., `gemini-1.5-pro` or similar). Always use the latest available models as specified below.
 * If Python is to be used, please use `uv` to manage dependencies.
 * Use `uvx ruff check . --select F841,F401 --fix` to clean up unused variables and imports.
