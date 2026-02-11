@@ -196,6 +196,7 @@ $(BUILD_DIR)/%_bw.png: $(BUILD_DIR)/%.png
 
 VEHICLES_DIR := vehicles
 VEHICLES := $(notdir $(wildcard $(VEHICLES_DIR)/*))
+VEHICLE_VARIANT_OFFSETS_MM := 45 50 55 60 65
 
 # Target lists
 VEHICLE_PDFS :=
@@ -237,6 +238,17 @@ $(BUILD_DIR)/vehicles/$(1)/%.png: $(BUILD_DIR)/vehicles/$(1)/%.typ
 endef
 
 $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
+
+# Corolla variant matrix (5 offsets x 3 mounts x 2 paper sizes)
+define generate_corolla_variant_targets
+VEHICLE_PDFS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.pdf $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.pdf
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4_bw.png
+endef
+
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c3,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c3x,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c4,$(offset))))
 
 vehicles: $(VEHICLE_PDFS) $(VEHICLE_PNGS)
 
@@ -284,6 +296,22 @@ define generate_typst
 	$(MKDIR) $(dir $@)
 	@echo '#import "/vehicles/$*/template.typ": template; #template(mount-name: "$(MOUNT_NAME_PREFIX) ($(shell cat vehicles/$*/name.txt))", svg-file: "$(SVG_SOURCE)", clearance-offset: $(OFFSET), custom-clearance-svg: "/vehicles/$*/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING)$(PAPER_SIZE_ARG))' > $@
 endef
+
+define generate_corolla_variant_typst
+$(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_letter.typ: $(VEHICLES_DIR)/2020_corolla/gen/offsets.svg $(VEHICLES_DIR)/2020_corolla/template.typ $(BUILD_DIR)/$(1)_mount.svg
+	@echo "Generating Typst for 2020_corolla/$(1)_mount_$(3)mm_letter..."
+	$(MKDIR) $(dir $$@)
+	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+
+$(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/2020_corolla/gen/offsets.svg $(VEHICLES_DIR)/2020_corolla/template.typ $(BUILD_DIR)/$(1)_mount.svg
+	@echo "Generating Typst for 2020_corolla/$(1)_mount_$(3)mm_a4..."
+	$(MKDIR) $(dir $$@)
+	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
+endef
+
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c3,comma three,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c3x,comma 3x,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c4,comma four,$(offset))))
 
 # Letter Landscape
 $(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c3_mount.svg
