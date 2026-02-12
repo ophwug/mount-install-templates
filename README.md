@@ -92,6 +92,7 @@ This project generates PDF mount installation templates to help mount comma hard
 *   If the card fits exactly within the box, the scale is correct. **If it doesn't fit, do not use the template.**
 
 ### 3. Installation & Positioning
+*   For official install steps and cable routing guidance, use the [comma.ai setup guide](https://comma.ai/setup).
 *   **Recommended Method (Outside Taping)**: Tape the template to the **outside** of the windshield! This makes it much easier to align with the camera/mirror from the inside without the paper getting in the way of your level or tape measure. Since you can't see the other side, you may want to have a very bright light source inside the car to see the template or a helper.
 *   **Alternative Method (Cutting)**: If taping to the outside doesn't work for you, you can cut the template however you see fit. Usually, cutting around the mount footprint and leaving the clearance arcs intact is best.
 *   **Clearance Zone**: The red dashed arcs indicate the required clearance from the **top of the mount** to the **vehicle's original camera housing**.
