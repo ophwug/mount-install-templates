@@ -17,10 +17,11 @@ C4_MOUNT_STEM := c4_mount
 # All Mounts
 ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
 
-# Universal variant lists (3 mounts x 5 offsets x 2 paper sizes)
+# Universal variant lists (paired replacements)
 UNIVERSAL_MOUNTS := c3 c3x c4
-UNIVERSAL_OFFSETS_MM := 45 50 55 60 65
-UNIVERSAL_VARIANT_STEMS := $(foreach mount,$(UNIVERSAL_MOUNTS),$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(mount)_mount_$(offset)mm))
+UNIVERSAL_PAIRED_OFFSETS_MM := 45_75 50_80 55_85 60_90 65_95 70_100 75_105 80_110 85_115 90_120 95_125
+UNIVERSAL_PAIRED_VARIANT_STEMS := $(foreach mount,$(UNIVERSAL_MOUNTS),$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(mount)_mount_$(pair)mm))
+UNIVERSAL_VARIANT_STEMS := $(UNIVERSAL_PAIRED_VARIANT_STEMS)
 
 PDFS := $(addprefix $(BUILD_DIR)/,$(addsuffix _letter.pdf,$(UNIVERSAL_VARIANT_STEMS)))
 PNGS := $(addprefix $(BUILD_DIR)/,$(addsuffix _letter.png,$(UNIVERSAL_VARIANT_STEMS)))
@@ -164,20 +165,19 @@ GIT_DATE := $(shell git log -1 --format=%cd --date=short)
 # Convert git@github.com:org/repo.git to https://github.com/org/repo
 GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com:/https:\/\/github.com\//' -e 's/\.git$$//')
 
-# Universal variant Typst generation
-define generate_universal_variant
+define generate_universal_paired_variant
 $(BUILD_DIR)/$(1)_mount_$(3)mm_letter.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
-	@echo "Generating Typst source for $(1)_mount_$(3)mm..."
-	@echo '#import "/template.typ": template; #template(mount-name: "$(2)", svg-file: "$$<", clearance-offset: $(3)mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+	@echo "Generating paired Typst source for $(1)_mount_$(3)mm..."
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
 $(BUILD_DIR)/$(1)_mount_$(3)mm_a4.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
-	@echo "Generating A4 Typst source for $(1)_mount_$(3)mm..."
-	@echo '#import "/template.typ": template; #template(mount-name: "$(2)", svg-file: "$$<", clearance-offset: $(3)mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+	@echo "Generating paired A4 Typst source for $(1)_mount_$(3)mm..."
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 endef
 
-$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(eval $(call generate_universal_variant,c3,comma three,$(offset))))
-$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(eval $(call generate_universal_variant,c3x,comma 3x,$(offset))))
-$(foreach offset,$(UNIVERSAL_OFFSETS_MM),$(eval $(call generate_universal_variant,c4,comma four,$(offset))))
+$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_universal_paired_variant,c3,comma three,$(pair))))
+$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_universal_paired_variant,c3x,comma 3x,$(pair))))
+$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_universal_paired_variant,c4,comma four,$(pair))))
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ

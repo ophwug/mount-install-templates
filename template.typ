@@ -4,6 +4,7 @@
   mount-name: "Mount",
   svg-file: "dummy.svg",
   clearance-offset: 60mm,
+  secondary-clearance-offset: none,
   repo-url: none,
   commit-hash: none,
   revision: none,
@@ -40,9 +41,15 @@
       // Layout Constants
       // 100% width might be constrained by margin, which is fine.
       let block-width = 100%
+      let has-secondary-offset = secondary-clearance-offset != none and secondary-clearance-offset != clearance-offset
+      let max-clearance-offset = if has-secondary-offset and secondary-clearance-offset > clearance-offset {
+        secondary-clearance-offset
+      } else {
+        clearance-offset
+      }
       // Ensure height accommodates everything.
       // We add some space at the top (8cm) to show the arcs "radiating upwards"
-      let total-height = size.height + clearance-offset + top-padding
+      let total-height = size.height + max-clearance-offset + top-padding
 
       block(width: block-width, height: total-height, stroke: none, clip: true)[
 
@@ -50,16 +57,28 @@
         // Coordinates (All relative to TOP center)
         // -------------------------------------------------------------
         #let line-y = top-padding
-        #let mount-top-y = line-y + clearance-offset
-
+        #let primary-mount-top-y = line-y + clearance-offset
+        #let secondary-mount-top-y = if has-secondary-offset { line-y + secondary-clearance-offset } else { none }
         // -------------------------------------------------------------
         // 1. Mount (Centered below line)
         // -------------------------------------------------------------
-        #place(top + center, dy: mount-top-y, img)
-        #place(top + center, dy: mount-top-y)[
+        #place(top + center, dy: primary-mount-top-y, img)
+        #if has-secondary-offset [
+          #place(top + center, dy: secondary-mount-top-y, img)
+        ]
+        #place(top + center, dy: primary-mount-top-y)[
           #box(width: size.width, height: size.height)[
             #align(center + horizon)[
               #text(weight: "bold", size: 14pt)[comma \ mount]
+            ]
+          ]
+        ]
+        #if has-secondary-offset [
+          #place(top + center, dy: secondary-mount-top-y)[
+            #box(width: size.width, height: size.height)[
+              #align(center + horizon)[
+                #text(weight: "bold", size: 14pt)[comma \ mount]
+              ]
             ]
           ]
         ]
@@ -67,57 +86,63 @@
         // -------------------------------------------------------------
         // 2. Dimension Line (Mount Top to Clearance Start)
         // -------------------------------------------------------------
-        #place(top + center)[
-          // Line
-          #place(line(start: (0pt, mount-top-y), end: (0pt, line-y), stroke: 1pt + black))
-
-          // Arrowheads
-          #place(dx: 0pt, dy: mount-top-y, polygon(fill: black, (0pt, 0pt), (-4pt, -8pt), (4pt, -8pt)))
-          #place(dx: 0pt, dy: line-y, polygon(fill: black, (0pt, 0pt), (-4pt, 8pt), (4pt, 8pt)))
-
-          // Label
-          #place(dx: 5mm, dy: (mount-top-y + line-y) / 2)[
-            #text(size: 10pt)[#to-mm-str(clearance-offset)]
-          ]
-
-          #let arrow-drawing(outline: false) = {
-            if outline {
-              place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: (thickness: 3pt, paint: white, cap: "round")))
-              place(polygon(
-                fill: white,
-                stroke: (thickness: 2pt, paint: white, join: "round"),
-                (4pt, 0pt),
-                (1.5pt, 3pt),
-                (6.5pt, 3pt),
-              ))
-              place(polygon(
-                fill: white,
-                stroke: (thickness: 2pt, paint: white, join: "round"),
-                (4pt, 14pt),
-                (1.5pt, 11pt),
-                (6.5pt, 11pt),
-              ))
-            }
-            place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: 1pt + black))
-            place(polygon(fill: black, (4pt, 0pt), (1.5pt, 3pt), (6.5pt, 3pt)))
-            place(polygon(fill: black, (4pt, 14pt), (1.5pt, 11pt), (6.5pt, 11pt)))
+        #let arrow-drawing(outline: false) = {
+          if outline {
+            place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: (thickness: 3pt, paint: white, cap: "round")))
+            place(polygon(
+              fill: white,
+              stroke: (thickness: 2pt, paint: white, join: "round"),
+              (4pt, 0pt),
+              (1.5pt, 3pt),
+              (6.5pt, 3pt),
+            ))
+            place(polygon(
+              fill: white,
+              stroke: (thickness: 2pt, paint: white, join: "round"),
+              (4pt, 14pt),
+              (1.5pt, 11pt),
+              (6.5pt, 11pt),
+            ))
           }
+          place(line(start: (4pt, 2pt), end: (4pt, 12pt), stroke: 1pt + black))
+          place(polygon(fill: black, (4pt, 0pt), (1.5pt, 3pt), (6.5pt, 3pt)))
+          place(polygon(fill: black, (4pt, 14pt), (1.5pt, 11pt), (6.5pt, 11pt)))
+        }
 
-          #let arrow-icon = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: false))
-          #let arrow-icon-outlined = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: true))
+        #let arrow-icon = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: false))
+        #let arrow-icon-outlined = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: true))
 
-          #let cl-text = align(right, text(size: 10pt)[Match #arrow-icon line to the right \ with vehicle's centerline])
+        #let cl-text = align(right, text(size: 10pt)[Match #arrow-icon line to the right \ with vehicle's centerline])
 
-          #let cl-img = box(height: 4cm)[
-            #image("img/car_with_centerline.svg", height: 100%)
-            #place(top + center, dy: 12mm, arrow-icon-outlined)
-          ]
-          #let cl-caption = text(size: 8pt)[Vehicle's Centerline]
-          #let cl-icon-block = stack(dir: ttb, spacing: 2mm, align(center, cl-img), align(center, cl-caption))
+        #let cl-img = box(height: 4cm)[
+          #image("img/car_with_centerline.svg", height: 100%)
+          #place(top + center, dy: 12mm, arrow-icon-outlined)
+        ]
+        #let cl-caption = text(size: 8pt)[Vehicle's Centerline]
+        #let cl-icon-block = stack(dir: ttb, spacing: 2mm, align(center, cl-img), align(center, cl-caption))
+
+        #let draw-dimension(offset, mount-top-y, label-gap: 12mm, label-side: "left") = {
+          place(line(start: (0pt, mount-top-y), end: (0pt, line-y), stroke: 1pt + black))
+          place(dx: 0pt, dy: mount-top-y, polygon(fill: black, (0pt, 0pt), (-4pt, -8pt), (4pt, -8pt)))
+          place(dx: 0pt, dy: line-y, polygon(fill: black, (0pt, 0pt), (-4pt, 8pt), (4pt, 8pt)))
+          if label-side == "left" {
+            place(dx: -label-gap, dy: (mount-top-y + line-y) / 2, align(right, text(size: 10pt)[#to-mm-str(offset)]))
+          } else {
+            place(dx: label-gap, dy: (mount-top-y + line-y) / 2, align(left, text(size: 10pt)[#to-mm-str(offset)]))
+          }
+        }
+
+        #place(top + center)[
+          #if has-secondary-offset {
+            draw-dimension(clearance-offset, primary-mount-top-y, label-gap: 12mm, label-side: "left")
+            draw-dimension(secondary-clearance-offset, secondary-mount-top-y, label-gap: 12mm, label-side: "left")
+          } else {
+            draw-dimension(clearance-offset, primary-mount-top-y)
+          }
 
           // Keep this helper top-anchored just below the top reference line so it never intrudes into the red housing section.
           #let centerline-helper-y = line-y + 3mm
-          #place(dx: -5mm, dy: centerline-helper-y)[
+          #place(dx: -15mm, dy: centerline-helper-y)[
             #place(right + top)[
               #stack(dir: ltr, spacing: 5mm, align(horizon, cl-icon-block), align(horizon, cl-text))
             ]
@@ -146,15 +171,15 @@
           // We want trace bottom (at SVG bottom - 5mm) to align with line-y.
           // So SVG bottom should be at line-y + 5mm.
           place(top + center, dy: line-y - svg-size.height + 5mm, svg-data)
-        } else {
-          for r in radii [
+        } else [
+          #for r in radii [
             // Circle Placement
             // top of circle = Center - r = (line-y - r) - r = line-y - 2r
             #place(top + center, dy: line-y - 2 * r)[
               #circle(radius: r, stroke: (thickness: 1pt, dash: "dashed", paint: red))
             ]
           ]
-        }
+        ]
 
         // Add "Vehicle's Original Camera Housing" Text (At the clearance line)
         #place(top + center, dy: line-y - 20mm)[

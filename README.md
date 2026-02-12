@@ -1,6 +1,6 @@
 # Mount Installation Templates for comma.ai devices
 
-![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/c4_mount_45mm_letter.png)
+![Comma Four Template Preview](https://ophwug.github.io/mount-install-templates/c4_mount_45_75mm_letter.png)
 
 *Mounting your comma device correctly the first time for best results.*
 
@@ -19,30 +19,50 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 
 All templates are standardized in **Landscape** orientation for maximum clarity and compatibility.
 
-Universal templates are now available in five clearance-offset variants for each mount:
-**45mm, 50mm, 55mm, 60mm, 65mm**.
-For most installs, start with **45mm** first, then try **50mm** if you need more clearance.
+Universal templates are available as eleven paired clearance-offset variants for each mount:
+**45/75mm, 50/80mm, 55/85mm, 60/90mm, 65/95mm, 70/100mm, 75/105mm, 80/110mm, 85/115mm, 90/120mm, 95/125mm**.
 
-### comma four
-*   **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_45mm_a4.pdf)
-*   **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_50mm_a4.pdf)
-*   **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_55mm_a4.pdf)
-*   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_60mm_a4.pdf)
-*   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_65mm_a4.pdf)
+### Universal Templates
+Each paired page includes two mount footprints with one shared camera-housing reference line, so you can test a closer and deeper placement on one sheet.
 
-### comma 3x
-*   **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_45mm_a4.pdf)
-*   **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_50mm_a4.pdf)
-*   **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_55mm_a4.pdf)
-*   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_60mm_a4.pdf)
-*   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_65mm_a4.pdf)
+#### comma four
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c4_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c4_mount_95_125mm_a4.pdf)
 
-### comma three
-*   **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_45mm_a4.pdf)
-*   **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_50mm_a4.pdf)
-*   **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_55mm_a4.pdf)
-*   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_60mm_a4.pdf)
-*   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_65mm_a4.pdf)
+#### comma 3x
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3x_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3x_mount_95_125mm_a4.pdf)
+
+#### comma three
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_95_125mm_a4.pdf)
 
 ## Vehicle Specific Templates
 
@@ -85,7 +105,7 @@ This project generates PDF mount installation templates to help mount comma hard
 ### 1. Printing
 *   **Print at 100% Scale**: Ensure that "Scale to Fit" or "Shrink to Fit" is **disabled** in your printer settings.
 *   **Paper Size**: Templates are available for both **US Letter** and **A4** paper sizes.
-*   **Choose Offset**: For universal templates, start with **45mm** (recommended), then **50mm** if needed. Use 55/60/65mm only when additional clearance is required.
+*   **Choose Paired Offset**: Start with **45/75** (recommended), then move up through 50/80, 55/85, 60/90, 65/95, 70/100, 75/105, 80/110, 85/115, 90/120, or 95/125 if needed.
 
 ### 2. Verify Scale
 *   Place a standard **credit card or ID card** in the marked box at the bottom of the page.
@@ -130,7 +150,7 @@ An experimental workflow exists to trace vehicle features (like camera covers) f
 *   **Fonts**: Uses `DejaVu Sans Mono`.
 *   **Clearance Zones**: Dashed red arcs indicate required clearance radii (default universal templates use **500mm** to **1000mm**).
 *   **Clearance Offsets**:
-    *   **Universal templates**: **45mm**, **50mm**, **55mm**, **60mm**, **65mm** variants for each mount (comma three, comma 3x, comma four).
+    *   **Universal templates**: **45/75mm**, **50/80mm**, **55/85mm**, **60/90mm**, **65/95mm**, **70/100mm**, **75/105mm**, **80/110mm**, **85/115mm**, **90/120mm**, **95/125mm** variants for each mount (comma three, comma 3x, comma four).
     *   **Vehicle-specific templates** may use different offsets derived from the scan/trace workflow.
 
 ### Tools Required
