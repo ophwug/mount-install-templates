@@ -259,6 +259,18 @@
             #v(0.1cm)
             #link(instructions-url)[#text(size: 7pt)[github.com/ophwug/mount-install-templates]]
 
+            #let issues-url = "https://github.com/ophwug/mount-install-templates/issues"
+            #let discord-url = "https://discord.comma.ai"
+
+            #v(0.15cm)
+            #text(size: 8pt, weight: "bold")[Feedback]
+            #v(0.05cm)
+            #text(size: 7pt)[
+              Report feedback/issues: #link(issues-url)[GitHub Issues] \
+              Report success/failure/experience: #link(discord-url)[discord.comma.ai] (\#installation-help) \
+              Include your vehicle (make/model/year).
+            ]
+
             #if (
               (commit-hash != none and commit-hash != "") or (commit-date != none and commit-date != "")
             ) [
