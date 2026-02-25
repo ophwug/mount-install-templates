@@ -10,4 +10,5 @@ debug_gh_verify.scad
 .DS_Store
 
 # Generated Assets
-vehicles/*/gen/
+vehicles/*/gen/*
+!vehicles/2020_hyundai_santa_fe/gen/offsets.svg

@@ -239,16 +239,25 @@ endef
 
 $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
 
-# Corolla variant matrix (5 offsets x 3 mounts x 2 paper sizes)
+# Vehicle variant matrices (5 offsets x 3 mounts x 2 paper sizes)
 define generate_corolla_variant_targets
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.pdf $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.pdf
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.png
 VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4_bw.png
 endef
 
+define generate_santa_fe_variant_targets
+VEHICLE_PDFS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter.pdf $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4.pdf
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4.png
+VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4_bw.png
+endef
+
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c3,$(offset))))
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c3x,$(offset))))
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c4,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_targets,c3,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_targets,c3x,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_targets,c4,$(offset))))
 
 vehicles: $(VEHICLE_PDFS) $(VEHICLE_PNGS)
 
@@ -264,7 +273,6 @@ $(BUILD_DIR)/vehicles/%/c3x_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3x_mount_a
 $(BUILD_DIR)/vehicles/%/c4_mount_letter.typ $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: MOUNT_NAME_PREFIX="comma four"
 $(BUILD_DIR)/vehicles/%/c4_mount_letter.typ $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: OFFSET=44mm
 $(BUILD_DIR)/vehicles/%/c4_mount_letter.typ $(BUILD_DIR)/vehicles/%/c4_mount_a4.typ: SVG_SOURCE=$(BUILD_DIR)/c4_mount.svg
-
 
 # AI/Gen Pipeline Rules
 $(VEHICLES_DIR)/%/gen/offsets.svg: $(VEHICLES_DIR)/%/gen/trace.svg
@@ -309,9 +317,24 @@ $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/202
 	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
 endef
 
+define generate_santa_fe_variant_typst
+$(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(3)mm_letter.typ: $(VEHICLES_DIR)/2020_hyundai_santa_fe/gen/offsets.svg $(VEHICLES_DIR)/2020_hyundai_santa_fe/template.typ $(BUILD_DIR)/$(1)_mount.svg
+	@echo "Generating Typst for 2020_hyundai_santa_fe/$(1)_mount_$(3)mm_letter..."
+	$(MKDIR) $(dir $$@)
+	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+
+$(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/2020_hyundai_santa_fe/gen/offsets.svg $(VEHICLES_DIR)/2020_hyundai_santa_fe/template.typ $(BUILD_DIR)/$(1)_mount.svg
+	@echo "Generating Typst for 2020_hyundai_santa_fe/$(1)_mount_$(3)mm_a4..."
+	$(MKDIR) $(dir $$@)
+	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
+endef
+
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c3,comma three,$(offset))))
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c3x,comma 3x,$(offset))))
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c4,comma four,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_typst,c3,comma three,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_typst,c3x,comma 3x,$(offset))))
+$(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_typst,c4,comma four,$(offset))))
 
 # Letter Landscape
 $(BUILD_DIR)/vehicles/%/c3_mount_letter.typ: SVG_SOURCE=$(BUILD_DIR)/c3_mount.svg
