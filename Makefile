@@ -334,31 +334,31 @@ $(VEHICLES_DIR)/%/gen/raw_trace.svg: $(VEHICLES_DIR)/%/ai/annotated_scan.png
 # Recipe for generating Typst source
 define generate_typst
 	@echo "Generating Typst for $*..."
-	$(MKDIR) $(dir $@)
+	@mkdir -p "$(@D)"
 	@echo '#import "/vehicles/$*/template.typ": template; #template(mount-name: "$(MOUNT_NAME_PREFIX) ($(shell cat vehicles/$*/name.txt))", footprint-label: "$(MOUNT_NAME_PREFIX)", svg-file: "$(SVG_SOURCE)", clearance-offset: $(OFFSET), custom-clearance-svg: "/vehicles/$*/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING)$(PAPER_SIZE_ARG))' > $@
 endef
 
 define generate_corolla_variant_typst
 $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_letter.typ: $(VEHICLES_DIR)/2020_corolla/gen/offsets.svg $(VEHICLES_DIR)/2020_corolla/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_corolla/$(1)_mount_$(3)mm_letter..."
-	$(MKDIR) $(dir $$@)
+	@mkdir -p "$$(@D)"
 	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
 $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/2020_corolla/gen/offsets.svg $(VEHICLES_DIR)/2020_corolla/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_corolla/$(1)_mount_$(3)mm_a4..."
-	$(MKDIR) $(dir $$@)
+	@mkdir -p "$$(@D)"
 	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
 endef
 
 define generate_santa_fe_variant_typst
 $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(3)mm_letter.typ: $(VEHICLES_DIR)/2020_hyundai_santa_fe/gen/offsets.svg $(VEHICLES_DIR)/2020_hyundai_santa_fe/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_hyundai_santa_fe/$(1)_mount_$(3)mm_letter..."
-	$(MKDIR) $(dir $$@)
+	@mkdir -p "$$(@D)"
 	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
 $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/2020_hyundai_santa_fe/gen/offsets.svg $(VEHICLES_DIR)/2020_hyundai_santa_fe/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_hyundai_santa_fe/$(1)_mount_$(3)mm_a4..."
-	$(MKDIR) $(dir $$@)
+	@mkdir -p "$$(@D)"
 	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
 endef
 
