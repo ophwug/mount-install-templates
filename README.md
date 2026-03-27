@@ -6,14 +6,37 @@
 
 > [!IMPORTANT]
 > **Disclaimer:** These are **NOT** official comma.ai templates. This is a community-made project.
-> Report feedback/issues to [GitHub Issues](https://github.com/ophwug/mount-install-templates/issues), and report success/failure/experience to comma's Discord `#installation-help` channel: [discord.comma.ai](https://discord.comma.ai). Please include your vehicle (make/model/year).
-
+> Report feedback/issues to [GitHub Issues](https://github.com/ophwug/mount-install-templates/issues). For official comma mount templates, report success/failure/experience to comma's Discord `#installation-help` channel: [discord.comma.ai](https://discord.comma.ai). For Konik mount templates, report Konik-specific fitment/usage feedback in the [Konik Discord](https://discord.gg/HCb2DbEKJD). Please include your vehicle (make/model/year).
 
 This tool is inspired by [Apple's Apple Watch band size tool for people who are too cool for straps with holes](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf) and [Toyota's OEM Dashcam installation instructions](https://www.4runner6g.com/forum/threads/oem-toyota-dashcam-diy-how-to-install-instructions-and-how-to-remove-map-dome-light-console.2603/).
 
 * Users can check for correct sizing of generated PDFs with an outline of a credit or ID card.
 * Users can see the list of PDFs in the [Download Templates](#download-templates) section below.
 * We programmatically generate a PDF for each mount's footprint in [commaai/hardware](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
+
+## Konik.ai Notes
+
+[Konik.ai](https://konik.ai/about-us/) is a third-party vendor of openpilot-compatible hardware and accessories, including the Konik A1 and A1M device family.
+
+Konik also sells third-party mount hardware such as [Batman Mounts for A1/C3X/C3](https://konik.ai/shop/batman-mount/) and the [A1M Quick Mount](https://konik.ai/shop/a1m-quick-mount/). The A1M Quick Mount is advertised as compatible with Konik A1M, comma three, comma 3x, A1, and similar clones for device attachment, but its docking/power passthrough features are specific to A1M.
+
+Konik mount templates are sourced from the STL files linked in [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12), specifically the [Konik-ai/open-source-konik-hardware-and-3d-prints](https://github.com/Konik-ai/open-source-konik-hardware-and-3d-prints) repository. The issue follow-up also pointed at the upstream source CAD repo [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock) and its `BatmanDock rev.C` / `Fixed-CAN` release, which exposes named Batman-dock parts such as `Main`, `Backplate`, and `BatmanSimple`.
+
+The important caveat is that Konik's public STL dump does **not** preserve that named part mapping. It only publishes anonymous exports like `Batman-dock_1.stl` through `Batman-dock_7.stl` and `Quickmount_1.stl` through `Quickmount_4.stl`.
+
+Rather than expose that ambiguity directly, this repo now publishes one canonical footprint per Konik mount family:
+
+* `konik_batman`
+* `konik_quickmount`
+
+The current canonical proxies are chosen from the public STL dump based on storefront photos and footprint plausibility:
+
+* `konik_batman` is derived from `Batman-dock_4.stl`
+* `konik_quickmount` is derived from `Quickmount_4.stl`
+
+Raw vendor STL files are still kept under `vendor/konik/` for provenance and future refinement.
+
+Konik.ai also sells a [USB-C cable](https://konik.ai/shop/usb-c-cable/). As noted in the related Konik documentation PR in `ophwug/docs`, Konik's cable and port setup differ physically from comma.ai's and Mr. One's recessed-port hardware, but the cable itself is not especially unique under the branding, so compatible alternatives may also work if they match your hardware's mechanical fit and electrical requirements.
 
 ## Download Templates
 
@@ -63,6 +86,34 @@ Each paired page includes two mount footprints with one shared camera-housing re
 *   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_85_115mm_a4.pdf)
 *   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_90_120mm_a4.pdf)
 *   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_95_125mm_a4.pdf)
+
+#### Konik.ai third-party mounts
+Konik universal templates use the same paired clearance-offset variants and paper sizes as the official comma templates above.
+
+These stems are normalized user-facing mount families, not raw STL export names.
+
+Quick Mount templates use a convex-hull footprint projection rather than a literal bottom-plane cut. Konik's product photos show a dock body with a recessed underside/open channel, and the raw STL projection produced an overly sparse `U` shape that likely reflects the plastic shell rather than the practical adhesive/contact patch on glass.
+
+Konik-specific fitment and usage feedback should be reported in the [Konik Discord](https://discord.gg/HCb2DbEKJD), not comma's `#installation-help` channel.
+
+Available Konik mount stems:
+
+* `konik_batman`
+* `konik_quickmount`
+
+For each stem above, generated downloads follow this naming pattern:
+
+* `https://ophwug.github.io/mount-install-templates/<stem>_mount_<pair>mm_letter.pdf`
+* `https://ophwug.github.io/mount-install-templates/<stem>_mount_<pair>mm_a4.pdf`
+
+Where `<pair>` is one of `45_75`, `50_80`, `55_85`, `60_90`, `65_95`, `70_100`, `75_105`, `80_110`, `85_115`, `90_120`, or `95_125`.
+
+Examples:
+
+* [konik_batman 45/75 US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_letter.pdf)
+* [konik_batman 45/75 A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_a4.pdf)
+* [konik_quickmount 45/75 US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_letter.pdf)
+* [konik_quickmount 45/75 A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_a4.pdf)
 
 ## Vehicle Specific Templates
 
@@ -151,9 +202,11 @@ This project generates PDF mount installation templates to help mount comma hard
 
 The PDF generation process is automated using `make`.
 
-1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule.
+1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule and the Konik.ai STL repository linked from [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12).
+    For Batman-dock, the upstream source CAD lives in [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock), but the public Konik STL dump does not preserve those source part names, so this repo selects one canonical Batman proxy and one canonical Quick Mount proxy from the public exports.
 2.  **Orientation**: The `tools/orient_stl.py` Python script loads each STL and rotates it to align the mounting surface with the XY plane (flat).
 3.  **Projection**: `openscad` is invoked with `tools/project_mount.scad` to project the very bottom of the 3D geometry onto a 2D plane, exporting the footprint as an SVG.
+    Konik Quick Mount is an exception: it uses `tools/project_mount_hull.scad` so recessed dock geometry is simplified to a fuller convex-hull install footprint.
 4.  **Composition**: `typst` compiles `template.typ`, which combines the generated SVG footprint with:
     -   A credit card outline for scale validation.
     -   Clearance zone markings.

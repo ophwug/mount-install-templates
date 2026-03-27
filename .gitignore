@@ -9,6 +9,12 @@ debug_gh_verify.scad
 # System
 .DS_Store
 
+# Local env / tooling
+.env
+.python-version
+.ruff_cache/
+.venv/
+
 # Generated Assets
 vehicles/*/gen/*
 !vehicles/2020_hyundai_santa_fe/gen/offsets.svg
