@@ -14,22 +14,6 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 * Users can see the list of PDFs in the [Download Templates](#download-templates) section below.
 * We programmatically generate a PDF for each mount's footprint in [commaai/hardware](https://github.com/commaai/hardware) for comma three, comma 3x, and comma four.
 
-## Konik.ai Notes
-
-[Konik.ai](https://konik.ai/about-us/) is a third-party vendor of openpilot-compatible hardware, including the Konik A1 and A1M device family. This repo includes template support for their [Batman Mount](https://konik.ai/shop/batman-mount/) and [A1M Quick Mount](https://konik.ai/shop/a1m-quick-mount/) using the STL dump linked from [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12) and the related upstream CAD/release references from [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock).
-
-The public Konik STL dump does not preserve clean part names, so this repo publishes one canonical footprint per Konik mount family instead of exposing the raw numbered exports:
-
-* `konik_batman`
-* `konik_quickmount`
-
-Current proxies:
-
-* `konik_batman` is derived from `Batman-dock_4.stl`
-* `konik_quickmount` is derived from `Quickmount_4.stl`
-
-Quick Mount uses a convex-hull footprint instead of a literal bottom-plane cut, because the dock underside is recessed and the raw projection was too sparse to be a good install proxy. Raw vendor files are still kept under `vendor/konik/` for provenance, and Konik-specific fitment feedback should go to the [Konik Discord](https://discord.gg/HCb2DbEKJD).
-
 ## Download Templates
 
 All templates are standardized in **Landscape** orientation for maximum clarity and compatibility.
@@ -188,11 +172,42 @@ This project generates PDF mount installation templates to help mount comma hard
 *   Mark the corners on the glass (e.g., with a dry-erase marker) or use painters tape to temporarily hold the template in place.
 *   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
 
+## Konik.ai Notes
+
+Konik support in this repo is for two third-party mount families:
+
+* `konik_batman`
+* `konik_quickmount`
+
+Source:
+
+* [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12)
+* [Konik-ai/open-source-konik-hardware-and-3d-prints](https://github.com/Konik-ai/open-source-konik-hardware-and-3d-prints)
+* [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock)
+
+Why the names are normalized:
+
+* Konik's public STL dump does not preserve clean part names.
+* This repo publishes one canonical footprint per Konik mount family instead of exposing the raw numbered exports.
+
+Current proxies:
+
+* `konik_batman` is derived from `Batman-dock_4.stl`
+* `konik_quickmount` is derived from `Quickmount_4.stl`
+
+Notes:
+
+* Quick Mount uses a convex-hull footprint instead of a literal bottom-plane cut, because the dock underside is recessed and the raw projection was too sparse to be a good install proxy.
+* Raw vendor files are still kept under `vendor/konik/` for provenance.
+* Konik-specific fitment feedback should go to the [Konik Discord](https://discord.gg/HCb2DbEKJD).
+
 ## Technical Details
 
 ### Build Pipeline
 
 The PDF generation process is automated using `make`.
+
+In GitHub Actions, the Pages workflow uses `make -j "$(nproc)"` so build parallelism follows the runner's actual CPU count instead of a hardcoded job limit.
 
 1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule and the Konik.ai STL repository linked from [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12).
     For Batman-dock, the upstream source CAD lives in [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock), but the public Konik STL dump does not preserve those source part names, so this repo selects one canonical Batman proxy and one canonical Quick Mount proxy from the public exports.
