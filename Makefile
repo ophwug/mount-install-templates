@@ -13,12 +13,17 @@ C3_MOUNTS := hardware/comma_three/mount/c3_mount.stl
 C3X_MOUNTS := hardware/comma_3X/mount/c3x_mount.stl
 C4_MOUNTS := hardware/comma_four/mount/four_mount.stl
 C4_MOUNT_STEM := c4_mount
+# These come from Konik's public STL dump. We expose a single canonical Batman
+# and Quick Mount footprint while keeping the raw vendor files in-repo for
+# provenance, because the upstream dump does not preserve named CAD mappings.
+KONIK_BATMAN_SOURCE := vendor/konik/batman/Batman-dock_4.stl
+KONIK_QUICKMOUNT_SOURCE := vendor/konik/quickmount/Quickmount_4.stl
 
 # All Mounts
-ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS)
+ALL_MOUNTS := $(C3_MOUNTS) $(C3X_MOUNTS) $(C4_MOUNTS) $(KONIK_BATMAN_SOURCE) $(KONIK_QUICKMOUNT_SOURCE)
 
 # Universal variant lists (paired replacements)
-UNIVERSAL_MOUNTS := c3 c3x c4
+UNIVERSAL_MOUNTS := c3 c3x c4 konik_batman konik_quickmount
 UNIVERSAL_PAIRED_OFFSETS_MM := 45_75 50_80 55_85 60_90 65_95 70_100 75_105 80_110 85_115 90_120 95_125
 UNIVERSAL_PAIRED_VARIANT_STEMS := $(foreach mount,$(UNIVERSAL_MOUNTS),$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(mount)_mount_$(pair)mm))
 UNIVERSAL_VARIANT_STEMS := $(UNIVERSAL_PAIRED_VARIANT_STEMS)
@@ -34,7 +39,7 @@ CUTTING_TEMPLATES := $(BUILD_DIR)/c3_cutting_template.stl $(BUILD_DIR)/c3x_cutti
 CUTTING_PREVIEWS := $(BUILD_DIR)/c3_cutting_template_preview.png $(BUILD_DIR)/c3x_cutting_template_preview.png $(BUILD_DIR)/c4_cutting_template_preview.png
 
 # Keep intermediate SVGs, TYP files, and oriented STLs
-.SECONDARY: $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ) $(BUILD_DIR)/c3_mount.stl $(BUILD_DIR)/c3x_mount.stl $(BUILD_DIR)/c4_mount.stl $(BUILD_DIR)/c3_mount.svg $(BUILD_DIR)/c3x_mount.svg $(BUILD_DIR)/c4_mount.svg
+.SECONDARY: $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
 
 .PHONY: all clean update-hardware debug universal-variants
 
@@ -92,6 +97,22 @@ $(BUILD_DIR)/c3_mount.stl: hardware/comma_three/mount/c3_mount.stl | $(BUILD_DIR
 $(BUILD_DIR)/c3x_mount.stl: hardware/comma_3X/mount/c3x_mount.stl | $(BUILD_DIR)
 	@echo "Orienting comma 3x mount..."
 	uv run ./tools/orient_stl.py "$<" "$@"
+
+$(BUILD_DIR)/konik_batman_mount.stl: $(KONIK_BATMAN_SOURCE) | $(BUILD_DIR)
+	@echo "Orienting Konik Batman..."
+	uv run ./tools/orient_stl.py "$<" "$@"
+
+$(BUILD_DIR)/konik_quickmount_mount.stl: $(KONIK_QUICKMOUNT_SOURCE) | $(BUILD_DIR)
+	@echo "Orienting Konik Quick Mount..."
+	uv run ./tools/orient_stl.py "$<" "$@"
+
+$(BUILD_DIR)/konik_batman_mount.svg: $(BUILD_DIR)/konik_batman_mount.stl
+	@echo "Generating SVG for Konik Batman..."
+	$(OPENSCAD) -D "filename=\"$(shell pwd)/$<\"" -o $@ tools/project_mount.scad
+
+$(BUILD_DIR)/konik_quickmount_mount.svg: $(BUILD_DIR)/konik_quickmount_mount.stl
+	@echo "Generating hull-based SVG for Konik Quick Mount..."
+	$(OPENSCAD) -D "filename=\"$(shell pwd)/$<\"" -o $@ tools/project_mount_hull.scad
 
 $(BUILD_DIR)/%.svg: $(BUILD_DIR)/%.stl
 	@echo "Generating SVG for $*..."
@@ -168,16 +189,28 @@ GIT_URL := $(shell git config --get remote.origin.url | sed -e 's/git@github.com
 define generate_universal_paired_variant
 $(BUILD_DIR)/$(1)_mount_$(3)mm_letter.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
 	@echo "Generating paired Typst source for $(1)_mount_$(3)mm..."
-	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", footprint-label: "$(2)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
 $(BUILD_DIR)/$(1)_mount_$(3)mm_a4.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
 	@echo "Generating paired A4 Typst source for $(1)_mount_$(3)mm..."
-	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", footprint-label: "$(2)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+endef
+
+define generate_konik_paired_variant
+$(BUILD_DIR)/$(1)_mount_$(3)mm_letter.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
+	@echo "Generating paired Typst source for $(1)_mount_$(3)mm..."
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", footprint-label: "$(2)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), feedback-community-url: "https://discord.gg/HCb2DbEKJD", feedback-community-label: "Konik Discord", feedback-community-channel: "")' > $$@
+
+$(BUILD_DIR)/$(1)_mount_$(3)mm_a4.typ: $(BUILD_DIR)/$(1)_mount.svg template.typ
+	@echo "Generating paired A4 Typst source for $(1)_mount_$(3)mm..."
+	@echo '#import "/template.typ": template; #template(mount-name: "$(2) (paired $(word 1,$(subst _, ,$(3)))mm/$(word 2,$(subst _, ,$(3)))mm)", footprint-label: "$(2)", svg-file: "$$<", clearance-offset: $(word 1,$(subst _, ,$(3)))mm, secondary-clearance-offset: $(word 2,$(subst _, ,$(3)))mm, repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", paper-size: "a4", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), feedback-community-url: "https://discord.gg/HCb2DbEKJD", feedback-community-label: "Konik Discord", feedback-community-channel: "")' > $$@
 endef
 
 $(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_universal_paired_variant,c3,comma three,$(pair))))
 $(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_universal_paired_variant,c3x,comma 3x,$(pair))))
 $(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_universal_paired_variant,c4,comma four,$(pair))))
+$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_konik_paired_variant,konik_batman,Konik Batman,$(pair))))
+$(foreach pair,$(UNIVERSAL_PAIRED_OFFSETS_MM),$(eval $(call generate_konik_paired_variant,konik_quickmount,Konik Quick Mount,$(pair))))
 
 # General Rules for compiling Typst to PDF and PNG
 $(BUILD_DIR)/%.pdf: $(BUILD_DIR)/%.typ template.typ
@@ -301,32 +334,32 @@ $(VEHICLES_DIR)/%/gen/raw_trace.svg: $(VEHICLES_DIR)/%/ai/annotated_scan.png
 # Recipe for generating Typst source
 define generate_typst
 	@echo "Generating Typst for $*..."
-	$(MKDIR) $(dir $@)
-	@echo '#import "/vehicles/$*/template.typ": template; #template(mount-name: "$(MOUNT_NAME_PREFIX) ($(shell cat vehicles/$*/name.txt))", svg-file: "$(SVG_SOURCE)", clearance-offset: $(OFFSET), custom-clearance-svg: "/vehicles/$*/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING)$(PAPER_SIZE_ARG))' > $@
+	@mkdir -p "$(@D)"
+	@echo '#import "/vehicles/$*/template.typ": template; #template(mount-name: "$(MOUNT_NAME_PREFIX) ($(shell cat vehicles/$*/name.txt))", footprint-label: "$(MOUNT_NAME_PREFIX)", svg-file: "$(SVG_SOURCE)", clearance-offset: $(OFFSET), custom-clearance-svg: "/vehicles/$*/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING)$(PAPER_SIZE_ARG))' > $@
 endef
 
 define generate_corolla_variant_typst
 $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_letter.typ: $(VEHICLES_DIR)/2020_corolla/gen/offsets.svg $(VEHICLES_DIR)/2020_corolla/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_corolla/$(1)_mount_$(3)mm_letter..."
-	$(MKDIR) $(dir $$@)
-	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+	@mkdir -p "$$(@D)"
+	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
 $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/2020_corolla/gen/offsets.svg $(VEHICLES_DIR)/2020_corolla/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_corolla/$(1)_mount_$(3)mm_a4..."
-	$(MKDIR) $(dir $$@)
-	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
+	@mkdir -p "$$(@D)"
+	@echo '#import "/vehicles/2020_corolla/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_corolla/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_corolla/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
 endef
 
 define generate_santa_fe_variant_typst
 $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(3)mm_letter.typ: $(VEHICLES_DIR)/2020_hyundai_santa_fe/gen/offsets.svg $(VEHICLES_DIR)/2020_hyundai_santa_fe/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_hyundai_santa_fe/$(1)_mount_$(3)mm_letter..."
-	$(MKDIR) $(dir $$@)
-	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
+	@mkdir -p "$$(@D)"
+	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING))' > $$@
 
 $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(3)mm_a4.typ: $(VEHICLES_DIR)/2020_hyundai_santa_fe/gen/offsets.svg $(VEHICLES_DIR)/2020_hyundai_santa_fe/template.typ $(BUILD_DIR)/$(1)_mount.svg
 	@echo "Generating Typst for 2020_hyundai_santa_fe/$(1)_mount_$(3)mm_a4..."
-	$(MKDIR) $(dir $$@)
-	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
+	@mkdir -p "$$(@D)"
+	@echo '#import "/vehicles/2020_hyundai_santa_fe/template.typ": template; #template(mount-name: "$(2) ($(shell cat vehicles/2020_hyundai_santa_fe/name.txt))", footprint-label: "$(2)", svg-file: "$(BUILD_DIR)/$(1)_mount.svg", clearance-offset: $(3)mm, custom-clearance-svg: "/vehicles/2020_hyundai_santa_fe/gen/offsets.svg", repo-url: "$(GIT_URL)", commit-hash: "$(GIT_COMMIT)", commit-date: "$(GIT_DATE)", revision: "$(GIT_REV)", min-radius: $(MIN_RADIUS), top-padding: $(TOP_PADDING), paper-size: "a4")' > $$@
 endef
 
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_typst,c3,comma three,$(offset))))

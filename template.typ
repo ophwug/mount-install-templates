@@ -2,6 +2,7 @@
 
 #let template(
   mount-name: "Mount",
+  footprint-label: "Mount",
   svg-file: "dummy.svg",
   clearance-offset: 60mm,
   secondary-clearance-offset: none,
@@ -13,6 +14,9 @@
   min-radius: 300mm,
   top-padding: 4cm,
   custom-clearance-svg: none,
+  feedback-community-url: "https://discord.comma.ai",
+  feedback-community-label: "discord.comma.ai",
+  feedback-community-channel: "#installation-help",
 ) = {
   let page-grid = tiling(size: (5mm, 5mm), {
     rect(width: 5mm, height: 5mm, stroke: (thickness: 0.1pt, paint: black))
@@ -69,7 +73,7 @@
         #place(top + center, dy: primary-mount-top-y)[
           #box(width: size.width, height: size.height)[
             #align(center + horizon)[
-              #text(weight: "bold", size: 14pt)[comma \ mount]
+              #text(weight: "bold", size: 14pt)[#footprint-label]
             ]
           ]
         ]
@@ -77,7 +81,7 @@
           #place(top + center, dy: secondary-mount-top-y)[
             #box(width: size.width, height: size.height)[
               #align(center + horizon)[
-                #text(weight: "bold", size: 14pt)[comma \ mount]
+                #text(weight: "bold", size: 14pt)[#footprint-label]
               ]
             ]
           ]
@@ -260,14 +264,16 @@
             #link(instructions-url)[#text(size: 7pt)[github.com/ophwug/mount-install-templates]]
 
             #let issues-url = "https://github.com/ophwug/mount-install-templates/issues"
-            #let discord-url = "https://discord.comma.ai"
 
             #v(0.15cm)
             #text(size: 8pt, weight: "bold")[Feedback]
             #v(0.05cm)
             #text(size: 7pt)[
               Report feedback/issues: #link(issues-url)[GitHub Issues] \
-              Report success/failure/experience: #link(discord-url)[discord.comma.ai] (\#installation-help) \
+              Report success/failure/experience: #link(feedback-community-url)[#feedback-community-label]
+              #if feedback-community-channel != none and feedback-community-channel != "" [
+                [ (#feedback-community-channel)]
+              ] \
               Include your vehicle (make/model/year).
             ]
 

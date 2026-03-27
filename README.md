@@ -6,8 +6,7 @@
 
 > [!IMPORTANT]
 > **Disclaimer:** These are **NOT** official comma.ai templates. This is a community-made project.
-> Report feedback/issues to [GitHub Issues](https://github.com/ophwug/mount-install-templates/issues), and report success/failure/experience to comma's Discord `#installation-help` channel: [discord.comma.ai](https://discord.comma.ai). Please include your vehicle (make/model/year).
-
+> Report feedback/issues to [GitHub Issues](https://github.com/ophwug/mount-install-templates/issues). For official comma mount templates, report success/failure/experience to comma's Discord `#installation-help` channel: [discord.comma.ai](https://discord.comma.ai). For Konik mount templates, report Konik-specific fitment/usage feedback in the [Konik Discord](https://discord.gg/HCb2DbEKJD). Please include your vehicle (make/model/year).
 
 This tool is inspired by [Apple's Apple Watch band size tool for people who are too cool for straps with holes](https://www.apple.com/shop/Catalog/US/Images/bxxd/size-guide_CA.pdf) and [Toyota's OEM Dashcam installation instructions](https://www.4runner6g.com/forum/threads/oem-toyota-dashcam-diy-how-to-install-instructions-and-how-to-remove-map-dome-light-console.2603/).
 
@@ -63,6 +62,41 @@ Each paired page includes two mount footprints with one shared camera-housing re
 *   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_85_115mm_a4.pdf)
 *   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_90_120mm_a4.pdf)
 *   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/c3_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/c3_mount_95_125mm_a4.pdf)
+
+#### Konik.ai third-party mounts
+Konik universal templates use the same paired clearance-offset variants and paper sizes as the official comma templates above.
+
+These stems are normalized user-facing mount families, not raw STL export names.
+
+Quick Mount templates use a convex-hull footprint projection rather than a literal bottom-plane cut. Konik's product photos show a dock body with a recessed underside/open channel, and the raw STL projection produced an overly sparse `U` shape that likely reflects the plastic shell rather than the practical adhesive/contact patch on glass.
+
+Konik-specific fitment and usage feedback should be reported in the [Konik Discord](https://discord.gg/HCb2DbEKJD), not comma's `#installation-help` channel.
+
+#### Konik Batman (`konik_batman`)
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_95_125mm_a4.pdf)
+
+#### Konik Quick Mount (`konik_quickmount`)
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_95_125mm_a4.pdf)
 
 ## Vehicle Specific Templates
 
@@ -145,15 +179,34 @@ This project generates PDF mount installation templates to help mount comma hard
 *   Mark the corners on the glass (e.g., with a dry-erase marker) or use painters tape to temporarily hold the template in place.
 *   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
 
+## Adhesive Cutting Templates
+
+Here are 3D printable STL files that can serve as cutting guides for mount adhesives. These are particularly useful if you are replacing the 3M VHB adhesive and want a perfect fit for the mount's footprint.
+
+> [!WARNING]
+> **Beta Feature:** These templates are experimental. Always verify the fit with your mount before using them to cut adhesive.
+
+![Adhesive Cutting Template Preview](https://ophwug.github.io/mount-install-templates/c4_cutting_template_preview.png)
+
+*   **comma four**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template_solid.stl)
+*   **comma 3x**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template_solid.stl)
+*   **comma three**: [Standard](https://ophwug.github.io/mount-install-templates/c3_cutting_template.stl)
+
+The standard templates for comma four and 3x include split horizontal bridges to support internal island guides (for the mount's own internal relief holes) while keeping the central area clear. The solid versions provide just the outer silhouette.
+
 ## Technical Details
 
 ### Build Pipeline
 
 The PDF generation process is automated using `make`.
 
-1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule.
+In GitHub Actions, the Pages workflow uses `make -j "$(nproc)"` so build parallelism follows the runner's actual CPU count instead of a hardcoded job limit.
+
+1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule and the Konik.ai STL repository linked from [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12).
+    For Batman-dock, the upstream source CAD lives in [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock), but the public Konik STL dump does not preserve those source part names, so this repo selects one canonical Batman proxy and one canonical Quick Mount proxy from the public exports.
 2.  **Orientation**: The `tools/orient_stl.py` Python script loads each STL and rotates it to align the mounting surface with the XY plane (flat).
 3.  **Projection**: `openscad` is invoked with `tools/project_mount.scad` to project the very bottom of the 3D geometry onto a 2D plane, exporting the footprint as an SVG.
+    Konik Quick Mount is an exception: it uses `tools/project_mount_hull.scad` so recessed dock geometry is simplified to a fuller convex-hull install footprint.
 4.  **Composition**: `typst` compiles `template.typ`, which combines the generated SVG footprint with:
     -   A credit card outline for scale validation.
     -   Clearance zone markings.
@@ -189,20 +242,34 @@ To build the templates locally, you will need:
 
 Those tools can be found in package managers such as `brew` on macOS, `apt` on Debian/Ubuntu, `dnf` on Fedora, etc.
 
-## Adhesive Cutting Templates
+### Konik.ai Notes
 
-Here are 3D printable STL files that can serve as cutting guides for mount adhesives. These are particularly useful if you are replacing the 3M VHB adhesive and want a perfect fit for the mount's footprint.
+Konik support in this repo is for two third-party mount families:
 
-> [!WARNING]
-> **Beta Feature:** These templates are experimental. Always verify the fit with your mount before using them to cut adhesive.
+* `konik_batman`
+* `konik_quickmount`
 
-![Adhesive Cutting Template Preview](https://ophwug.github.io/mount-install-templates/c4_cutting_template_preview.png)
+Source:
 
-*   **comma four**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template_solid.stl)
-*   **comma 3x**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template_solid.stl)
-*   **comma three**: [Standard](https://ophwug.github.io/mount-install-templates/c3_cutting_template.stl)
+* [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12)
+* [Konik-ai/open-source-konik-hardware-and-3d-prints](https://github.com/Konik-ai/open-source-konik-hardware-and-3d-prints)
+* [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock)
 
-The standard templates for comma four and 3x include split horizontal bridges to support internal island guides (for the mount's own internal relief holes) while keeping the central area clear. The solid versions provide just the outer silhouette.
+Why the names are normalized:
+
+* Konik's public STL dump does not preserve clean part names.
+* This repo publishes one canonical footprint per Konik mount family instead of exposing the raw numbered exports.
+
+Current proxies:
+
+* `konik_batman` is derived from `Batman-dock_4.stl`
+* `konik_quickmount` is derived from `Quickmount_4.stl`
+
+Notes:
+
+* Quick Mount uses a convex-hull footprint instead of a literal bottom-plane cut, because the dock underside is recessed and the raw projection was too sparse to be a good install proxy.
+* Raw vendor files are still kept under `vendor/konik/` for provenance.
+* Konik-specific fitment feedback should go to the [Konik Discord](https://discord.gg/HCb2DbEKJD).
 
 ## Similar Tools
 

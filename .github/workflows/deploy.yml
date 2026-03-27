@@ -59,7 +59,7 @@ jobs:
           enable-cache: true
 
       - name: Build Templates
-        run: xvfb-run --auto-servernum make -j 4 all
+        run: xvfb-run --auto-servernum make -j "$(nproc)" all
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
