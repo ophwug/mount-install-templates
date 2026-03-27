@@ -179,36 +179,22 @@ This project generates PDF mount installation templates to help mount comma hard
 *   Mark the corners on the glass (e.g., with a dry-erase marker) or use painters tape to temporarily hold the template in place.
 *   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
 
+## Adhesive Cutting Templates
+
+Here are 3D printable STL files that can serve as cutting guides for mount adhesives. These are particularly useful if you are replacing the 3M VHB adhesive and want a perfect fit for the mount's footprint.
+
+> [!WARNING]
+> **Beta Feature:** These templates are experimental. Always verify the fit with your mount before using them to cut adhesive.
+
+![Adhesive Cutting Template Preview](https://ophwug.github.io/mount-install-templates/c4_cutting_template_preview.png)
+
+*   **comma four**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template_solid.stl)
+*   **comma 3x**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template_solid.stl)
+*   **comma three**: [Standard](https://ophwug.github.io/mount-install-templates/c3_cutting_template.stl)
+
+The standard templates for comma four and 3x include split horizontal bridges to support internal island guides (for the mount's own internal relief holes) while keeping the central area clear. The solid versions provide just the outer silhouette.
+
 ## Technical Details
-
-### Konik.ai Notes
-
-Konik support in this repo is for two third-party mount families:
-
-* `konik_batman`
-* `konik_quickmount`
-
-Source:
-
-* [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12)
-* [Konik-ai/open-source-konik-hardware-and-3d-prints](https://github.com/Konik-ai/open-source-konik-hardware-and-3d-prints)
-* [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock)
-
-Why the names are normalized:
-
-* Konik's public STL dump does not preserve clean part names.
-* This repo publishes one canonical footprint per Konik mount family instead of exposing the raw numbered exports.
-
-Current proxies:
-
-* `konik_batman` is derived from `Batman-dock_4.stl`
-* `konik_quickmount` is derived from `Quickmount_4.stl`
-
-Notes:
-
-* Quick Mount uses a convex-hull footprint instead of a literal bottom-plane cut, because the dock underside is recessed and the raw projection was too sparse to be a good install proxy.
-* Raw vendor files are still kept under `vendor/konik/` for provenance.
-* Konik-specific fitment feedback should go to the [Konik Discord](https://discord.gg/HCb2DbEKJD).
 
 ### Build Pipeline
 
@@ -256,20 +242,34 @@ To build the templates locally, you will need:
 
 Those tools can be found in package managers such as `brew` on macOS, `apt` on Debian/Ubuntu, `dnf` on Fedora, etc.
 
-## Adhesive Cutting Templates
+### Konik.ai Notes
 
-Here are 3D printable STL files that can serve as cutting guides for mount adhesives. These are particularly useful if you are replacing the 3M VHB adhesive and want a perfect fit for the mount's footprint.
+Konik support in this repo is for two third-party mount families:
 
-> [!WARNING]
-> **Beta Feature:** These templates are experimental. Always verify the fit with your mount before using them to cut adhesive.
+* `konik_batman`
+* `konik_quickmount`
 
-![Adhesive Cutting Template Preview](https://ophwug.github.io/mount-install-templates/c4_cutting_template_preview.png)
+Source:
 
-*   **comma four**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c4_cutting_template_solid.stl)
-*   **comma 3x**: [Standard (with islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template.stl) | [Solid (no islands)](https://ophwug.github.io/mount-install-templates/c3x_cutting_template_solid.stl)
-*   **comma three**: [Standard](https://ophwug.github.io/mount-install-templates/c3_cutting_template.stl)
+* [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12)
+* [Konik-ai/open-source-konik-hardware-and-3d-prints](https://github.com/Konik-ai/open-source-konik-hardware-and-3d-prints)
+* [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock)
 
-The standard templates for comma four and 3x include split horizontal bridges to support internal island guides (for the mount's own internal relief holes) while keeping the central area clear. The solid versions provide just the outer silhouette.
+Why the names are normalized:
+
+* Konik's public STL dump does not preserve clean part names.
+* This repo publishes one canonical footprint per Konik mount family instead of exposing the raw numbered exports.
+
+Current proxies:
+
+* `konik_batman` is derived from `Batman-dock_4.stl`
+* `konik_quickmount` is derived from `Quickmount_4.stl`
+
+Notes:
+
+* Quick Mount uses a convex-hull footprint instead of a literal bottom-plane cut, because the dock underside is recessed and the raw projection was too sparse to be a good install proxy.
+* Raw vendor files are still kept under `vendor/konik/` for provenance.
+* Konik-specific fitment feedback should go to the [Konik Discord](https://discord.gg/HCb2DbEKJD).
 
 ## Similar Tools
 
