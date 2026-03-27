@@ -16,27 +16,19 @@ This tool is inspired by [Apple's Apple Watch band size tool for people who are 
 
 ## Konik.ai Notes
 
-[Konik.ai](https://konik.ai/about-us/) is a third-party vendor of openpilot-compatible hardware and accessories, including the Konik A1 and A1M device family.
+[Konik.ai](https://konik.ai/about-us/) is a third-party vendor of openpilot-compatible hardware, including the Konik A1 and A1M device family. This repo includes template support for their [Batman Mount](https://konik.ai/shop/batman-mount/) and [A1M Quick Mount](https://konik.ai/shop/a1m-quick-mount/) using the STL dump linked from [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12) and the related upstream CAD/release references from [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock).
 
-Konik also sells third-party mount hardware such as [Batman Mounts for A1/C3X/C3](https://konik.ai/shop/batman-mount/) and the [A1M Quick Mount](https://konik.ai/shop/a1m-quick-mount/). The A1M Quick Mount is advertised as compatible with Konik A1M, comma three, comma 3x, A1, and similar clones for device attachment, but its docking/power passthrough features are specific to A1M.
-
-Konik mount templates are sourced from the STL files linked in [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12), specifically the [Konik-ai/open-source-konik-hardware-and-3d-prints](https://github.com/Konik-ai/open-source-konik-hardware-and-3d-prints) repository. The issue follow-up also pointed at the upstream source CAD repo [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock) and its `BatmanDock rev.C` / `Fixed-CAN` release, which exposes named Batman-dock parts such as `Main`, `Backplate`, and `BatmanSimple`.
-
-The important caveat is that Konik's public STL dump does **not** preserve that named part mapping. It only publishes anonymous exports like `Batman-dock_1.stl` through `Batman-dock_7.stl` and `Quickmount_1.stl` through `Quickmount_4.stl`.
-
-Rather than expose that ambiguity directly, this repo now publishes one canonical footprint per Konik mount family:
+The public Konik STL dump does not preserve clean part names, so this repo publishes one canonical footprint per Konik mount family instead of exposing the raw numbered exports:
 
 * `konik_batman`
 * `konik_quickmount`
 
-The current canonical proxies are chosen from the public STL dump based on storefront photos and footprint plausibility:
+Current proxies:
 
 * `konik_batman` is derived from `Batman-dock_4.stl`
 * `konik_quickmount` is derived from `Quickmount_4.stl`
 
-Raw vendor STL files are still kept under `vendor/konik/` for provenance and future refinement.
-
-Konik.ai also sells a [USB-C cable](https://konik.ai/shop/usb-c-cable/). As noted in the related Konik documentation PR in `ophwug/docs`, Konik's cable and port setup differ physically from comma.ai's and Mr. One's recessed-port hardware, but the cable itself is not especially unique under the branding, so compatible alternatives may also work if they match your hardware's mechanical fit and electrical requirements.
+Quick Mount uses a convex-hull footprint instead of a literal bottom-plane cut, because the dock underside is recessed and the raw projection was too sparse to be a good install proxy. Raw vendor files are still kept under `vendor/konik/` for provenance, and Konik-specific fitment feedback should go to the [Konik Discord](https://discord.gg/HCb2DbEKJD).
 
 ## Download Templates
 
