@@ -72,24 +72,31 @@ Quick Mount templates use a convex-hull footprint projection rather than a liter
 
 Konik-specific fitment and usage feedback should be reported in the [Konik Discord](https://discord.gg/HCb2DbEKJD), not comma's `#installation-help` channel.
 
-Available Konik mount stems:
+#### konik_batman
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_95_125mm_a4.pdf)
 
-* `konik_batman`
-* `konik_quickmount`
-
-For each stem above, generated downloads follow this naming pattern:
-
-* `https://ophwug.github.io/mount-install-templates/<stem>_mount_<pair>mm_letter.pdf`
-* `https://ophwug.github.io/mount-install-templates/<stem>_mount_<pair>mm_a4.pdf`
-
-Where `<pair>` is one of `45_75`, `50_80`, `55_85`, `60_90`, `65_95`, `70_100`, `75_105`, `80_110`, `85_115`, `90_120`, or `95_125`.
-
-Examples:
-
-* [konik_batman 45/75 US Letter](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_letter.pdf)
-* [konik_batman 45/75 A4](https://ophwug.github.io/mount-install-templates/konik_batman_mount_45_75mm_a4.pdf)
-* [konik_quickmount 45/75 US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_letter.pdf)
-* [konik_quickmount 45/75 A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_a4.pdf)
+#### konik_quickmount
+*   **45/75mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_45_75mm_a4.pdf)
+*   **50/80mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_50_80mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_50_80mm_a4.pdf)
+*   **55/85mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_55_85mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_55_85mm_a4.pdf)
+*   **60/90mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_60_90mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_60_90mm_a4.pdf)
+*   **65/95mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_65_95mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_65_95mm_a4.pdf)
+*   **70/100mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_70_100mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_70_100mm_a4.pdf)
+*   **75/105mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_75_105mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_75_105mm_a4.pdf)
+*   **80/110mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_80_110mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_80_110mm_a4.pdf)
+*   **85/115mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_85_115mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_85_115mm_a4.pdf)
+*   **90/120mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_90_120mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_90_120mm_a4.pdf)
+*   **95/125mm**: [US Letter](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_95_125mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/konik_quickmount_mount_95_125mm_a4.pdf)
 
 ## Vehicle Specific Templates
 
@@ -172,7 +179,7 @@ This project generates PDF mount installation templates to help mount comma hard
 *   Mark the corners on the glass (e.g., with a dry-erase marker) or use painters tape to temporarily hold the template in place.
 *   Follow standard comma.ai instructions to attach the mount using the provided adhesive.
 
-## Konik.ai Notes
+### Konik.ai Notes
 
 Konik support in this repo is for two third-party mount families:
 
