@@ -116,7 +116,7 @@
         #let arrow-icon = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: false))
         #let arrow-icon-outlined = box(width: 8pt, height: 14pt, baseline: 3pt, arrow-drawing(outline: true))
 
-        #let cl-text = align(right, text(size: 10pt)[Match #arrow-icon line to the right \ with vehicle's centerline])
+        #let cl-text = align(right, text(size: 10pt)[Horizontally align #arrow-icon line \ with vehicle's centerline])
 
         #let cl-img = box(height: 4cm)[
           #image("img/car_with_centerline.svg", height: 100%)
@@ -185,9 +185,14 @@
           ]
         ]
 
-        // Add "Vehicle's Original Camera Housing" Text (At the clearance line)
+        // Add vehicle camera housing label (At the clearance line)
         #place(top + center, dy: line-y - 20mm)[
-          #text(fill: red, size: 10pt, weight: "bold")[Vehicle's Original Camera Housing]
+          #stack(
+            dir: ttb,
+            spacing: 1mm,
+            align(center, text(fill: red, size: 10pt, weight: "bold")[Vehicle's Original Camera Housing]),
+            align(center, text(fill: red, size: 8pt)[(horizontally align to vehicle centerline, not camera housing)]),
+          )
         ]
 
         // Add Horizontal Reference Line (Solid)
