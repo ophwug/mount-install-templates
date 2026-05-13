@@ -34,6 +34,12 @@ PDFS_A4 := $(addprefix $(BUILD_DIR)/,$(addsuffix _a4.pdf,$(UNIVERSAL_VARIANT_STE
 PNGS_A4 := $(addprefix $(BUILD_DIR)/,$(addsuffix _a4.png,$(UNIVERSAL_VARIANT_STEMS)))
 PNGS_BW := $(addprefix $(BUILD_DIR)/,$(addsuffix _letter_bw.png,$(UNIVERSAL_VARIANT_STEMS)))
 PNGS_A4_BW := $(addprefix $(BUILD_DIR)/,$(addsuffix _a4_bw.png,$(UNIVERSAL_VARIANT_STEMS)))
+UNIVERSAL_SVGS := $(addprefix $(BUILD_DIR)/,$(addsuffix _mount.svg,$(UNIVERSAL_MOUNTS)))
+MEGA_DIR := $(BUILD_DIR)/mega
+MEGA_UNIVERSAL_LETTER_STAMP := $(MEGA_DIR)/universal_letter.stamp
+MEGA_UNIVERSAL_A4_STAMP := $(MEGA_DIR)/universal_a4.stamp
+MEGA_VEHICLE_LETTER_STAMP := $(MEGA_DIR)/vehicle_letter.stamp
+MEGA_VEHICLE_A4_STAMP := $(MEGA_DIR)/vehicle_a4.stamp
 CUTTING_TEMPLATES := $(BUILD_DIR)/c3_cutting_template.stl $(BUILD_DIR)/c3x_cutting_template.stl $(BUILD_DIR)/c4_cutting_template.stl \
                      $(BUILD_DIR)/c3x_cutting_template_solid.stl $(BUILD_DIR)/c4_cutting_template_solid.stl
 CUTTING_PREVIEWS := $(BUILD_DIR)/c3_cutting_template_preview.png $(BUILD_DIR)/c3x_cutting_template_preview.png $(BUILD_DIR)/c4_cutting_template_preview.png
@@ -41,13 +47,27 @@ CUTTING_PREVIEWS := $(BUILD_DIR)/c3_cutting_template_preview.png $(BUILD_DIR)/c3
 # Keep intermediate SVGs, TYP files, and oriented STLs
 .SECONDARY: $(PDFS:.pdf=.typ) $(PDFS_A4:.pdf=.typ)
 
-.PHONY: all clean update-hardware debug universal-variants
+.PHONY: all clean update-hardware debug universal-variants universal-render vehicles-render render-templates bench-build
 
+ifeq ($(INDIVIDUAL),1)
 all: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4) $(PNGS_BW) $(PNGS_A4_BW) vehicles cutting-templates cutting-previews
 	@echo "All templates built successfully."
 
 universal-variants: $(PDFS) $(PDFS_A4)
 	@echo "Universal variant PDFs built successfully."
+
+universal-render: $(PDFS) $(PNGS) $(PDFS_A4) $(PNGS_A4)
+	@echo "Universal variant PDFs and PNGs built with individual Typst compiles."
+else
+all: universal-render $(PNGS_BW) $(PNGS_A4_BW) vehicles cutting-templates cutting-previews
+	@echo "All templates built successfully."
+
+universal-variants: universal-render
+	@echo "Universal variant PDFs and PNGs built successfully."
+
+universal-render: $(MEGA_UNIVERSAL_LETTER_STAMP) $(MEGA_UNIVERSAL_A4_STAMP)
+	@echo "Universal variant PDFs and PNGs built with mega Typst compiles."
+endif
 
 cutting-templates: $(CUTTING_TEMPLATES)
 	@echo "All cutting templates built successfully."
@@ -62,6 +82,9 @@ verify: all
 debug:
 	@echo "PDFS (Letter Landscape): $(PDFS)"
 	@echo "PDFS (A4 Landscape): $(PDFS_A4)"
+
+bench-build:
+	uv run tools/benchmark_build.py
 
 update-hardware:
 	git submodule update --init --recursive
@@ -225,6 +248,27 @@ $(BUILD_DIR)/%_bw.png: $(BUILD_DIR)/%.png
 	@echo "Converting $< to greyscale..."
 	uv run tools/grayscale.py $< $@
 
+$(MEGA_DIR):
+	$(MKDIR) $(MEGA_DIR)
+
+MEGA_UNIVERSAL_DEPS := $(UNIVERSAL_SVGS) template.typ tools/build_mega_templates.py fonts/DejaVuSansMono.ttf img/car_with_centerline.svg
+
+$(MEGA_UNIVERSAL_LETTER_STAMP): $(MEGA_UNIVERSAL_DEPS) | $(MEGA_DIR)
+	@echo "Building universal Letter mega Typst group..."
+	uv run tools/build_mega_templates.py --group universal-letter --typst "$(TYPST)" --stamp "$@"
+
+$(MEGA_UNIVERSAL_A4_STAMP): $(MEGA_UNIVERSAL_DEPS) | $(MEGA_DIR)
+	@echo "Building universal A4 mega Typst group..."
+	uv run tools/build_mega_templates.py --group universal-a4 --typst "$(TYPST)" --stamp "$@"
+
+ifneq ($(INDIVIDUAL),1)
+$(PDFS) $(PNGS): $(MEGA_UNIVERSAL_LETTER_STAMP)
+	@test -f "$@" || { rm -f "$(MEGA_UNIVERSAL_LETTER_STAMP)"; $(MAKE) "$(MEGA_UNIVERSAL_LETTER_STAMP)"; test -f "$@"; }
+
+$(PDFS_A4) $(PNGS_A4): $(MEGA_UNIVERSAL_A4_STAMP)
+	@test -f "$@" || { rm -f "$(MEGA_UNIVERSAL_A4_STAMP)"; $(MAKE) "$(MEGA_UNIVERSAL_A4_STAMP)"; test -f "$@"; }
+endif
+
 
 
 VEHICLES_DIR := vehicles
@@ -233,6 +277,8 @@ VEHICLE_VARIANT_OFFSETS_MM := 45 50 55 60 65
 
 # Target lists
 VEHICLE_PDFS :=
+VEHICLE_COLOR_PNGS :=
+VEHICLE_BW_PNGS :=
 VEHICLE_PNGS :=
 
 # Helper to generate targets for a vehicle
@@ -242,13 +288,13 @@ VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.pdf $(BUILD_DIR)/vehi
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.pdf
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.pdf
 
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.png
+VEHICLE_COLOR_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.png
+VEHICLE_COLOR_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4.png
+VEHICLE_COLOR_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4.png
 
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4_bw.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4_bw.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4_bw.png
+VEHICLE_BW_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4_bw.png
+VEHICLE_BW_PNGS += $(BUILD_DIR)/vehicles/$(1)/c3x_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c3x_mount_a4_bw.png
+VEHICLE_BW_PNGS += $(BUILD_DIR)/vehicles/$(1)/c4_mount_letter_bw.png $(BUILD_DIR)/vehicles/$(1)/c4_mount_a4_bw.png
 
 # Explicit Compilation Rules for this vehicle
 $(BUILD_DIR)/vehicles/$(1)/c3_mount_letter.pdf $(BUILD_DIR)/vehicles/$(1)/c3_mount_a4.pdf: $(BUILD_DIR)/c3_mount.svg
@@ -275,14 +321,14 @@ $(foreach v,$(VEHICLES),$(eval $(call generate_vehicle_targets,$v)))
 # Vehicle variant matrices (5 offsets x 3 mounts x 2 paper sizes)
 define generate_corolla_variant_targets
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.pdf $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.pdf
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4_bw.png
+VEHICLE_COLOR_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4.png
+VEHICLE_BW_PNGS += $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_corolla/$(1)_mount_$(2)mm_a4_bw.png
 endef
 
 define generate_santa_fe_variant_targets
 VEHICLE_PDFS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter.pdf $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4.pdf
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4.png
-VEHICLE_PNGS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4_bw.png
+VEHICLE_COLOR_PNGS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter.png $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4.png
+VEHICLE_BW_PNGS += $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_letter_bw.png $(BUILD_DIR)/vehicles/2020_hyundai_santa_fe/$(1)_mount_$(2)mm_a4_bw.png
 endef
 
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_corolla_variant_targets,c3,$(offset))))
@@ -292,7 +338,47 @@ $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_v
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_targets,c3x,$(offset))))
 $(foreach offset,$(VEHICLE_VARIANT_OFFSETS_MM),$(eval $(call generate_santa_fe_variant_targets,c4,$(offset))))
 
+VEHICLE_PNGS := $(VEHICLE_COLOR_PNGS) $(VEHICLE_BW_PNGS)
+VEHICLE_LETTER_RENDER_OUTPUTS := $(filter %_letter.pdf,$(VEHICLE_PDFS)) $(filter %_letter.png,$(VEHICLE_COLOR_PNGS))
+VEHICLE_A4_RENDER_OUTPUTS := $(filter %_a4.pdf,$(VEHICLE_PDFS)) $(filter %_a4.png,$(VEHICLE_COLOR_PNGS))
+VEHICLE_RENDER_DEPS := $(BUILD_DIR)/c3_mount.svg $(BUILD_DIR)/c3x_mount.svg $(BUILD_DIR)/c4_mount.svg template.typ tools/build_mega_templates.py fonts/DejaVuSansMono.ttf img/car_with_centerline.svg \
+                       $(foreach v,$(VEHICLES),$(VEHICLES_DIR)/$(v)/template.typ $(VEHICLES_DIR)/$(v)/name.txt $(VEHICLES_DIR)/$(v)/gen/offsets.svg)
+
+ifeq ($(INDIVIDUAL),1)
 vehicles: $(VEHICLE_PDFS) $(VEHICLE_PNGS)
+	@echo "Vehicle PDFs and PNGs built with individual Typst compiles."
+
+vehicles-render: $(VEHICLE_PDFS) $(VEHICLE_COLOR_PNGS)
+	@echo "Vehicle PDFs and color PNGs built with individual Typst compiles."
+
+render-templates: universal-render vehicles-render
+	@echo "All template PDFs and color PNGs built with individual Typst compiles."
+else
+vehicles: vehicles-render $(VEHICLE_BW_PNGS)
+	@echo "Vehicle PDFs and PNGs built with mega Typst compiles."
+
+vehicles-render: $(MEGA_VEHICLE_LETTER_STAMP) $(MEGA_VEHICLE_A4_STAMP)
+	@echo "Vehicle PDFs and color PNGs built with mega Typst compiles."
+
+render-templates: universal-render vehicles-render
+	@echo "All template PDFs and color PNGs built with mega Typst compiles."
+endif
+
+$(MEGA_VEHICLE_LETTER_STAMP): $(VEHICLE_RENDER_DEPS) | $(MEGA_DIR)
+	@echo "Building vehicle Letter mega Typst group..."
+	uv run tools/build_mega_templates.py --group vehicle-letter --typst "$(TYPST)" --stamp "$@"
+
+$(MEGA_VEHICLE_A4_STAMP): $(VEHICLE_RENDER_DEPS) | $(MEGA_DIR)
+	@echo "Building vehicle A4 mega Typst group..."
+	uv run tools/build_mega_templates.py --group vehicle-a4 --typst "$(TYPST)" --stamp "$@"
+
+ifneq ($(INDIVIDUAL),1)
+$(VEHICLE_LETTER_RENDER_OUTPUTS): $(MEGA_VEHICLE_LETTER_STAMP)
+	@test -f "$@" || { rm -f "$(MEGA_VEHICLE_LETTER_STAMP)"; $(MAKE) "$(MEGA_VEHICLE_LETTER_STAMP)"; test -f "$@"; }
+
+$(VEHICLE_A4_RENDER_OUTPUTS): $(MEGA_VEHICLE_A4_STAMP)
+	@test -f "$@" || { rm -f "$(MEGA_VEHICLE_A4_STAMP)"; $(MAKE) "$(MEGA_VEHICLE_A4_STAMP)"; test -f "$@"; }
+endif
 
 # Target-specific variables for mount types
 $(BUILD_DIR)/vehicles/%/c3_mount_letter.typ $(BUILD_DIR)/vehicles/%/c3_mount_a4.typ: MOUNT_NAME_PREFIX="comma three"
