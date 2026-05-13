@@ -12,4 +12,5 @@ dependencies = [
     "shapely>=2.1.2",
     "trimesh>=4.11.1",
     "opencv-python-headless>=4.11.0.86",
+    "pypdf>=6.11.0",
 ]
