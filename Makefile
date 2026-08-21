@@ -82,7 +82,7 @@ VPATH = hardware/comma_three/mount:hardware/comma_3X/mount:hardware/comma_four/m
 
 # Extra Flags for orient_stl.py
 ORIENT_FLAGS = 
-$(BUILD_DIR)/c4_mount.stl: hardware/comma_four/mount/four_mount.stl | $(BUILD_DIR)
+$(BUILD_DIR)/c4_mount.stl: hardware/comma_four/mount/four_mount.stl tools/orient_stl.py | $(BUILD_DIR)
 	@echo "Orienting comma four mount..."
 	uv run ./tools/orient_stl.py --flip "$<" "$@"
 
@@ -90,19 +90,19 @@ $(BUILD_DIR)/c4_mount.svg: $(BUILD_DIR)/c4_mount.stl
 	@echo "Generating SVG for comma four mount..."
 	$(OPENSCAD) -D "filename=\"$(shell pwd)/$<\"" -o $@ tools/project_mount.scad
 
-$(BUILD_DIR)/c3_mount.stl: hardware/comma_three/mount/c3_mount.stl | $(BUILD_DIR)
+$(BUILD_DIR)/c3_mount.stl: hardware/comma_three/mount/c3_mount.stl tools/orient_stl.py | $(BUILD_DIR)
 	@echo "Orienting comma three mount..."
 	uv run ./tools/orient_stl.py "$<" "$@"
 
-$(BUILD_DIR)/c3x_mount.stl: hardware/comma_3X/mount/c3x_mount.stl | $(BUILD_DIR)
+$(BUILD_DIR)/c3x_mount.stl: hardware/comma_3X/mount/c3x_mount.stl tools/orient_stl.py | $(BUILD_DIR)
 	@echo "Orienting comma 3x mount..."
 	uv run ./tools/orient_stl.py "$<" "$@"
 
-$(BUILD_DIR)/konik_batman_mount.stl: $(KONIK_BATMAN_SOURCE) | $(BUILD_DIR)
+$(BUILD_DIR)/konik_batman_mount.stl: $(KONIK_BATMAN_SOURCE) tools/orient_stl.py | $(BUILD_DIR)
 	@echo "Orienting Konik Batman..."
 	uv run ./tools/orient_stl.py "$<" "$@"
 
-$(BUILD_DIR)/konik_quickmount_mount.stl: $(KONIK_QUICKMOUNT_SOURCE) | $(BUILD_DIR)
+$(BUILD_DIR)/konik_quickmount_mount.stl: $(KONIK_QUICKMOUNT_SOURCE) tools/orient_stl.py | $(BUILD_DIR)
 	@echo "Orienting Konik Quick Mount..."
 	uv run ./tools/orient_stl.py "$<" "$@"
 

@@ -204,7 +204,7 @@ In GitHub Actions, the Pages workflow uses `make -j "$(nproc)"` so build paralle
 
 1.  **Source**: Mount models (`.stl`) are sourced from the [commaai/hardware](https://github.com/commaai/hardware) submodule and the Konik.ai STL repository linked from [Issue #12](https://github.com/ophwug/mount-install-templates/issues/12).
     For Batman-dock, the upstream source CAD lives in [dzid26/Batman-dock](https://github.com/dzid26/Batman-dock), but the public Konik STL dump does not preserve those source part names, so this repo selects one canonical Batman proxy and one canonical Quick Mount proxy from the public exports.
-2.  **Orientation**: The `tools/orient_stl.py` Python script loads each STL and rotates it to align the mounting surface with the XY plane (flat).
+2.  **Orientation**: The `tools/orient_stl.py` Python script loads each STL, aligns the mounting surface with the XY plane, and squares the projected footprint using its minimum-area bounding rectangle. Oriented STL build targets depend on this script, so orientation changes automatically regenerate cached mount intermediates.
 3.  **Projection**: `openscad` is invoked with `tools/project_mount.scad` to project the very bottom of the 3D geometry onto a 2D plane, exporting the footprint as an SVG.
     Konik Quick Mount is an exception: it uses `tools/project_mount_hull.scad` so recessed dock geometry is simplified to a fuller convex-hull install footprint.
 4.  **Composition**: `typst` compiles `template.typ`, which combines the generated SVG footprint with:
