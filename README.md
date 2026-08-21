@@ -211,6 +211,9 @@ In GitHub Actions, the Pages workflow uses `make -j "$(nproc)"` so build paralle
     -   A credit card outline for scale validation.
     -   Clearance zone markings.
     -   Title and instructional text.
+5.  **Mega Rendering**: By default, `make all`, `make universal-variants`, and `make vehicles` render grouped multi-page Typst documents under `build/mega/`, then split or rename the pages back to the same public PDF and PNG filenames. This avoids launching Typst once per variant while preserving the published artifact layout.
+6.  **Debug Rendering**: To render with the older one-file-per-template path, pass `INDIVIDUAL=1`, for example `make INDIVIDUAL=1 build/c4_mount_45_75mm_letter.pdf` or `make INDIVIDUAL=1 universal-render`.
+7.  **Benchmarking**: Run `make bench-build` to compare individual Typst rendering against the mega renderer for universal PDFs and PNGs. For a broader comparison, run `uv run tools/benchmark_build.py --scope all --jobs 16`.
 
 ### AI / Computer Vision Workflow
 
@@ -221,7 +224,7 @@ An experimental workflow exists to trace vehicle features (like camera covers) f
 3.  **Process**: `tools/vehicle_specific/process_annotation.py` extracts the scale (pixels/mm) and the raw trace from the annotated image to `vehicles/<vehicle_name>/gen/raw_trace.svg`.
 4.  **Refine**: `tools/vehicle_specific/refine_trace.py` rotates, centers, and symmetrizes the trace for engineering use, saving to `vehicles/<vehicle_name>/gen/trace.svg`.
 5.  **Offsets**: `tools/vehicle_specific/generate_offsets.py` adds clearance lines and the centerline, creating the final `vehicles/<vehicle_name>/gen/offsets.svg` used in the template.
-6.  **Verify**: `make verify` runs `tools/verify_build.py`, which uses `gemini-3-flash-preview` to visually inspect all generated PDFs/PNGs. It checks for the presence of red clearance lines, correct labels, and legible text, failing the build if any template is suspect.
+6.  **Verify**: `make verify` runs `tools/verify_build.py`, which uses `gemini-3-flash-preview` through Vertex AI to visually inspect all generated PDFs/PNGs. It checks for the presence of red clearance lines, correct labels, and legible text, failing the build if any template is suspect. Set `GOOGLE_GENAI_USE_VERTEXAI=True` and `GOOGLE_CLOUD_PROJECT` in `.env` or the environment before running verification.
 
 ### Specifications
 
@@ -237,7 +240,7 @@ To build the templates locally, you will need:
 
 *   [OpenSCAD](https://openscad.org/) (headless support required)
 *   [Typst](https://typst.app/)
-*   Python 3 with `numpy-stl`, though [`uv`](https://docs.astral.sh/uv/) is used to manage dependencies.
+*   Python dependencies managed by [`uv`](https://docs.astral.sh/uv/), including `pypdf` for splitting mega PDFs back into per-template files.
 *   Make
 
 Those tools can be found in package managers such as `brew` on macOS, `apt` on Debian/Ubuntu, `dnf` on Fedora, etc.

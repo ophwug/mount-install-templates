@@ -52,16 +52,20 @@ def verify_image(client, image_path):
 
 def main():
     # Standard setup from AGENTS.md
-    if os.environ.get("GOOGLE_GENAI_USE_VERTEXAI") == "True":
-        print("Using Vertex AI...")
-        client = genai.Client(
-            vertexai=True,
-            project=os.environ.get("GOOGLE_CLOUD_PROJECT"),
-            location="global"
-        )
-    else:
-        print("Using AI Studio...")
-        client = genai.Client(api_key=os.environ.get("GOOGLE_API_KEY"))
+    os.environ.setdefault("GOOGLE_GENAI_USE_VERTEXAI", "True")
+    if os.environ.get("GOOGLE_GENAI_USE_VERTEXAI") != "True":
+        raise SystemExit("GOOGLE_GENAI_USE_VERTEXAI must be True; API-key mode is not used.")
+
+    project = os.environ.get("GOOGLE_CLOUD_PROJECT") or os.environ.get("GOOGLE_CLOUD_PROJECT_ID")
+    if not project:
+        raise SystemExit("GOOGLE_CLOUD_PROJECT is required for Vertex AI verification.")
+
+    print("Using Vertex AI...")
+    client = genai.Client(
+        vertexai=True,
+        project=project,
+        location="global"
+    )
 
     files_to_check = []
     if len(sys.argv) > 1:
