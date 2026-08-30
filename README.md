@@ -108,6 +108,8 @@ These templates feature custom clearance zones (red dashed lines) derived from a
 > [!NOTE]
 > **Want to help?** We're looking for contributions to expand our vehicle-specific template library! Please submit a flatbed scanner scan of your car's ADAS camera cover (after removing it from the vehicle) along with a card-sized object for scale (e.g., gift card, library card, or any standard credit card-sized item). Share your scans or suggestions at [Issue #6](https://github.com/ophwug/mount-install-templates/issues/6).
 
+> **Vehicle-specific alternative:** For a fourth-generation Toyota Sienna, check out [dj6c's comma four mounting jig on Printables](https://www.printables.com/model/1824390-toyota-sienna-4th-gen-commaai-comma-4-mounting-jig).
+
 ### Toyota Corolla (2020)
 Vehicle-specific Corolla templates are now available in five clearance-offset variants:
 **45mm, 50mm, 55mm, 60mm, 65mm**.
