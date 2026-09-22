@@ -160,6 +160,34 @@ Vehicle-specific Santa Fe templates are now available in five clearance-offset v
 *   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_60mm_a4.pdf)
 *   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_65mm_a4.pdf)
 
+### Chevy Bolt (2023; contributor-reported model)
+
+Experimental templates from [zikeji's scan contribution](https://github.com/ophwug/mount-install-templates/issues/6#issuecomment-4283816153).
+The exact EV/EUV trim, vehicle centerline relative to the cover, and installed fit have **not been confirmed**. Check the paper against the housing before mounting.
+
+The lower rounded housing edge is traced directly from the original scan. The supplied AI annotation has an open outline; the generic refiner also rotates and symmetrizes it, producing the reported distorted contour. Bolt uses a dedicated reproducible trace that preserves the lower edge, corrects scanner tilt, and assumes the reference card's long edge is the standard **85.60mm**. Its geometric midpoint is only a placement reference, not a measured vehicle centerline. See [scan provenance and limitations](vehicles/2023_chevy_bolt/README.md).
+
+#### comma four
+* **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_45mm_a4.pdf)
+* **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_50mm_a4.pdf)
+* **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_55mm_a4.pdf)
+* **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_60mm_a4.pdf)
+* **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_65mm_a4.pdf)
+
+#### comma 3x
+* **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_45mm_a4.pdf)
+* **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_50mm_a4.pdf)
+* **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_55mm_a4.pdf)
+* **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_60mm_a4.pdf)
+* **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_65mm_a4.pdf)
+
+#### comma three
+* **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_45mm_a4.pdf)
+* **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_50mm_a4.pdf)
+* **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_55mm_a4.pdf)
+* **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_60mm_a4.pdf)
+* **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_65mm_a4.pdf)
+
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
 
@@ -216,6 +244,23 @@ In GitHub Actions, the Pages workflow uses `make -j "$(nproc)"` so build paralle
 5.  **Mega Rendering**: By default, `make all`, `make universal-variants`, and `make vehicles` render grouped multi-page Typst documents under `build/mega/`, then split or rename the pages back to the same public PDF and PNG filenames. This avoids launching Typst once per variant while preserving the published artifact layout.
 6.  **Debug Rendering**: To render with the older one-file-per-template path, pass `INDIVIDUAL=1`, for example `make INDIVIDUAL=1 build/c4_mount_45_75mm_letter.pdf` or `make INDIVIDUAL=1 universal-render`.
 7.  **Benchmarking**: Run `make bench-build` to compare individual Typst rendering against the mega renderer for universal PDFs and PNGs. For a broader comparison, run `uv run tools/benchmark_build.py --scope all --jobs 16`.
+
+### Build the Chevy Bolt templates
+
+```sh
+make update-hardware
+make -j 16 vehicles
+```
+
+For just one Bolt PDF and preview (without building other mount families):
+
+```sh
+make -j 16 INDIVIDUAL=1 build/vehicles/2023_chevy_bolt/c4_mount_55mm_letter.pdf build/vehicles/2023_chevy_bolt/c4_mount_55mm_letter.png
+```
+
+`make` generates the mount SVG prerequisites. The Bolt contour is regenerated from the source scan by `tools/vehicle_specific/trace_bolt_scan.py`; it does not require AI annotation or Vertex access. All vehicles receive 45/50/55/60/65mm variants in both rendering paths. Local validation used OpenSCAD 2026.03.01; CI uses OpenSCAD nightly. Older CGAL-based builds have a reported C3X projection failure in issue #6.
+
+The individual renderer's default comma four vehicle A4 target now explicitly selects A4, matching the mega renderer. Run the Bolt scale/orientation regression checks with `uv run -m unittest tools.vehicle_specific.test_trace_bolt_scan`.
 
 ### AI / Computer Vision Workflow
 
