@@ -39,7 +39,6 @@ VEHICLE_MOUNTS = (
     ("c4", "comma four", 44),
 )
 VEHICLE_VARIANT_OFFSETS_MM = (45, 50, 55, 60, 65)
-VEHICLE_VARIANT_DIRS = ("2020_corolla", "2020_hyundai_santa_fe")
 
 
 @dataclass(frozen=True)
@@ -157,7 +156,7 @@ def vehicle_renders(paper: str) -> list[Render]:
                 )
             )
 
-    for vehicle in VEHICLE_VARIANT_DIRS:
+    for vehicle in vehicle_dirs():
         name = vehicle_name(vehicle)
         for mount, label, _default_offset in VEHICLE_MOUNTS:
             for offset in VEHICLE_VARIANT_OFFSETS_MM:

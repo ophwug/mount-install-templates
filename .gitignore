@@ -20,3 +20,4 @@ __pycache__/
 # Generated Assets
 vehicles/*/gen/*
 !vehicles/2020_hyundai_santa_fe/gen/offsets.svg
+!vehicles/2023_chevy_bolt/gen/offsets.svg

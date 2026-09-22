@@ -160,6 +160,32 @@ Vehicle-specific Santa Fe templates are now available in five clearance-offset v
 *   **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_60mm_a4.pdf)
 *   **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2020_hyundai_santa_fe/c3_mount_65mm_a4.pdf)
 
+### Chevy Bolt (2023)
+
+Thanks to [zikeji](https://github.com/zikeji) for the scan! Available in **45mm, 50mm, 55mm, 60mm, 65mm** offsets.
+Fitment is unverified; see [vehicle notes](vehicles/2023_chevy_bolt/README.md).
+
+#### comma four
+* **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_45mm_a4.pdf)
+* **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_50mm_a4.pdf)
+* **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_55mm_a4.pdf)
+* **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_60mm_a4.pdf)
+* **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c4_mount_65mm_a4.pdf)
+
+#### comma 3x
+* **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_45mm_a4.pdf)
+* **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_50mm_a4.pdf)
+* **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_55mm_a4.pdf)
+* **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_60mm_a4.pdf)
+* **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3x_mount_65mm_a4.pdf)
+
+#### comma three
+* **45mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_45mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_45mm_a4.pdf)
+* **50mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_50mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_50mm_a4.pdf)
+* **55mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_55mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_55mm_a4.pdf)
+* **60mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_60mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_60mm_a4.pdf)
+* **65mm**: [US Letter](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_65mm_letter.pdf) | [A4](https://ophwug.github.io/mount-install-templates/vehicles/2023_chevy_bolt/c3_mount_65mm_a4.pdf)
+
 ## How to Use
 This project generates PDF mount installation templates to help mount comma hardware correctly.
 
