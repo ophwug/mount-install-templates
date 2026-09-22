@@ -48,3 +48,9 @@ make -j 16 INDIVIDUAL=1 build/vehicles/2023_chevy_bolt/c4_mount_55mm_letter.pdf 
 legacy default offsets, and the 45/50/55/60/65mm variants. Fitment and removal
 clearance still need confirmation on the vehicle; these offsets are choices,
 not a vehicle-specific recommendation.
+
+`make` generates the mount SVG prerequisites; Bolt tracing does not require
+Vertex AI. Local validation used OpenSCAD 2026.03.01 (CI uses nightly); older
+CGAL builds have a reported C3X projection failure in issue #6.
+
+Regression checks: `uv run -m unittest tools.vehicle_specific.test_trace_bolt_scan`.
